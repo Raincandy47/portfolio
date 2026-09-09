@@ -176,6 +176,7 @@
     height:auto;
     border-radius:2px;
     background:var(--ink-lift);
+    cursor:zoom-in;
   }
 
   .shot figcaption{
@@ -219,6 +220,104 @@
     color:var(--paper-dim);
   }
   .end a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--brass)}
+
+  /* ---------- click to enlarge ---------- */
+
+  .lightbox{
+    width:100%;
+    height:100%;
+    max-width:100vw;
+    max-height:100vh;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:var(--paper);
+    overflow:hidden;
+  }
+
+  .lightbox::backdrop{
+    background:rgba(14,15,18,.66);
+    backdrop-filter:blur(16px) saturate(.85);
+    -webkit-backdrop-filter:blur(16px) saturate(.85);
+  }
+
+  /* Browsers without backdrop-filter get a heavier dim instead. */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .lightbox::backdrop{background:rgba(14,15,18,.93)}
+  }
+
+  .lightbox-stage{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1.4rem;
+    padding:clamp(1.5rem,4vw,3.5rem);
+    cursor:zoom-out;
+  }
+
+  .lightbox img{
+    display:block;
+    width:auto;
+    height:auto;
+    max-width:min(1500px,90vw);
+    max-height:76vh;
+    border-radius:2px;
+    background:var(--ink-lift);
+    box-shadow:0 32px 90px rgba(0,0,0,.6);
+    cursor:default;
+  }
+
+  .lightbox figcaption{
+    max-width:56ch;
+    text-align:center;
+    cursor:default;
+  }
+  .lightbox figcaption h2{
+    margin:0;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:1.06rem;
+    font-weight:600;
+  }
+  .lightbox figcaption p{
+    margin:.3rem 0 0;
+    color:var(--paper-dim);
+    font-size:1rem;
+  }
+
+  .lightbox-close{
+    position:fixed;
+    top:1.1rem;
+    right:1.3rem;
+    width:2.6rem;
+    height:2.6rem;
+    display:grid;
+    place-items:center;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:1.5rem;
+    line-height:1;
+    color:var(--paper);
+    background:rgba(255,255,255,.07);
+    border:1px solid var(--line);
+    border-radius:50%;
+    cursor:pointer;
+    transition:background .18s ease;
+  }
+  .lightbox-close:hover{background:rgba(255,255,255,.16)}
+
+  .lightbox[open]{animation:lb-lift .2s ease both}
+  .lightbox[open]::backdrop{animation:lb-fade .2s ease both}
+  @keyframes lb-lift{from{opacity:0;transform:scale(.99)}to{opacity:1;transform:none}}
+  @keyframes lb-fade{from{opacity:0}to{opacity:1}}
+
+  @media (prefers-reduced-motion:reduce){
+    .lightbox[open],
+    .lightbox[open]::backdrop{animation:none}
+    .cv,.contact a,.lightbox-close{transition:none}
+  }
+
+  body.viewing{overflow:hidden}
 
   /* ---------- small screens: one column, nothing sticks ---------- */
 
@@ -281,7 +380,7 @@
 
     <!-- Replace each src with your own image, e.g. images/shot-01.jpg -->
     <figure class="shot">
-      <img src="resources/format.png" alt="Colour grade from the documentary Northern Line.">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'%3E%3Crect width='1600' height='1000' fill='%23232429'/%3E%3Ctext x='800' y='515' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-01.jpg%3C/text%3E%3C/svg%3E" alt="Colour grade from the documentary Northern Line.">
       <figcaption>
         <span class="num">01</span>
         <h2>Northern Line</h2>
@@ -357,6 +456,18 @@
   </section>
 </main>
 
+<!-- Enlarged view. Nothing to edit here — it fills itself from whichever image you click. -->
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <figure class="lightbox-stage" id="lightbox-stage">
+    <img id="lightbox-img" src="" alt="">
+    <figcaption>
+      <h2 id="lightbox-title"></h2>
+      <p id="lightbox-text"></p>
+    </figcaption>
+  </figure>
+</dialog>
+
 <script>
   // Keeps the frame counter in the left column honest as you scroll.
   (function () {
@@ -381,6 +492,64 @@
     }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
 
     shots.forEach(function (s) { observer.observe(s); });
+  })();
+
+  // Click an image to bring it forward and blur the page behind it.
+  (function () {
+    var box = document.getElementById('lightbox');
+    if (!box || typeof box.showModal !== 'function') return;
+
+    var stage = document.getElementById('lightbox-stage');
+    var img = document.getElementById('lightbox-img');
+    var title = document.getElementById('lightbox-title');
+    var text = document.getElementById('lightbox-text');
+    var closeBtn = document.getElementById('lightbox-close');
+    var opener = null;
+
+    function open(figure) {
+      var source = figure.querySelector('img');
+      var heading = figure.querySelector('figcaption h2');
+      var caption = figure.querySelector('figcaption p');
+
+      img.src = source.currentSrc || source.src;
+      img.alt = source.alt || '';
+      title.textContent = heading ? heading.textContent : '';
+      text.textContent = caption ? caption.textContent : '';
+
+      opener = source;
+      document.body.classList.add('viewing');
+      box.showModal();
+    }
+
+    document.querySelectorAll('.shot').forEach(function (figure) {
+      var source = figure.querySelector('img');
+      if (!source) return;
+
+      source.tabIndex = 0;
+      source.setAttribute('role', 'button');
+      source.setAttribute('aria-label', 'View larger: ' + (source.alt || 'image'));
+
+      source.addEventListener('click', function () { open(figure); });
+      source.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open(figure);
+        }
+      });
+    });
+
+    // Clicking anywhere around the picture closes it; clicking the picture itself doesn't.
+    stage.addEventListener('click', function (e) {
+      if (e.target === img) return;
+      box.close();
+    });
+    closeBtn.addEventListener('click', function () { box.close(); });
+
+    box.addEventListener('close', function () {
+      document.body.classList.remove('viewing');
+      img.removeAttribute('src');
+      if (opener) { opener.focus(); opener = null; }
+    });
   })();
 </script>
 </body>
