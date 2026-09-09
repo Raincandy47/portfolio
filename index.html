@@ -10,6 +10,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=Newsreader:opsz,wght@6..72,300..500&display=swap" rel="stylesheet">
 
+<script>
+  // Draws a neutral tile naming the file it expected, for any image not on disk yet.
+  // Delete this and the onerror attributes once all your real images are in place.
+  window.ph = function (el) {
+    el.onerror = null;
+    var name = (el.getAttribute('src') || 'image').split('/').pop();
+    var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'>"
+            + "<rect width='800' height='500' fill='#232429'/>"
+            + "<text x='400' y='258' fill='#6a6b70' text-anchor='middle' "
+            + "font-family='sans-serif' font-size='26'>" + name + "</text></svg>";
+    el.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  };
+</script>
+
 <style>
   :root{
     --ink:        #1a1b1f;   /* page ground — cool graphite, keeps images neutral */
@@ -170,7 +184,7 @@
 
   .shot{margin:0;max-width:1100px}
 
-  .shot img{
+  .shot > img{
     display:block;
     width:100%;
     height:auto;
@@ -179,11 +193,32 @@
     cursor:zoom-in;
   }
 
+  /* the supporting frames under each main image */
+  .strip{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:.5rem;
+    margin-top:.5rem;
+  }
+  .strip img{
+    display:block;
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    border-radius:2px;
+    background:var(--ink-lift);
+    cursor:zoom-in;
+    opacity:.86;
+    transition:opacity .18s ease;
+  }
+  .strip img:hover,
+  .strip img:focus-visible{opacity:1}
+
   .shot figcaption{
     display:grid;
     grid-template-columns:3.2rem 1fr;
     gap:0 1rem;
-    margin-top:1.15rem;
+    margin-top:1.25rem;
     max-width:62ch;
   }
 
@@ -314,7 +349,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -359,7 +394,7 @@
     </p>
 
     <div>
-      <!-- EDIT: point href at your CV file, e.g. files/daniel-reyes-cv.pdf or a Drive link -->
+      <!-- EDIT: point href at your CV file, e.g. resources/daniel-reyes-cv.pdf or a Drive link -->
       <a class="cv" href="cv.pdf" download>Download CV</a>
       <p class="cv-note">PDF, updated August 2026</p>
     </div>
@@ -374,13 +409,19 @@
   </aside>
 
   <!-- ============ EDIT: the scrolling work below ============ -->
+  <!-- Each block = one big image, three supporting frames, then the caption.
+       Drop your files in resources/ using these names, or change the names here. -->
   <section class="reel">
 
-    <p class="reel-intro">Selected work, 2023 to 2026. Scroll for the full set.</p>
+    <p class="reel-intro">Selected work, 2023 to 2026. Scroll for the full set, click any frame to see it larger.</p>
 
-    <!-- Replace each src with your own image, e.g. images/shot-01.jpg -->
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'%3E%3Crect width='1600' height='1000' fill='%23232429'/%3E%3Ctext x='800' y='515' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-01.jpg%3C/text%3E%3C/svg%3E" alt="Colour grade from the documentary Northern Line.">
+      <img src="resources/format.png" alt="Graded frame from the documentary Northern Line.">
+      <div class="strip">
+        <img src="resources/shot-01-a.jpg" onerror="ph(this)" alt="Northern Line, second frame.">
+        <img src="resources/shot-01-b.jpg" onerror="ph(this)" alt="Northern Line, third frame.">
+        <img src="resources/shot-01-c.jpg" onerror="ph(this)" alt="Northern Line, fourth frame.">
+      </div>
       <figcaption>
         <span class="num">01</span>
         <h2>Northern Line</h2>
@@ -389,7 +430,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1100'%3E%3Crect width='1600' height='1100' fill='%23232429'/%3E%3Ctext x='800' y='565' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-02.jpg%3C/text%3E%3C/svg%3E" alt="Retouched interior photograph for an architecture practice.">
+      <img src="resources/shot-02.jpg" onerror="ph(this)" alt="Retouched interior photograph for an architecture practice.">
+      <div class="strip">
+        <img src="resources/shot-02-a.jpg" onerror="ph(this)" alt="Kallis House, second view.">
+        <img src="resources/shot-02-b.jpg" onerror="ph(this)" alt="Kallis House, third view.">
+        <img src="resources/shot-02-c.jpg" onerror="ph(this)" alt="Kallis House, fourth view.">
+      </div>
       <figcaption>
         <span class="num">02</span>
         <h2>Kallis House</h2>
@@ -398,7 +444,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-03.jpg%3C/text%3E%3C/svg%3E" alt="Frame from a 60 second brand film.">
+      <img src="resources/shot-03.jpg" onerror="ph(this)" alt="Frame from a sixty second brand film.">
+      <div class="strip">
+        <img src="resources/shot-03-a.jpg" onerror="ph(this)" alt="Meridian, second frame.">
+        <img src="resources/shot-03-b.jpg" onerror="ph(this)" alt="Meridian, third frame.">
+        <img src="resources/shot-03-c.jpg" onerror="ph(this)" alt="Meridian, fourth frame.">
+      </div>
       <figcaption>
         <span class="num">03</span>
         <h2>Meridian, 60 seconds</h2>
@@ -407,7 +458,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1200'%3E%3Crect width='1600' height='1200' fill='%23232429'/%3E%3Ctext x='800' y='615' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-04.jpg%3C/text%3E%3C/svg%3E" alt="Portrait before and after retouching.">
+      <img src="resources/shot-04.jpg" onerror="ph(this)" alt="Studio portrait after retouching.">
+      <div class="strip">
+        <img src="resources/shot-04-a.jpg" onerror="ph(this)" alt="Studio portraits, second sitter.">
+        <img src="resources/shot-04-b.jpg" onerror="ph(this)" alt="Studio portraits, third sitter.">
+        <img src="resources/shot-04-c.jpg" onerror="ph(this)" alt="Studio portraits, fourth sitter.">
+      </div>
       <figcaption>
         <span class="num">04</span>
         <h2>Studio portraits</h2>
@@ -416,7 +472,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-05.jpg%3C/text%3E%3C/svg%3E" alt="Night exterior frame with heavy colour grade.">
+      <img src="resources/shot-05.jpg" onerror="ph(this)" alt="Night exterior frame with a heavy colour grade.">
+      <div class="strip">
+        <img src="resources/shot-05-a.jpg" onerror="ph(this)" alt="Harbour at night, second frame.">
+        <img src="resources/shot-05-b.jpg" onerror="ph(this)" alt="Harbour at night, third frame.">
+        <img src="resources/shot-05-c.jpg" onerror="ph(this)" alt="Harbour at night, fourth frame.">
+      </div>
       <figcaption>
         <span class="num">05</span>
         <h2>Harbour, night</h2>
@@ -425,7 +486,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'%3E%3Crect width='1600' height='1000' fill='%23232429'/%3E%3Ctext x='800' y='515' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-06.jpg%3C/text%3E%3C/svg%3E" alt="Composite image built from four separate plates.">
+      <img src="resources/shot-06.jpg" onerror="ph(this)" alt="Composite image built from four separate plates.">
+      <div class="strip">
+        <img src="resources/shot-06-a.jpg" onerror="ph(this)" alt="Composite, first plate.">
+        <img src="resources/shot-06-b.jpg" onerror="ph(this)" alt="Composite, second plate.">
+        <img src="resources/shot-06-c.jpg" onerror="ph(this)" alt="Composite, third plate.">
+      </div>
       <figcaption>
         <span class="num">06</span>
         <h2>Four plates, one room</h2>
@@ -434,7 +500,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1100'%3E%3Crect width='1600' height='1100' fill='%23232429'/%3E%3Ctext x='800' y='565' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-07.jpg%3C/text%3E%3C/svg%3E" alt="Archive photograph after restoration.">
+      <img src="resources/shot-07.jpg" onerror="ph(this)" alt="Archive photograph after restoration.">
+      <div class="strip">
+        <img src="resources/shot-07-a.jpg" onerror="ph(this)" alt="Archive restoration, damaged original.">
+        <img src="resources/shot-07-b.jpg" onerror="ph(this)" alt="Archive restoration, cleaned scan.">
+        <img src="resources/shot-07-c.jpg" onerror="ph(this)" alt="Archive restoration, finished print.">
+      </div>
       <figcaption>
         <span class="num">07</span>
         <h2>Archive restoration</h2>
@@ -443,7 +514,12 @@
     </figure>
 
     <figure class="shot">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-08.jpg%3C/text%3E%3C/svg%3E" alt="Title card from a short film.">
+      <img src="resources/shot-08.jpg" onerror="ph(this)" alt="Title card from the short film Salt.">
+      <div class="strip">
+        <img src="resources/shot-08-a.jpg" onerror="ph(this)" alt="Salt, second frame.">
+        <img src="resources/shot-08-b.jpg" onerror="ph(this)" alt="Salt, third frame.">
+        <img src="resources/shot-08-c.jpg" onerror="ph(this)" alt="Salt, fourth frame.">
+      </div>
       <figcaption>
         <span class="num">08</span>
         <h2>Salt</h2>
@@ -456,7 +532,7 @@
   </section>
 </main>
 
-<!-- Enlarged view. Nothing to edit here — it fills itself from whichever image you click. -->
+<!-- Enlarged view. Nothing to edit here — it fills itself from whichever frame you click. -->
 <dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
   <figure class="lightbox-stage" id="lightbox-stage">
@@ -494,7 +570,7 @@
     shots.forEach(function (s) { observer.observe(s); });
   })();
 
-  // Click an image to bring it forward and blur the page behind it.
+  // Click any frame, main or supporting, to bring it forward and blur the page behind it.
   (function () {
     var box = document.getElementById('lightbox');
     if (!box || typeof box.showModal !== 'function') return;
@@ -506,10 +582,10 @@
     var closeBtn = document.getElementById('lightbox-close');
     var opener = null;
 
-    function open(figure) {
-      var source = figure.querySelector('img');
-      var heading = figure.querySelector('figcaption h2');
-      var caption = figure.querySelector('figcaption p');
+    function open(source) {
+      var figure = source.closest('.shot');
+      var heading = figure ? figure.querySelector('figcaption h2') : null;
+      var caption = figure ? figure.querySelector('figcaption p') : null;
 
       img.src = source.currentSrc || source.src;
       img.alt = source.alt || '';
@@ -521,19 +597,16 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot').forEach(function (figure) {
-      var source = figure.querySelector('img');
-      if (!source) return;
-
+    document.querySelectorAll('.shot > img, .strip img').forEach(function (source) {
       source.tabIndex = 0;
       source.setAttribute('role', 'button');
       source.setAttribute('aria-label', 'View larger: ' + (source.alt || 'image'));
 
-      source.addEventListener('click', function () { open(figure); });
+      source.addEventListener('click', function () { open(source); });
       source.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          open(figure);
+          open(source);
         }
       });
     });
