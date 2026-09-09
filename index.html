@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daniel Reyes — Editor</title>
+<meta name="description" content="Selected editing work by Daniel Reyes.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=Newsreader:opsz,wght@6..72,300..500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:        #1a1b1f;   /* page ground — cool graphite, keeps images neutral */
+    --ink-lift:   #232429;   /* image wells, empty frames */
+    --line:       #33343a;
+    --paper:      #ece9e2;   /* primary text */
+    --paper-dim:  #96958e;   /* secondary text */
+    --brass:      #b98d4e;   /* one accent, used sparingly */
+    --col:        38%;
+  }
+
+  *{box-sizing:border-box}
+
+  html{-webkit-text-size-adjust:100%}
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:17px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit}
+
+  :focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:4px;
+  }
+
+  /* ---------- layout ---------- */
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(340px,var(--col)) 1fr;
+  }
+
+  /* ---------- column 1: stays put ---------- */
+
+  .profile{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    height:100dvh;
+    overflow-y:auto;
+    scrollbar-width:none;
+    border-right:1px solid var(--line);
+    padding:clamp(2rem,4vw,3.75rem);
+    display:flex;
+    flex-direction:column;
+    gap:2.5rem;
+  }
+  .profile::-webkit-scrollbar{display:none}
+
+  .role{
+    margin:0 0 .9rem;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.82rem;
+    font-weight:500;
+    letter-spacing:.02em;
+    color:var(--brass);
+  }
+
+  .name{
+    margin:0;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-variation-settings:"wdth" 82;
+    font-weight:700;
+    font-size:clamp(2.7rem,4.6vw,4.1rem);
+    line-height:.94;
+    letter-spacing:-.015em;
+  }
+
+  .bio{max-width:46ch}
+  .bio p{margin:0 0 1.1rem;color:#d6d3cb}
+  .bio p:last-child{margin-bottom:0}
+
+  .tools{
+    margin:0;
+    padding-top:1.6rem;
+    border-top:1px solid var(--line);
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.86rem;
+    line-height:1.85;
+    color:var(--paper-dim);
+    max-width:40ch;
+  }
+  .tools b{
+    display:block;
+    font-weight:600;
+    color:var(--paper);
+  }
+
+  .cv{
+    display:inline-block;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.95rem;
+    font-weight:600;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--paper);
+    padding:.72rem 1.5rem;
+    border-radius:2px;
+    transition:background .18s ease;
+  }
+  .cv:hover{background:var(--brass);color:#17181b}
+  .cv-note{
+    margin:.7rem 0 0;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.78rem;
+    color:var(--paper-dim);
+  }
+
+  .contact{
+    margin-top:auto;
+    padding-top:2rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:1.4rem;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.86rem;
+  }
+  .contact a{
+    text-decoration:none;
+    color:var(--paper-dim);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:color .18s ease,border-color .18s ease;
+  }
+  .contact a:hover{color:var(--paper);border-color:var(--brass)}
+
+  .counter{
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.78rem;
+    font-variant-numeric:tabular-nums;
+    color:var(--paper-dim);
+  }
+  .counter span{color:var(--paper)}
+
+  /* ---------- column 2: scrolls ---------- */
+
+  .reel{
+    padding:clamp(2rem,4vw,3.75rem);
+    display:flex;
+    flex-direction:column;
+    gap:clamp(3.5rem,7vw,6.5rem);
+  }
+
+  .reel-intro{
+    margin:0;
+    max-width:52ch;
+    color:var(--paper-dim);
+    font-size:1.02rem;
+  }
+
+  .shot{margin:0;max-width:1100px}
+
+  .shot img{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:2px;
+    background:var(--ink-lift);
+  }
+
+  .shot figcaption{
+    display:grid;
+    grid-template-columns:3.2rem 1fr;
+    gap:0 1rem;
+    margin-top:1.15rem;
+    max-width:62ch;
+  }
+
+  .num{
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.8rem;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+    color:var(--brass);
+    padding-top:.35rem;
+  }
+
+  .shot h2{
+    margin:0;
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:1.06rem;
+    font-weight:600;
+    letter-spacing:-.005em;
+  }
+
+  .shot figcaption p{
+    grid-column:2;
+    margin:.35rem 0 0;
+    color:var(--paper-dim);
+    font-size:1rem;
+    line-height:1.65;
+  }
+
+  .end{
+    padding-top:1rem;
+    border-top:1px solid var(--line);
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.86rem;
+    color:var(--paper-dim);
+  }
+  .end a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--brass)}
+
+  /* ---------- small screens: one column, nothing sticks ---------- */
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .profile{
+      position:static;
+      height:auto;
+      overflow:visible;
+      border-right:0;
+      border-bottom:1px solid var(--line);
+      gap:2rem;
+    }
+    .contact{margin-top:0}
+    .counter{display:none}
+    .reel{gap:3.5rem}
+  }
+</style>
+</head>
+
+<body>
+<main class="layout">
+
+  <!-- ============ EDIT: everything about your friend lives in here ============ -->
+  <aside class="profile">
+    <header>
+      <p class="role">Film &amp; photo editor, Nicosia</p>
+      <h1 class="name">Daniel Reyes</h1>
+    </header>
+
+    <div class="bio">
+      <p>I cut documentary and commercial work, and grade stills for print. Eleven years in edit suites, most of them spent finding the two seconds that make a scene land.</p>
+      <p>Recent work includes a feature-length documentary for a regional broadcaster, brand films for three studios, and ongoing retouching for an architecture practice.</p>
+    </div>
+
+    <p class="tools">
+      <b>Working in</b>
+      DaVinci Resolve, Premiere Pro, After Effects, Photoshop, Capture One
+    </p>
+
+    <div>
+      <!-- EDIT: point href at your CV file, e.g. files/daniel-reyes-cv.pdf or a Drive link -->
+      <a class="cv" href="cv.pdf" download>Download CV</a>
+      <p class="cv-note">PDF, updated August 2026</p>
+    </div>
+
+    <nav class="contact">
+      <a href="mailto:hello@example.com">hello@example.com</a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://vimeo.com/" target="_blank" rel="noopener">Vimeo</a>
+    </nav>
+
+    <p class="counter">Frame <span id="frame-now">01</span> of <span id="frame-total">08</span></p>
+  </aside>
+
+  <!-- ============ EDIT: the scrolling work below ============ -->
+  <section class="reel">
+
+    <p class="reel-intro">Selected work, 2023 to 2026. Scroll for the full set.</p>
+
+    <!-- Replace each src with your own image, e.g. images/shot-01.jpg -->
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'%3E%3Crect width='1600' height='1000' fill='%23232429'/%3E%3Ctext x='800' y='515' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-01.jpg%3C/text%3E%3C/svg%3E" alt="Colour grade from the documentary Northern Line.">
+      <figcaption>
+        <span class="num">01</span>
+        <h2>Northern Line</h2>
+        <p>Feature documentary, 94 minutes. Offline and online edit, plus the full grade.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1100'%3E%3Crect width='1600' height='1100' fill='%23232429'/%3E%3Ctext x='800' y='565' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-02.jpg%3C/text%3E%3C/svg%3E" alt="Retouched interior photograph for an architecture practice.">
+      <figcaption>
+        <span class="num">02</span>
+        <h2>Kallis House</h2>
+        <p>Interior stills retouched for print. Window pulls, verticals, and a warm neutral base.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-03.jpg%3C/text%3E%3C/svg%3E" alt="Frame from a 60 second brand film.">
+      <figcaption>
+        <span class="num">03</span>
+        <h2>Meridian, 60 seconds</h2>
+        <p>Brand film cut from six hours of rushes. Three versions delivered in a day.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1200'%3E%3Crect width='1600' height='1200' fill='%23232429'/%3E%3Ctext x='800' y='615' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-04.jpg%3C/text%3E%3C/svg%3E" alt="Portrait before and after retouching.">
+      <figcaption>
+        <span class="num">04</span>
+        <h2>Studio portraits</h2>
+        <p>Skin and tonal work for a company profile series. Twenty-eight sitters.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-05.jpg%3C/text%3E%3C/svg%3E" alt="Night exterior frame with heavy colour grade.">
+      <figcaption>
+        <span class="num">05</span>
+        <h2>Harbour, night</h2>
+        <p>Underexposed rushes recovered and graded for a music video.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000'%3E%3Crect width='1600' height='1000' fill='%23232429'/%3E%3Ctext x='800' y='515' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-06.jpg%3C/text%3E%3C/svg%3E" alt="Composite image built from four separate plates.">
+      <figcaption>
+        <span class="num">06</span>
+        <h2>Four plates, one room</h2>
+        <p>Composite for a furniture catalogue, assembled from separately lit exposures.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1100'%3E%3Crect width='1600' height='1100' fill='%23232429'/%3E%3Ctext x='800' y='565' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-07.jpg%3C/text%3E%3C/svg%3E" alt="Archive photograph after restoration.">
+      <figcaption>
+        <span class="num">07</span>
+        <h2>Archive restoration</h2>
+        <p>Family negatives from 1961, cleaned and rebuilt where the emulsion had lifted.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23232429'/%3E%3Ctext x='800' y='465' fill='%236a6b70' font-family='sans-serif' font-size='34' text-anchor='middle'%3Eimages/shot-08.jpg%3C/text%3E%3C/svg%3E" alt="Title card from a short film.">
+      <figcaption>
+        <span class="num">08</span>
+        <h2>Salt</h2>
+        <p>Short film, 12 minutes. Edit, titles, and sound handover.</p>
+      </figcaption>
+    </figure>
+
+    <p class="end">Looking for something that isn't here? <a href="mailto:hello@example.com">Ask for the full reel.</a></p>
+
+  </section>
+</main>
+
+<script>
+  // Keeps the frame counter in the left column honest as you scroll.
+  (function () {
+    var shots = document.querySelectorAll('.shot');
+    var now = document.getElementById('frame-now');
+    var total = document.getElementById('frame-total');
+    if (!shots.length || !now || !total) return;
+
+    total.textContent = String(shots.length).padStart(2, '0');
+
+    if (!('IntersectionObserver' in window)) return;
+
+    var seen = new Map();
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { seen.set(e.target, e.intersectionRatio); });
+      var best = null, top = 0;
+      seen.forEach(function (ratio, el) { if (ratio > top) { top = ratio; best = el; } });
+      if (best) {
+        var i = Array.prototype.indexOf.call(shots, best) + 1;
+        now.textContent = String(i).padStart(2, '0');
+      }
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+    shots.forEach(function (s) { observer.observe(s); });
+  })();
+</script>
+</body>
+</html>
