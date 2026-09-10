@@ -1,42 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="cs">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daniel Reyes — Editor</title>
-<meta name="description" content="Selected editing work by Daniel Reyes.">
+<title>Daniel Honzík — Produktová postprodukce &amp; E-commerce grafika</title>
+<meta name="description" content="Portfolio zaměřené na retuše produktové fotografie, batch processing, e-commerce grafiku a vizuální identitu.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=Newsreader:opsz,wght@6..72,300..500&display=swap" rel="stylesheet">
 
 <script>
-  // Draws a neutral tile naming the file it expected, for any image not on disk yet.
-  // Delete this and the onerror attributes once all your real images are in place.
   window.ph = function (el) {
     el.onerror = null;
     var name = (el.getAttribute('src') || 'image').split('/').pop();
     var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'>"
             + "<rect width='800' height='500' fill='#232429'/>"
             + "<text x='400' y='258' fill='#6a6b70' text-anchor='middle' "
-            + "font-family='sans-serif' font-size='26'>" + name + "</text></svg>";
+            + "font-family='sans-serif' font-size='22'>" + name + "</text></svg>";
     el.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   };
 </script>
 
 <style>
   :root{
-    --ink:        #1a1b1f;   /* page ground — cool graphite, keeps images neutral */
-    --ink-lift:   #232429;   /* image wells, empty frames */
-    --line:       #33343a;
-    --paper:      #ece9e2;   /* primary text */
-    --paper-dim:  #96958e;   /* secondary text */
-    --brass:      #b98d4e;   /* one accent, used sparingly */
+    --ink:        #141518;
+    --ink-lift:   #1f2025;
+    --line:       #2e3037;
+    --paper:      #ece9e2;
+    --paper-dim:  #9c9a92;
+    --brass:      #52b788;
     --col:        38%;
   }
 
   *{box-sizing:border-box}
-
   html{-webkit-text-size-adjust:100%}
 
   body{
@@ -50,21 +47,14 @@
   }
 
   a{color:inherit}
-
-  :focus-visible{
-    outline:2px solid var(--brass);
-    outline-offset:4px;
-  }
-
-  /* ---------- layout ---------- */
+  :focus-visible{outline:2px solid var(--brass);outline-offset:4px}
 
   .layout{
     display:grid;
     grid-template-columns:minmax(340px,var(--col)) 1fr;
   }
 
-  /* ---------- column 1: stays put ---------- */
-
+  /* ---------- Sloupec 1: Profil ---------- */
   .profile{
     position:sticky;
     top:0;
@@ -77,75 +67,66 @@
     padding:clamp(2rem,4vw,3.75rem);
     display:flex;
     flex-direction:column;
-    gap:2.5rem;
+    gap:2.2rem;
   }
   .profile::-webkit-scrollbar{display:none}
 
   .role{
-    margin:0 0 .9rem;
+    margin:0 0 .6rem;
     font-family:"Archivo",system-ui,sans-serif;
     font-size:.82rem;
-    font-weight:500;
-    letter-spacing:.02em;
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
     color:var(--brass);
   }
 
   .name{
     margin:0;
     font-family:"Archivo",system-ui,sans-serif;
-    font-variation-settings:"wdth" 82;
+    font-variation-settings:"wdth" 85;
     font-weight:700;
-    font-size:clamp(2.7rem,4.6vw,4.1rem);
-    line-height:.94;
+    font-size:clamp(2.4rem,4.2vw,3.8rem);
+    line-height:.96;
     letter-spacing:-.015em;
   }
 
-  .bio{max-width:46ch}
-  .bio p{margin:0 0 1.1rem;color:#d6d3cb}
+  .bio{max-width:44ch}
+  .bio p{margin:0 0 1rem;color:#d8d5ce;font-size:.98rem;line-height:1.6}
   .bio p:last-child{margin-bottom:0}
 
   .tools{
     margin:0;
-    padding-top:1.6rem;
+    padding-top:1.4rem;
     border-top:1px solid var(--line);
     font-family:"Archivo",system-ui,sans-serif;
-    font-size:.86rem;
-    line-height:1.85;
+    font-size:.84rem;
+    line-height:1.75;
     color:var(--paper-dim);
-    max-width:40ch;
   }
-  .tools b{
-    display:block;
-    font-weight:600;
-    color:var(--paper);
-  }
+  .tools b{display:block;font-weight:600;color:var(--paper);margin-bottom:.2rem}
 
   .cv{
     display:inline-block;
     font-family:"Archivo",system-ui,sans-serif;
-    font-size:.95rem;
+    font-size:.92rem;
     font-weight:600;
     text-decoration:none;
     color:var(--ink);
     background:var(--paper);
-    padding:.72rem 1.5rem;
+    padding:.7rem 1.4rem;
     border-radius:2px;
     transition:background .18s ease;
   }
-  .cv:hover{background:var(--brass);color:#17181b}
-  .cv-note{
-    margin:.7rem 0 0;
-    font-family:"Archivo",system-ui,sans-serif;
-    font-size:.78rem;
-    color:var(--paper-dim);
-  }
+  .cv:hover{background:var(--brass);color:#0e110f}
+  .cv-note{margin:.5rem 0 0;font-family:"Archivo",system-ui,sans-serif;font-size:.76rem;color:var(--paper-dim)}
 
   .contact{
     margin-top:auto;
-    padding-top:2rem;
+    padding-top:1.5rem;
     display:flex;
     flex-wrap:wrap;
-    gap:1.4rem;
+    gap:1.2rem;
     font-family:"Archivo",system-ui,sans-serif;
     font-size:.86rem;
   }
@@ -166,34 +147,31 @@
   }
   .counter span{color:var(--paper)}
 
-  /* ---------- column 2: scrolls ---------- */
-
+  /* ---------- Sloupec 2: Projekty ---------- */
   .reel{
     padding:clamp(2rem,4vw,3.75rem);
     display:flex;
     flex-direction:column;
-    gap:clamp(3.5rem,7vw,6.5rem);
+    gap:clamp(3.5rem,6vw,5.5rem);
   }
 
   .reel-intro{
     margin:0;
-    max-width:52ch;
+    max-width:58ch;
     color:var(--paper-dim);
     font-size:1.02rem;
   }
 
   .shot{margin:0;max-width:1100px}
-
   .shot > img{
     display:block;
     width:100%;
     height:auto;
-    border-radius:2px;
+    border-radius:3px;
     background:var(--ink-lift);
     cursor:zoom-in;
   }
 
-  /* the supporting frames under each main image */
   .strip{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -208,7 +186,7 @@
     border-radius:2px;
     background:var(--ink-lift);
     cursor:zoom-in;
-    opacity:.86;
+    opacity:.88;
     transition:opacity .18s ease;
   }
   .strip img:hover,
@@ -216,10 +194,10 @@
 
   .shot figcaption{
     display:grid;
-    grid-template-columns:3.2rem 1fr;
+    grid-template-columns:3rem 1fr;
     gap:0 1rem;
-    margin-top:1.25rem;
-    max-width:62ch;
+    margin-top:1.15rem;
+    max-width:68ch;
   }
 
   .num{
@@ -234,7 +212,7 @@
   .shot h2{
     margin:0;
     font-family:"Archivo",system-ui,sans-serif;
-    font-size:1.06rem;
+    font-size:1.15rem;
     font-weight:600;
     letter-spacing:-.005em;
   }
@@ -243,132 +221,64 @@
     grid-column:2;
     margin:.35rem 0 0;
     color:var(--paper-dim);
-    font-size:1rem;
+    font-size:.96rem;
     line-height:1.65;
   }
 
+  .tagline{
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:.78rem;
+    font-weight:600;
+    color:var(--brass);
+    text-transform:uppercase;
+    margin-bottom:.2rem;
+    display:block;
+  }
+
   .end{
-    padding-top:1rem;
+    padding-top:1.5rem;
     border-top:1px solid var(--line);
     font-family:"Archivo",system-ui,sans-serif;
-    font-size:.86rem;
+    font-size:.9rem;
     color:var(--paper-dim);
   }
   .end a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--brass)}
 
-  /* ---------- click to enlarge ---------- */
-
+  /* ---------- Lightbox ---------- */
   .lightbox{
-    width:100%;
-    height:100%;
-    max-width:100vw;
-    max-height:100vh;
-    padding:0;
-    border:0;
-    background:transparent;
-    color:var(--paper);
-    overflow:hidden;
+    width:100%;height:100%;max-width:100vw;max-height:100vh;
+    padding:0;border:0;background:transparent;color:var(--paper);overflow:hidden;
   }
-
-  .lightbox::backdrop{
-    background:rgba(14,15,18,.66);
-    backdrop-filter:blur(16px) saturate(.85);
-    -webkit-backdrop-filter:blur(16px) saturate(.85);
-  }
-
-  /* Browsers without backdrop-filter get a heavier dim instead. */
+  .lightbox::backdrop{background:rgba(10,11,14,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .lightbox::backdrop{background:rgba(14,15,18,.93)}
+    .lightbox::backdrop{background:rgba(10,11,14,.95)}
   }
-
   .lightbox-stage{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:1.4rem;
-    padding:clamp(1.5rem,4vw,3.5rem);
-    cursor:zoom-out;
+    height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+    padding:clamp(1.5rem,4vw,3.5rem);cursor:zoom-out;
   }
-
   .lightbox img{
-    display:block;
-    width:auto;
-    height:auto;
-    max-width:min(1500px,90vw);
-    max-height:76vh;
-    border-radius:2px;
-    background:var(--ink-lift);
-    box-shadow:0 32px 90px rgba(0,0,0,.6);
-    cursor:default;
+    display:block;width:auto;height:auto;max-width:min(1400px,90vw);max-height:76vh;
+    border-radius:2px;background:var(--ink-lift);box-shadow:0 30px 90px rgba(0,0,0,.7);cursor:default;
   }
-
-  .lightbox figcaption{
-    max-width:56ch;
-    text-align:center;
-    cursor:default;
-  }
-  .lightbox figcaption h2{
-    margin:0;
-    font-family:"Archivo",system-ui,sans-serif;
-    font-size:1.06rem;
-    font-weight:600;
-  }
-  .lightbox figcaption p{
-    margin:.3rem 0 0;
-    color:var(--paper-dim);
-    font-size:1rem;
-  }
+  .lightbox figcaption{max-width:60ch;text-align:center;cursor:default}
+  .lightbox figcaption h2{margin:0;font-family:"Archivo",system-ui,sans-serif;font-size:1.1rem;font-weight:600}
+  .lightbox figcaption p{margin:.3rem 0 0;color:var(--paper-dim);font-size:.95rem}
 
   .lightbox-close{
-    position:fixed;
-    top:1.1rem;
-    right:1.3rem;
-    width:2.6rem;
-    height:2.6rem;
-    display:grid;
-    place-items:center;
-    font-family:"Archivo",system-ui,sans-serif;
-    font-size:1.5rem;
-    line-height:1;
-    color:var(--paper);
-    background:rgba(255,255,255,.07);
-    border:1px solid var(--line);
-    border-radius:50%;
-    cursor:pointer;
-    transition:background .18s ease;
+    position:fixed;top:1.2rem;right:1.4rem;width:2.6rem;height:2.6rem;display:grid;place-items:center;
+    font-family:"Archivo",system-ui,sans-serif;font-size:1.5rem;color:var(--paper);background:rgba(255,255,255,.07);
+    border:1px solid var(--line);border-radius:50%;cursor:pointer;transition:background .18s ease;
   }
-  .lightbox-close:hover{background:rgba(255,255,255,.16)}
-
-  .lightbox[open]{animation:lb-lift .2s ease both}
-  .lightbox[open]::backdrop{animation:lb-fade .2s ease both}
-  @keyframes lb-lift{from{opacity:0;transform:scale(.99)}to{opacity:1;transform:none}}
-  @keyframes lb-fade{from{opacity:0}to{opacity:1}}
-
-  @media (prefers-reduced-motion:reduce){
-    .lightbox[open],
-    .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img{transition:none}
-  }
-
+  .lightbox-close:hover{background:rgba(255,255,255,.18)}
   body.viewing{overflow:hidden}
-
-  /* ---------- small screens: one column, nothing sticks ---------- */
 
   @media (max-width:900px){
     .layout{grid-template-columns:1fr}
-    .profile{
-      position:static;
-      height:auto;
-      overflow:visible;
-      border-right:0;
-      border-bottom:1px solid var(--line);
-      gap:2rem;
-    }
+    .profile{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);gap:1.8rem}
     .contact{margin-top:0}
     .counter{display:none}
-    .reel{gap:3.5rem}
+    .reel{gap:3rem}
   }
 </style>
 </head>
@@ -376,165 +286,122 @@
 <body>
 <main class="layout">
 
-  <!-- ============ EDIT: everything about your friend lives in here ============ -->
+  <!-- ============ PROFIL ============ -->
   <aside class="profile">
     <header>
-      <p class="role">Film &amp; photo editor, Nicosia</p>
-      <h1 class="name">Daniel Reyes</h1>
+      <p class="role">Produktová fotografie &amp; E-commerce grafika</p>
+      <h1 class="name">Daniel Honzík</h1>
     </header>
 
     <div class="bio">
-      <p>I cut documentary and commercial work, and grade stills for print. Eleven years in edit suites, most of them spent finding the two seconds that make a scene land.</p>
-      <p>Recent work includes a feature-length documentary for a regional broadcaster, brand films for three studios, and ongoing retouching for an architecture practice.</p>
+      <p>Specializuji se na hromadnou postprodukci produktových fotografií pro e-shopy, precizní ořezy, retuše a tvorbu prodejních vizuálů.</p>
+      <p>Mám zkušenosti s kompletní správou vizuálů od surových fotografií přes barevné sjednocení (ICC profily, ppi) a bezztrátovou optimalizaci pod 150&nbsp;kB až po grafické návrhy e-shopových sliderů, bannerů a DTP letáků.</p>
     </div>
 
     <p class="tools">
-      <b>Working in</b>
-      DaVinci Resolve, Premiere Pro, After Effects, Photoshop, Capture One
+      <b>Dovednosti &amp; Software</b>
+      Paint.NET, DaVinci Resolve, Krita, REAPER. Úprava expozice a kontrastu, ořezové cesty, frekvenční čištění, tvorba UI prvků a realizace v HTML/CSS.
     </p>
 
     <div>
-      <!-- EDIT: point href at your CV file, e.g. resources/daniel-reyes-cv.pdf or a Drive link -->
-      <a class="cv" href="cv.pdf" download>Download CV</a>
-      <p class="cv-note">PDF, updated August 2026</p>
+      <a class="cv" href="resources/CV.pdf" download="Daniel_Honzik_CV.pdf">Stáhnout CV</a>
+      <p class="cv-note">PDF, aktualizováno 2026</p>
     </div>
 
     <nav class="contact">
-      <a href="mailto:hello@example.com">hello@example.com</a>
-      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://vimeo.com/" target="_blank" rel="noopener">Vimeo</a>
+      <a href="mailto:daniel.honz36@gmail.com">daniel.honz36@gmail.com</a>
+      <a href="tel:+420606060309">+420 606 060 309</a>
+      <a href="https://github.com/Raincandy47" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.spimzdrave.eu" target="_blank" rel="noopener">spimzdrave.eu</a>
     </nav>
 
-    <p class="counter">Frame <span id="frame-now">01</span> of <span id="frame-total">08</span></p>
+    <p class="counter">Projekt <span id="frame-now">01</span> z <span id="frame-total">04</span></p>
   </aside>
 
-  <!-- ============ EDIT: the scrolling work below ============ -->
-  <!-- Each block = one big image, three supporting frames, then the caption.
-       Drop your files in resources/ using these names, or change the names here. -->
+  <!-- ============ PROJEKTY ============ -->
   <section class="reel">
 
-    <p class="reel-intro">Selected work, 2023 to 2026. Scroll for the full set, click any frame to see it larger.</p>
+    <p class="reel-intro">Vybrané práce: produktová postprodukce, srovnání před a po úpravě, e-commerce vizuály a komplexní montáže.</p>
 
+    <!-- 01: Retuš obuvi Před/Po -->
     <figure class="shot">
-      <img src="resources/format.png" alt="Graded frame from the documentary Northern Line.">
+      <img src="resources/side1.jpg" onerror="ph(this)" alt="Finální produktová fotografie bot po vymaskování a retuši">
       <div class="strip">
-        <img src="resources/shot-01-a.jpg" onerror="ph(this)" alt="Northern Line, second frame.">
-        <img src="resources/shot-01-b.jpg" onerror="ph(this)" alt="Northern Line, third frame.">
-        <img src="resources/shot-01-c.jpg" onerror="ph(this)" alt="Northern Line, fourth frame.">
+        <img src="resources/Snapchat-114977234.jpg" onerror="ph(this)" alt="Před úpravou: Surová fotka z mobilu na krabici v reálném prostředí">
+        <img src="resources/back1.jpg" onerror="ph(this)" alt="Zadní pohled: Retušovaná silueta a kovové prvky">
+        <img src="resources/side1.jpg" onerror="ph(this)" alt="Boční úhel: Detailní ořezová cesta a stínování">
       </div>
       <figcaption>
         <span class="num">01</span>
-        <h2>Northern Line</h2>
-        <p>Feature documentary, 94 minutes. Offline and online edit, plus the full grade.</p>
+        <div>
+          <span class="tagline">Produktová retuš &amp; Ořez (Před / Po)</span>
+          <h2>Obuv — Izolace z reálného prostředí na čisté pozadí</h2>
+          <p>Ukázka kompletní transformace ze surového snímku na krabici (viz první malý náhled) na čistý, detailní produktový vizuál. Manuální maskování složitých hran, ořezová cesta šněrování a podrážky, odstranění rušivých odlesků, vytažení textury kůže a syntetické stínování pro e-shopové použití.</p>
+        </div>
       </figcaption>
     </figure>
 
+    <!-- 02: Textil & Flat Lay -->
     <figure class="shot">
-      <img src="resources/shot-02.jpg" onerror="ph(this)" alt="Retouched interior photograph for an architecture practice.">
+      <img src="resources/fahrenheit.jpg" onerror="ph(this)" alt="Komerční flat lay outfitu s doplňky">
       <div class="strip">
-        <img src="resources/shot-02-a.jpg" onerror="ph(this)" alt="Kallis House, second view.">
-        <img src="resources/shot-02-b.jpg" onerror="ph(this)" alt="Kallis House, third view.">
-        <img src="resources/shot-02-c.jpg" onerror="ph(this)" alt="Kallis House, fourth view.">
+        <img src="resources/slipknot1.jpg" onerror="ph(this)" alt="Produktový ořez textilu – ponožky se vzorem na neutrálním pozadí">
+        <img src="resources/conv2.jpg" onerror="ph(this)" alt="Retuš pletené zimní čepice s měkkým stínováním">
+        <img src="resources/ripped_short.jpg" onerror="ph(this)" alt="Ořez džínových kraťasů s precizním zachováním roztřepených nití">
       </div>
       <figcaption>
         <span class="num">02</span>
-        <h2>Kallis House</h2>
-        <p>Interior stills retouched for print. Window pulls, verticals, and a warm neutral base.</p>
+        <div>
+          <span class="tagline">E-shop Postprodukce textilu &amp; Doplňků</span>
+          <h2>Katalogová příprava oděvů a Flat Lay kompozice</h2>
+          <p>Hromadné zpracování produktových fotografií textilu. Důraz na přesnost okrajů u roztřepeného denimu a pleteniny, barevnou věrnost materiálů a sjednocení podkladů s radiálním vinětováním. Správa kontrastu, čištění prachu a optimalizace velikosti souborů pro rychlé načítání e-shopu bez ztráty detailů.</p>
+        </div>
       </figcaption>
     </figure>
 
+    <!-- 03: E-shop spimzdrave.eu + DTP letáky -->
     <figure class="shot">
-      <img src="resources/shot-03.jpg" onerror="ph(this)" alt="Frame from a sixty second brand film.">
+      <img src="resources/banner%20f.jpg" onerror="ph(this)" alt="Hero banner pro e-shop spimzdrave.eu">
       <div class="strip">
-        <img src="resources/shot-03-a.jpg" onerror="ph(this)" alt="Meridian, second frame.">
-        <img src="resources/shot-03-b.jpg" onerror="ph(this)" alt="Meridian, third frame.">
-        <img src="resources/shot-03-c.jpg" onerror="ph(this)" alt="Meridian, fourth frame.">
+        <img src="resources/frontside1.jpg" onerror="ph(this)" alt="Přední strana prodejního letáku s řezem matrace a parametry">
+        <img src="resources/merged.jpg" onerror="ph(this)" alt="Zadní strana letáku s přehledem produktů a cenovými akcemi">
+        <img src="resources/sigiln1.jpg" onerror="ph(this)" alt="Produktová fotografie čepice na neutrálním pozadí">
       </div>
       <figcaption>
         <span class="num">03</span>
-        <h2>Meridian, 60 seconds</h2>
-        <p>Brand film cut from six hours of rushes. Three versions delivered in a day.</p>
+        <div>
+          <span class="tagline">E-commerce vizuál, UI prvky &amp; Tisk</span>
+          <h2>spimzdrave.eu — Slider bannery, USP lišta a prodejní letáky</h2>
+          <p>Kompletní návrh marketingových výstupů pro e-shop se zdravotními matracemi. Tvorba homepage slideru s důrazem na vizuální hierarchii (hlavní sdělení, lišta výhod s ikonami: doprava, výroba, doporučení lékařů). Zpracování produktových řezů materiálů a návazných tištěných letáků pro ofsetový tisk v CMYK se spadavkou.</p>
+        </div>
       </figcaption>
     </figure>
 
+    <!-- 04: Kreativní fotomontáž & kampaň -->
     <figure class="shot">
-      <img src="resources/shot-04.jpg" onerror="ph(this)" alt="Studio portrait after retouching.">
+      <img src="resources/complete.jpg" onerror="ph(this)" alt="Finální kompozice plakátu s industriálními motivy">
       <div class="strip">
-        <img src="resources/shot-04-a.jpg" onerror="ph(this)" alt="Studio portraits, second sitter.">
-        <img src="resources/shot-04-b.jpg" onerror="ph(this)" alt="Studio portraits, third sitter.">
-        <img src="resources/shot-04-c.jpg" onerror="ph(this)" alt="Studio portraits, fourth sitter.">
+        <img src="resources/ddd.png" onerror="ph(this)" alt="Digitální kresba terminálové tabule vytvořená v programu Krita">
+        <img src="resources/wire2.png" onerror="ph(this)" alt="Barevná tónová korekce a vytažení textury ostnatého drátu">
+        <img src="resources/complete.jpg" onerror="ph(this)" alt="Plný náhled plakátu s typografií">
       </div>
       <figcaption>
         <span class="num">04</span>
-        <h2>Studio portraits</h2>
-        <p>Skin and tonal work for a company profile series. Twenty-eight sitters.</p>
+        <div>
+          <span class="tagline">Komplexní fotomontáž &amp; Digitální kresba</span>
+          <h2>Promo kampaň — Propojení rastrové grafiky a textur</h2>
+          <p>Ukázka pokročilé práce s vrstvami, maskami a barevným gradingem v kombinaci s digitální kresbou (Krita). Precizní izolace složitých objektů (kabeláž, ostnatý drát), sjednocení světelné atmosféry a typografická úprava pro digitální promo i plakátový formát.</p>
+        </div>
       </figcaption>
     </figure>
 
-    <figure class="shot">
-      <img src="resources/shot-05.jpg" onerror="ph(this)" alt="Night exterior frame with a heavy colour grade.">
-      <div class="strip">
-        <img src="resources/shot-05-a.jpg" onerror="ph(this)" alt="Harbour at night, second frame.">
-        <img src="resources/shot-05-b.jpg" onerror="ph(this)" alt="Harbour at night, third frame.">
-        <img src="resources/shot-05-c.jpg" onerror="ph(this)" alt="Harbour at night, fourth frame.">
-      </div>
-      <figcaption>
-        <span class="num">05</span>
-        <h2>Harbour, night</h2>
-        <p>Underexposed rushes recovered and graded for a music video.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-06.jpg" onerror="ph(this)" alt="Composite image built from four separate plates.">
-      <div class="strip">
-        <img src="resources/shot-06-a.jpg" onerror="ph(this)" alt="Composite, first plate.">
-        <img src="resources/shot-06-b.jpg" onerror="ph(this)" alt="Composite, second plate.">
-        <img src="resources/shot-06-c.jpg" onerror="ph(this)" alt="Composite, third plate.">
-      </div>
-      <figcaption>
-        <span class="num">06</span>
-        <h2>Four plates, one room</h2>
-        <p>Composite for a furniture catalogue, assembled from separately lit exposures.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-07.jpg" onerror="ph(this)" alt="Archive photograph after restoration.">
-      <div class="strip">
-        <img src="resources/shot-07-a.jpg" onerror="ph(this)" alt="Archive restoration, damaged original.">
-        <img src="resources/shot-07-b.jpg" onerror="ph(this)" alt="Archive restoration, cleaned scan.">
-        <img src="resources/shot-07-c.jpg" onerror="ph(this)" alt="Archive restoration, finished print.">
-      </div>
-      <figcaption>
-        <span class="num">07</span>
-        <h2>Archive restoration</h2>
-        <p>Family negatives from 1961, cleaned and rebuilt where the emulsion had lifted.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-08.jpg" onerror="ph(this)" alt="Title card from the short film Salt.">
-      <div class="strip">
-        <img src="resources/shot-08-a.jpg" onerror="ph(this)" alt="Salt, second frame.">
-        <img src="resources/shot-08-b.jpg" onerror="ph(this)" alt="Salt, third frame.">
-        <img src="resources/shot-08-c.jpg" onerror="ph(this)" alt="Salt, fourth frame.">
-      </div>
-      <figcaption>
-        <span class="num">08</span>
-        <h2>Salt</h2>
-        <p>Short film, 12 minutes. Edit, titles, and sound handover.</p>
-      </figcaption>
-    </figure>
-
-    <p class="end">Looking for something that isn't here? <a href="mailto:hello@example.com">Ask for the full reel.</a></p>
+    <p class="end">Hledáte další ukázky specifických produktů nebo formátů? <a href="mailto:daniel.honz36@gmail.com">Napište mi pro kompletní podklady.</a></p>
 
   </section>
 </main>
 
-<!-- Enlarged view. Nothing to edit here — it fills itself from whichever frame you click. -->
-<dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
-  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+<dialog class="lightbox" id="lightbox" aria-label="Zvětšený náhled">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Zavřít">&times;</button>
   <figure class="lightbox-stage" id="lightbox-stage">
     <img id="lightbox-img" src="" alt="">
     <figcaption>
@@ -545,7 +412,6 @@
 </dialog>
 
 <script>
-  // Keeps the frame counter in the left column honest as you scroll.
   (function () {
     var shots = document.querySelectorAll('.shot');
     var now = document.getElementById('frame-now');
@@ -570,7 +436,6 @@
     shots.forEach(function (s) { observer.observe(s); });
   })();
 
-  // Click any frame, main or supporting, to bring it forward and blur the page behind it.
   (function () {
     var box = document.getElementById('lightbox');
     if (!box || typeof box.showModal !== 'function') return;
@@ -600,7 +465,7 @@
     document.querySelectorAll('.shot > img, .strip img').forEach(function (source) {
       source.tabIndex = 0;
       source.setAttribute('role', 'button');
-      source.setAttribute('aria-label', 'View larger: ' + (source.alt || 'image'));
+      source.setAttribute('aria-label', 'Zvětšit: ' + (source.alt || 'obrázek'));
 
       source.addEventListener('click', function () { open(source); });
       source.addEventListener('keydown', function (e) {
@@ -611,7 +476,6 @@
       });
     });
 
-    // Clicking anywhere around the picture closes it; clicking the picture itself doesn't.
     stage.addEventListener('click', function (e) {
       if (e.target === img) return;
       box.close();
