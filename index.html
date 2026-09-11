@@ -192,6 +192,69 @@
     cursor:zoom-in;
   }
 
+  /* ---------- layered interactive flatlay (figure 01) ---------- */
+
+  .stage{
+    position:relative;
+    width:100%;
+    aspect-ratio:1500/2000;
+    border-radius:2px;
+    overflow:hidden;
+    background:var(--ink-lift);
+  }
+  .stage > img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .stage .layer{
+    position:absolute;
+    display:block;
+    padding:0;
+    border:0;
+    background:none;
+    cursor:zoom-in;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .stage .layer img{
+    display:block;
+    width:100%;
+    height:auto;
+    transition:filter .15s ease;
+  }
+  .stage .layer .plus{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:28px;
+    height:28px;
+    margin:-14px 0 0 -14px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(26,27,31,.75);
+    border:1px solid rgba(236,233,226,.5);
+    color:var(--paper);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:1rem;
+    line-height:1;
+    opacity:0;
+    transform:scale(.8);
+    transition:opacity .15s ease, transform .15s ease, border-color .15s ease;
+    pointer-events:none;
+  }
+  .stage .layer:hover .plus,
+  .stage .layer:focus-visible .plus{
+    opacity:1;
+    transform:scale(1);
+    border-color:var(--brass);
+  }
+  .stage .layer:hover img,
+  .stage .layer:focus-visible img{
+    filter:brightness(1.08);
+  }
+
   /* the supporting frames under each main image */
   .strip{
     display:grid;
@@ -412,7 +475,51 @@
     <p class="reel-intro">Vybrané práce, 2023 - 2026. Scroll for the full set, click any frame to see it larger.</p>
 
     <figure class="shot">
-      <img src="resources/roscharch.png" alt="Graded frame from the documentary Northern Line.">
+      <div class="stage">
+        <img src="resources/roscharch.png" alt="">
+
+        <button type="button" class="layer" style="left:32.79%;top:38.73%;width:62.31%;z-index:1"
+          data-title="Zvonové džíny" data-desc="Vyšisované flare džíny, opotřebené lemy.">
+          <img src="resources/denim.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:9.64%;top:56.77%;width:36.18%;z-index:1"
+          data-title="Šněrovací boty" data-desc="Semišové boty, opotřebená špička.">
+          <img src="resources/shoes.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:0%;top:47.27%;width:22.48%;z-index:1"
+          data-title="Korálky a prsteny" data-desc="Náramek z tygřího oka a dva prsteny s kamenem.">
+          <img src="resources/jewelry.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:7.05%;top:28.33%;width:18.80%;z-index:1"
+          data-title="Tabatěrka" data-desc="Mosazná tabatěrka se secesním ornamentem.">
+          <img src="resources/tabacco.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:70.36%;top:50.10%;width:27.71%;z-index:2"
+          data-title="Cvočkovaný pásek" data-desc="Kožený pásek s kovovými cvočky a přezkou.">
+          <img src="resources/belt.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:25.33%;top:1.50%;width:64.67%;z-index:3"
+          data-title="Bunda s kožešinovým límcem" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
+          <img src="resources/jacket.png" alt="">
+          <span class="plus">+</span>
+        </button>
+
+        <button type="button" class="layer" style="left:0.5%;top:0.5%;width:37.08%;z-index:4"
+          data-title="Růženec" data-desc="Dřevěný růženec s vyřezávaným křížkem.">
+          <img src="resources/rosary.png" alt="">
+          <span class="plus">+</span>
+        </button>
+      </div>
       <div class="strip">
         <img src="resources/shot-01-a.jpg" onerror="ph(this)" alt="Northern Line, second frame.">
         <img src="resources/shot-01-b.jpg" onerror="ph(this)" alt="Northern Line, third frame.">
@@ -420,8 +527,8 @@
       </div>
       <figcaption>
         <span class="num">01</span>
-        <h2>Northern Line</h2>
-        <p>Feature documentary, 94 minutes. Offline and online edit, plus the full grade.</p>
+        <h2>Jeden outfit, sedm inzerátů</h2>
+        <p>Sedm samostatně vyfocených kousků, sladěných a poskládaných do jednoho setu — vytvořeno pro prodej na Vinted.</p>
       </figcaption>
     </figure>
 
@@ -579,24 +686,26 @@
     var opener = null;
 
     function open(source) {
+      var pic = source.tagName === 'IMG' ? source : source.querySelector('img');
       var figure = source.closest('.shot');
       var heading = figure ? figure.querySelector('figcaption h2') : null;
       var caption = figure ? figure.querySelector('figcaption p') : null;
 
-      img.src = source.currentSrc || source.src;
-      img.alt = source.alt || '';
-      title.textContent = heading ? heading.textContent : '';
-      text.textContent = caption ? caption.textContent : '';
+      img.src = pic.currentSrc || pic.src;
+      img.alt = pic.alt || '';
+      title.textContent = source.dataset.title || (heading ? heading.textContent : '');
+      text.textContent = source.dataset.desc || (caption ? caption.textContent : '');
 
       opener = source;
       document.body.classList.add('viewing');
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .stage .layer').forEach(function (source) {
       source.tabIndex = 0;
-      source.setAttribute('role', 'button');
-      source.setAttribute('aria-label', 'View larger: ' + (source.alt || 'image'));
+      if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
+      var label = source.dataset.title || source.alt || 'image';
+      source.setAttribute('aria-label', 'View larger: ' + label);
 
       source.addEventListener('click', function () { open(source); });
       source.addEventListener('keydown', function (e) {
