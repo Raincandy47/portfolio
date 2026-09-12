@@ -197,17 +197,21 @@
   .stage{
     position:relative;
     width:100%;
-    max-width:80%;
+    /* Height-led sizing: keeps the whole flatlay roughly one screen tall.
+       Want it bigger? Raise 82vh. Want it to fill the column? Use width:100%. */
+    max-width:min(100%, 82vh);
     margin:0 auto;
     aspect-ratio:1500/2000;
     border-radius:2px;
-    overflow:hidden;
     background:var(--ink-lift);
   }
-  .stage > img{
-    display:block;
+  .stage > img.bg{
+    position:absolute;
+    inset:0;
     width:100%;
-    height:auto;
+    height:100%;
+    object-fit:cover;
+    border-radius:2px;
   }
   .stage .layer{
     position:absolute;
@@ -216,46 +220,25 @@
     border:0;
     background:none;
     cursor:zoom-in;
+    z-index:var(--z,1);
+    transform-origin:center;
+    transition:transform .22s cubic-bezier(.2,.7,.3,1), filter .22s ease;
     -webkit-tap-highlight-color:transparent;
   }
   .stage .layer img{
     display:block;
     width:100%;
     height:auto;
-    transition:filter .15s ease;
-  }
-  .stage .layer .plus{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:28px;
-    height:28px;
-    margin:-14px 0 0 -14px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(26,27,31,.75);
-    border:1px solid rgba(236,233,226,.5);
-    color:var(--paper);
-    font-family:"IBM Plex Mono",monospace;
-    font-size:1rem;
-    line-height:1;
-    opacity:0;
-    transform:scale(.8);
-    transition:opacity .15s ease, transform .15s ease, border-color .15s ease;
     pointer-events:none;
   }
-  .stage .layer:hover .plus,
-  .stage .layer:focus-visible .plus{
-    opacity:1;
-    transform:scale(1);
-    border-color:var(--brass);
+  /* hover lifts the piece off the flatlay */
+  .stage .layer:hover,
+  .stage .layer:focus-visible{
+    transform:scale(1.09);
+    z-index:30;
+    filter:drop-shadow(0 22px 34px rgba(0,0,0,.55)) brightness(1.05);
   }
-  .stage .layer:hover img,
-  .stage .layer:focus-visible img{
-    filter:brightness(1.08);
-  }
+  .stage .layer:focus-visible{outline:none}
 
   /* the supporting frames under each main image */
   .strip{
@@ -418,6 +401,76 @@
 
   body.viewing{overflow:hidden}
 
+  /* ---------- layout mode: drag the pieces into place ---------- */
+  /* Off by default. Turn it on with #layout in the address bar, or Shift+L. */
+
+  body.layout-mode .stage .layer{
+    cursor:grab;
+    transition:none;
+    transform:none !important;
+    filter:none !important;
+    outline:1px dashed rgba(150,149,142,.45);
+  }
+  body.layout-mode .stage .layer:active{cursor:grabbing}
+  body.layout-mode .stage .layer.picked{outline:2px solid var(--brass);z-index:40}
+
+  .ghost{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    pointer-events:none;
+    z-index:50;
+    display:none;
+    opacity:.45;
+  }
+  body.layout-mode .ghost{display:block}
+
+  .lay-panel{
+    position:fixed;
+    left:1rem;
+    bottom:1rem;
+    z-index:60;
+    width:min(430px,calc(100vw - 2rem));
+    display:none;
+    padding:.9rem 1rem 1rem;
+    background:rgba(18,19,23,.97);
+    border:1px solid var(--line);
+    border-radius:4px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    line-height:1.6;
+    color:var(--paper-dim);
+  }
+  body.layout-mode .lay-panel{display:block}
+  .lay-panel b{display:block;color:var(--paper);font-weight:600;margin-bottom:.35rem}
+  .lay-panel textarea{
+    width:100%;
+    height:8.5rem;
+    margin-top:.6rem;
+    resize:vertical;
+    background:#0f1013;
+    color:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:.5rem;
+    font:inherit;
+    white-space:pre;
+    overflow-wrap:normal;
+  }
+  .lay-panel .row{display:flex;align-items:center;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
+  .lay-panel button{
+    font:inherit;
+    color:var(--ink);
+    background:var(--paper);
+    border:0;
+    border-radius:2px;
+    padding:.35rem .8rem;
+    cursor:pointer;
+  }
+  .lay-panel input[type=range]{flex:1;min-width:100px;accent-color:var(--brass)}
+
   /* ---------- small screens: one column, nothing sticks ---------- */
 
   @media (max-width:900px){
@@ -477,55 +530,49 @@
     <p class="reel-intro">Vybrané práce, 2023 - 2026. Scroll for the full set, click any frame to see it larger.</p>
 
     <figure class="shot">
-      <div class="stage">
-        <img src="resources/roscharch.png" onerror="ph(this)" alt="">
+      <!-- Interactive flatlay. Each piece is positioned as a % of the stage,
+           so it scales with the page. Numbers below are measured off the reference
+           composite. Open the page with #layout in the address bar to drag them. -->
+      <div class="stage" id="stage">
+        <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
+        <img class="ghost" id="lay-ghost" alt="">
 
-        <button type="button" class="layer" style="left:32.79%;top:38.73%;width:62.31%;z-index:1"
+        <button type="button" class="layer" data-piece="denim" style="left:42.50%;top:42.50%;width:43.00%;--z:1"
           data-title="Zvonové džíny" data-desc="Vyšisované flare džíny, opotřebené lemy.">
           <img src="resources/denim.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
         </button>
 
-        <button type="button" class="layer" style="left:9.64%;top:56.77%;width:36.18%;z-index:1"
+        <button type="button" class="layer" data-piece="shoes" style="left:13.00%;top:57.50%;width:29.50%;--z:2"
           data-title="Šněrovací boty" data-desc="Semišové boty, opotřebená špička.">
           <img src="resources/shoes.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
         </button>
 
-        <button type="button" class="layer" style="left:0%;top:47.27%;width:22.48%;z-index:1"
-          data-title="Korálky a prsteny" data-desc="Náramek z tygřího oka a dva prsteny s kamenem.">
-          <img src="resources/jewelry.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
-        </button>
-
-        <button type="button" class="layer" style="left:7.05%;top:28.33%;width:18.80%;z-index:1"
-          data-title="Tabatěrka" data-desc="Mosazná tabatěrka se secesním ornamentem.">
-          <img src="resources/tabacco.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
-        </button>
-
-        <button type="button" class="layer" style="left:70.36%;top:50.10%;width:27.71%;z-index:2"
-          data-title="Cvočkovaný pásek" data-desc="Kožený pásek s kovovými cvočky a přezkou.">
-          <img src="resources/belt.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
-        </button>
-
-        <button type="button" class="layer" style="left:31.5%;top:1.50%;width:64.67%;z-index:3"
+        <button type="button" class="layer" data-piece="jacket" style="left:39.50%;top:3.80%;width:54.00%;--z:3"
           data-title="Bunda s kožešinovým límcem" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
           <img src="resources/jacket.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
         </button>
 
-        <button type="button" class="layer" style="left:0.5%;top:0.5%;width:37.08%;z-index:4"
+        <button type="button" class="layer" data-piece="rosary" style="left:9.00%;top:5.50%;width:26.50%;--z:3"
           data-title="Růženec" data-desc="Dřevěný růženec s vyřezávaným křížkem.">
           <img src="resources/rosary.png" onerror="ph(this)" alt="">
-          <span class="plus">+</span>
         </button>
-      </div>
-      <div class="strip">
-        <img src="resources/shot-01-a.jpg" onerror="ph(this)" alt="Northern Line, second frame.">
-        <img src="resources/shot-01-b.jpg" onerror="ph(this)" alt="Northern Line, third frame.">
-        <img src="resources/shot-01-c.jpg" onerror="ph(this)" alt="Northern Line, fourth frame.">
+
+        <button type="button" class="layer" data-piece="belt" style="left:76.50%;top:52.80%;width:18.50%;--z:4"
+          data-title="Cvočkovaný pásek" data-desc="Kožený pásek s kovovými cvočky a přezkou.">
+          <img src="resources/belt.png" onerror="ph(this)" alt="">
+        </button>
+
+        <!-- the cigarette case now sits where the bracelet was.
+             Its spot in the reference was left:7.70%;top:28.50% if you want it back up there. -->
+        <button type="button" class="layer" data-piece="tabacco" style="left:3.50%;top:41.80%;width:15.10%;--z:4"
+          data-title="Tabatěrka" data-desc="Mosazná tabatěrka se secesním ornamentem.">
+          <img src="resources/tabacco.png" onerror="ph(this)" alt="">
+        </button>
+
+        <button type="button" class="layer" data-piece="jewelry" style="left:5.00%;top:55.00%;width:14.00%;--z:5"
+          data-title="Prsteny" data-desc="Dva prsteny s kamenem.">
+          <img src="resources/jewelry.png" onerror="ph(this)" alt="">
+        </button>
       </div>
       <figcaption>
         <span class="num">01</span>
@@ -709,7 +756,10 @@
       var label = source.dataset.title || source.alt || 'image';
       source.setAttribute('aria-label', 'View larger: ' + label);
 
-      source.addEventListener('click', function () { open(source); });
+      source.addEventListener('click', function () {
+        if (document.body.classList.contains('layout-mode')) return;
+        open(source);
+      });
       source.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -731,6 +781,136 @@
       if (opener) { opener.focus(); opener = null; }
     });
   })();
+  // ---------- layout mode ----------
+  // Lets you drag the flatlay pieces into place and copy the numbers back into the HTML.
+  // Turn it on with #layout in the address bar, or Shift+L. Delete this block when done.
+  (function () {
+    var stage = document.getElementById('stage');
+    var panel = document.getElementById('lay-panel');
+    if (!stage || !panel) return;
+
+    var out = document.getElementById('lay-out');
+    var ghost = document.getElementById('lay-ghost');
+    var op = document.getElementById('lay-op');
+    var msg = document.getElementById('lay-msg');
+    var layers = Array.prototype.slice.call(stage.querySelectorAll('.layer'));
+    var picked = null;
+
+    function isOn(){ return document.body.classList.contains('layout-mode'); }
+    function on(){
+      document.body.classList.add('layout-mode');
+      if (!ghost.getAttribute('src')) ghost.src = 'resources/reference.png';
+      ghost.style.opacity = op.value / 100;
+      dump();
+    }
+    function off(){ document.body.classList.remove('layout-mode'); }
+
+    if (location.hash === '#layout') on();
+
+    function pick(el){
+      if (picked) picked.classList.remove('picked');
+      picked = el;
+      el.classList.add('picked');
+    }
+
+    function box(el){
+      var r = stage.getBoundingClientRect(), b = el.getBoundingClientRect();
+      return { l:(b.left-r.left)/r.width*100, t:(b.top-r.top)/r.height*100,
+               w:b.width/r.width*100, h:b.height/r.height*100 };
+    }
+    function place(el, l, t){
+      el.style.left = l.toFixed(2) + '%';
+      el.style.top  = t.toFixed(2) + '%';
+    }
+    function scale(el, k){
+      var p = box(el), nw = p.w*k, nh = p.h*k;
+      place(el, p.l-(nw-p.w)/2, p.t-(nh-p.h)/2);
+      el.style.width = nw.toFixed(2) + '%';
+      dump();
+    }
+
+    function dump(){
+      out.value = layers.map(function (el) {
+        return el.dataset.piece + '\n  style="' + el.getAttribute('style') + '"';
+      }).join('\n');
+    }
+
+    layers.forEach(function (el) {
+      el.addEventListener('pointerdown', function (e) {
+        if (!isOn()) return;
+        e.preventDefault();
+        pick(el);
+        var r = stage.getBoundingClientRect();
+        var l0 = parseFloat(el.style.left), t0 = parseFloat(el.style.top);
+        var x0 = e.clientX, y0 = e.clientY;
+        el.setPointerCapture(e.pointerId);
+        function move(ev){
+          place(el, l0 + (ev.clientX-x0)/r.width*100, t0 + (ev.clientY-y0)/r.height*100);
+          dump();
+        }
+        function up(){
+          el.removeEventListener('pointermove', move);
+          el.removeEventListener('pointerup', up);
+        }
+        el.addEventListener('pointermove', move);
+        el.addEventListener('pointerup', up);
+      });
+
+      el.addEventListener('wheel', function (e) {
+        if (!isOn()) return;
+        e.preventDefault();
+        pick(el);
+        scale(el, e.deltaY < 0 ? 1.02 : 1/1.02);
+      }, { passive:false });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      var typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName);
+      if (e.key === 'L' && e.shiftKey && !typing) { isOn() ? off() : on(); return; }
+      if (!isOn()) return;
+      if (e.key === 'Escape') { off(); return; }
+      if (!picked || typing) return;
+      var step = e.shiftKey ? 1 : 0.2;
+      var l = parseFloat(picked.style.left), t = parseFloat(picked.style.top);
+      if (e.key === 'ArrowLeft')       place(picked, l-step, t);
+      else if (e.key === 'ArrowRight') place(picked, l+step, t);
+      else if (e.key === 'ArrowUp')    place(picked, l, t-step);
+      else if (e.key === 'ArrowDown')  place(picked, l, t+step);
+      else if (e.key === '+' || e.key === '=') return scale(picked, 1.02);
+      else if (e.key === '-' || e.key === '_') return scale(picked, 1/1.02);
+      else return;
+      e.preventDefault();
+      dump();
+    });
+
+    op.addEventListener('input', function(){ ghost.style.opacity = op.value/100; });
+    document.getElementById('lay-done').addEventListener('click', off);
+    document.getElementById('lay-copy').addEventListener('click', function () {
+      out.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) {}
+      if (!ok && navigator.clipboard) navigator.clipboard.writeText(out.value);
+      msg.textContent = 'copied';
+      setTimeout(function(){ msg.textContent = ''; }, 1500);
+    });
+  })();
 </script>
+<!-- Layout mode helper. Delete this block, its CSS and its script once the flatlay is set. -->
+<div class="lay-panel" id="lay-panel">
+  <b>Layout mode</b>
+  Drag a piece to move it. Scroll over it to resize. Arrows nudge, Shift+arrows nudge further,
+  + and &minus; resize. Save your reference composite as <i>resources/reference.png</i> to trace over it.
+  <div class="row">
+    <span>Reference</span>
+    <input type="range" id="lay-op" min="0" max="100" value="45">
+  </div>
+  <textarea id="lay-out" readonly spellcheck="false"></textarea>
+  <div class="row">
+    <button type="button" id="lay-copy">Copy</button>
+    <button type="button" id="lay-done">Done</button>
+    <span id="lay-msg"></span>
+  </div>
+</div>
+
 </body>
 </html>
