@@ -401,76 +401,6 @@
 
   body.viewing{overflow:hidden}
 
-  /* ---------- layout mode: drag the pieces into place ---------- */
-  /* Off by default. Turn it on with #layout in the address bar, or Shift+L. */
-
-  body.layout-mode .stage .layer{
-    cursor:grab;
-    transition:none;
-    transform:none !important;
-    filter:none !important;
-    outline:1px dashed rgba(150,149,142,.45);
-  }
-  body.layout-mode .stage .layer:active{cursor:grabbing}
-  body.layout-mode .stage .layer.picked{outline:2px solid var(--brass);z-index:40}
-
-  .ghost{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    pointer-events:none;
-    z-index:50;
-    display:none;
-    opacity:.45;
-  }
-  body.layout-mode .ghost{display:block}
-
-  .lay-panel{
-    position:fixed;
-    left:1rem;
-    bottom:1rem;
-    z-index:60;
-    width:min(430px,calc(100vw - 2rem));
-    display:none;
-    padding:.9rem 1rem 1rem;
-    background:rgba(18,19,23,.97);
-    border:1px solid var(--line);
-    border-radius:4px;
-    font-family:"IBM Plex Mono",monospace;
-    font-size:.72rem;
-    line-height:1.6;
-    color:var(--paper-dim);
-  }
-  body.layout-mode .lay-panel{display:block}
-  .lay-panel b{display:block;color:var(--paper);font-weight:600;margin-bottom:.35rem}
-  .lay-panel textarea{
-    width:100%;
-    height:8.5rem;
-    margin-top:.6rem;
-    resize:vertical;
-    background:#0f1013;
-    color:var(--paper);
-    border:1px solid var(--line);
-    border-radius:2px;
-    padding:.5rem;
-    font:inherit;
-    white-space:pre;
-    overflow-wrap:normal;
-  }
-  .lay-panel .row{display:flex;align-items:center;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
-  .lay-panel button{
-    font:inherit;
-    color:var(--ink);
-    background:var(--paper);
-    border:0;
-    border-radius:2px;
-    padding:.35rem .8rem;
-    cursor:pointer;
-  }
-  .lay-panel input[type=range]{flex:1;min-width:100px;accent-color:var(--brass)}
-
   /* ---------- small screens: one column, nothing sticks ---------- */
 
   @media (max-width:900px){
@@ -532,10 +462,10 @@
     <figure class="shot">
       <!-- Interactive flatlay. Each piece is positioned as a % of the stage,
            so it scales with the page. Numbers below are measured off the reference
-           composite. Open the page with #layout in the address bar to drag them. -->
+           composite. To adjust them, open layout.html, move things there,
+           and paste the code it gives you over this whole block. -->
       <div class="stage" id="stage">
         <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
-        <img class="ghost" id="lay-ghost" alt="">
 
         <button type="button" class="layer" data-piece="denim" style="left:42.50%;top:42.50%;width:43.00%;--z:1"
           data-title="Zvonové džíny" data-desc="Vyšisované flare džíny, opotřebené lemy.">
@@ -756,10 +686,7 @@
       var label = source.dataset.title || source.alt || 'image';
       source.setAttribute('aria-label', 'View larger: ' + label);
 
-      source.addEventListener('click', function () {
-        if (document.body.classList.contains('layout-mode')) return;
-        open(source);
-      });
+      source.addEventListener('click', function () { open(source); });
       source.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -781,136 +708,7 @@
       if (opener) { opener.focus(); opener = null; }
     });
   })();
-  // ---------- layout mode ----------
-  // Lets you drag the flatlay pieces into place and copy the numbers back into the HTML.
-  // Turn it on with #layout in the address bar, or Shift+L. Delete this block when done.
-  (function () {
-    var stage = document.getElementById('stage');
-    var panel = document.getElementById('lay-panel');
-    if (!stage || !panel) return;
-
-    var out = document.getElementById('lay-out');
-    var ghost = document.getElementById('lay-ghost');
-    var op = document.getElementById('lay-op');
-    var msg = document.getElementById('lay-msg');
-    var layers = Array.prototype.slice.call(stage.querySelectorAll('.layer'));
-    var picked = null;
-
-    function isOn(){ return document.body.classList.contains('layout-mode'); }
-    function on(){
-      document.body.classList.add('layout-mode');
-      if (!ghost.getAttribute('src')) ghost.src = 'resources/reference.png';
-      ghost.style.opacity = op.value / 100;
-      dump();
-    }
-    function off(){ document.body.classList.remove('layout-mode'); }
-
-    if (location.hash === '#layout') on();
-
-    function pick(el){
-      if (picked) picked.classList.remove('picked');
-      picked = el;
-      el.classList.add('picked');
-    }
-
-    function box(el){
-      var r = stage.getBoundingClientRect(), b = el.getBoundingClientRect();
-      return { l:(b.left-r.left)/r.width*100, t:(b.top-r.top)/r.height*100,
-               w:b.width/r.width*100, h:b.height/r.height*100 };
-    }
-    function place(el, l, t){
-      el.style.left = l.toFixed(2) + '%';
-      el.style.top  = t.toFixed(2) + '%';
-    }
-    function scale(el, k){
-      var p = box(el), nw = p.w*k, nh = p.h*k;
-      place(el, p.l-(nw-p.w)/2, p.t-(nh-p.h)/2);
-      el.style.width = nw.toFixed(2) + '%';
-      dump();
-    }
-
-    function dump(){
-      out.value = layers.map(function (el) {
-        return el.dataset.piece + '\n  style="' + el.getAttribute('style') + '"';
-      }).join('\n');
-    }
-
-    layers.forEach(function (el) {
-      el.addEventListener('pointerdown', function (e) {
-        if (!isOn()) return;
-        e.preventDefault();
-        pick(el);
-        var r = stage.getBoundingClientRect();
-        var l0 = parseFloat(el.style.left), t0 = parseFloat(el.style.top);
-        var x0 = e.clientX, y0 = e.clientY;
-        el.setPointerCapture(e.pointerId);
-        function move(ev){
-          place(el, l0 + (ev.clientX-x0)/r.width*100, t0 + (ev.clientY-y0)/r.height*100);
-          dump();
-        }
-        function up(){
-          el.removeEventListener('pointermove', move);
-          el.removeEventListener('pointerup', up);
-        }
-        el.addEventListener('pointermove', move);
-        el.addEventListener('pointerup', up);
-      });
-
-      el.addEventListener('wheel', function (e) {
-        if (!isOn()) return;
-        e.preventDefault();
-        pick(el);
-        scale(el, e.deltaY < 0 ? 1.02 : 1/1.02);
-      }, { passive:false });
-    });
-
-    document.addEventListener('keydown', function (e) {
-      var typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName);
-      if (e.key === 'L' && e.shiftKey && !typing) { isOn() ? off() : on(); return; }
-      if (!isOn()) return;
-      if (e.key === 'Escape') { off(); return; }
-      if (!picked || typing) return;
-      var step = e.shiftKey ? 1 : 0.2;
-      var l = parseFloat(picked.style.left), t = parseFloat(picked.style.top);
-      if (e.key === 'ArrowLeft')       place(picked, l-step, t);
-      else if (e.key === 'ArrowRight') place(picked, l+step, t);
-      else if (e.key === 'ArrowUp')    place(picked, l, t-step);
-      else if (e.key === 'ArrowDown')  place(picked, l, t+step);
-      else if (e.key === '+' || e.key === '=') return scale(picked, 1.02);
-      else if (e.key === '-' || e.key === '_') return scale(picked, 1/1.02);
-      else return;
-      e.preventDefault();
-      dump();
-    });
-
-    op.addEventListener('input', function(){ ghost.style.opacity = op.value/100; });
-    document.getElementById('lay-done').addEventListener('click', off);
-    document.getElementById('lay-copy').addEventListener('click', function () {
-      out.select();
-      var ok = false;
-      try { ok = document.execCommand('copy'); } catch (err) {}
-      if (!ok && navigator.clipboard) navigator.clipboard.writeText(out.value);
-      msg.textContent = 'copied';
-      setTimeout(function(){ msg.textContent = ''; }, 1500);
-    });
-  })();
 </script>
-<!-- Layout mode helper. Delete this block, its CSS and its script once the flatlay is set. -->
-<div class="lay-panel" id="lay-panel">
-  <b>Layout mode</b>
-  Drag a piece to move it. Scroll over it to resize. Arrows nudge, Shift+arrows nudge further,
-  + and &minus; resize. Save your reference composite as <i>resources/reference.png</i> to trace over it.
-  <div class="row">
-    <span>Reference</span>
-    <input type="range" id="lay-op" min="0" max="100" value="45">
-  </div>
-  <textarea id="lay-out" readonly spellcheck="false"></textarea>
-  <div class="row">
-    <button type="button" id="lay-copy">Copy</button>
-    <button type="button" id="lay-done">Done</button>
-    <span id="lay-msg"></span>
-  </div>
-</div>
 
 </body>
 </html>

@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flatlay positioner</title>
+<style>
+  :root{
+    --ink:#16171b; --lift:#1f2026; --line:#33343a;
+    --paper:#ece9e2; --dim:#96958e; --brass:#b98d4e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ink); color:var(--paper);
+    font:13px/1.6 "IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    display:flex; height:100vh; overflow:hidden;
+  }
+
+  /* ---------- stage ---------- */
+  .stagewrap{flex:1; min-width:0; display:grid; place-items:center; padding:1rem}
+  .stage{
+    position:relative;
+    width:min(100%, calc((100vh - 2rem) * 0.75));
+    aspect-ratio:1500/2000;
+    background:#232429;
+    touch-action:none;
+    cursor:grab;
+    user-select:none;
+  }
+  .stage.dragging{cursor:grabbing}
+  .stage .bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .layer{position:absolute; z-index:var(--z,1)}
+  .layer img{display:block; width:100%; height:auto; pointer-events:none}
+  .layer.sel{outline:2px solid var(--brass); outline-offset:2px; z-index:40}
+  .layer.missing{outline:1px dashed #a33; min-height:40px}
+  body.dim .layer:not(.sel){opacity:.25}
+  .ghost{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    pointer-events:none; z-index:60; opacity:0;
+  }
+  .ghost.diff{mix-blend-mode:difference; opacity:1}
+
+  /* ---------- panel ---------- */
+  .panel{
+    width:400px; flex:none; border-left:1px solid var(--line);
+    padding:1.1rem; overflow-y:auto; background:#121317;
+  }
+  h1{font-size:.95rem; margin:0 0 .2rem}
+  .hint{color:var(--dim); margin:0 0 1rem}
+  h2{font-size:.75rem; color:var(--dim); font-weight:400; margin:1.3rem 0 .4rem;
+     text-transform:uppercase; letter-spacing:.08em}
+
+  .pieces{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.35rem}
+  .pieces button{
+    font:inherit; color:var(--paper); background:var(--lift);
+    border:1px solid var(--line); border-radius:2px; padding:.3rem .6rem; cursor:pointer;
+  }
+  .pieces button:hover{border-color:var(--dim)}
+  .pieces button[aria-pressed=true]{background:var(--brass); color:#17181b; border-color:var(--brass)}
+  .pieces button.gone{color:#d97a7a; border-style:dashed}
+
+  .fields{display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem}
+  .fields label{display:block; color:var(--dim); font-size:.7rem}
+  .fields input{
+    width:100%; font:inherit; color:var(--paper); background:var(--lift);
+    border:1px solid var(--line); border-radius:2px; padding:.35rem .4rem;
+  }
+  .row{display:flex; align-items:center; gap:.6rem; margin-top:.5rem}
+  .row input[type=range]{flex:1; accent-color:var(--brass)}
+  label.check{display:flex; align-items:center; gap:.35rem; color:var(--dim); cursor:pointer}
+
+  textarea{
+    width:100%; height:15rem; margin-top:.4rem; resize:vertical; white-space:pre;
+    font:11px/1.5 inherit; color:var(--paper); background:#0d0e11;
+    border:1px solid var(--line); border-radius:2px; padding:.5rem;
+  }
+  .btn{
+    font:inherit; color:#17181b; background:var(--paper); border:0; border-radius:2px;
+    padding:.4rem .9rem; cursor:pointer;
+  }
+  .btn.ghostbtn{background:transparent; color:var(--dim); border:1px solid var(--line)}
+  .keys{color:var(--dim); margin:.5rem 0 0}
+  .keys b{color:var(--paper); font-weight:400}
+  .warn{color:#d97a7a; margin:.6rem 0 0}
+</style>
+</head>
+<body>
+
+<div class="stagewrap">
+  <div class="stage" id="stage">
+    <img class="bg" id="bg" src="resources/roscharch.png" alt="">
+    <img class="ghost" id="ghost" src="resources/reference.png" alt="">
+  </div>
+</div>
+
+<aside class="panel">
+  <h1>Flatlay positioner</h1>
+  <p class="hint">Pick a piece below, then drag anywhere on the stage to move it. Nothing else moves.</p>
+
+  <h2>Piece</h2>
+  <div class="pieces" id="pieces"></div>
+  <p class="warn" id="warn"></p>
+
+  <h2>Position</h2>
+  <div class="fields">
+    <div><label for="f-left">left %</label><input id="f-left" type="number" step="0.1"></div>
+    <div><label for="f-top">top %</label><input id="f-top" type="number" step="0.1"></div>
+    <div><label for="f-width">width %</label><input id="f-width" type="number" step="0.1"></div>
+    <div><label for="f-z">layer</label><input id="f-z" type="number" step="1" min="1" max="9"></div>
+  </div>
+  <p class="keys">
+    <b>drag</b> move &nbsp; <b>wheel</b> resize &nbsp; <b>arrows</b> nudge<br>
+    <b>shift+arrows</b> nudge more &nbsp; <b>+ / −</b> resize
+  </p>
+
+  <h2>Reference overlay</h2>
+  <div class="row">
+    <input type="range" id="op" min="0" max="100" value="0">
+    <label class="check"><input type="checkbox" id="diff"> difference</label>
+  </div>
+  <div class="row">
+    <label class="check"><input type="checkbox" id="dimothers"> dim the other pieces</label>
+  </div>
+
+  <h2>Code</h2>
+  <p class="hint">Replace everything between <b>&lt;div class="stage"&gt;</b> and its <b>&lt;/div&gt;</b> in index.html with this.</p>
+  <textarea id="out" readonly spellcheck="false"></textarea>
+  <div class="row">
+    <button class="btn" id="copy">Copy</button>
+    <button class="btn ghostbtn" id="reset">Reset</button>
+    <span id="msg" style="color:var(--dim)"></span>
+  </div>
+</aside>
+
+<script>
+// ---- the pieces. Add or remove entries here and the tool follows. ----
+var START = [
+  {id:'denim',   file:'denim.png',   left:42.50, top:42.50, width:43.00, z:1,
+   title:'Zvonové džíny',               desc:'Vyšisované flare džíny, opotřebené lemy.'},
+  {id:'shoes',   file:'shoes.png',   left:13.00, top:57.50, width:29.50, z:2,
+   title:'Šněrovací boty',              desc:'Semišové boty, opotřebená špička.'},
+  {id:'jacket',  file:'jacket.png',  left:39.50, top:3.80,  width:54.00, z:3,
+   title:'Bunda s kožešinovým límcem',  desc:'Sešisovaná semišová bunda, umělá kožešina na límci.'},
+  {id:'rosary',  file:'rosary.png',  left:9.00,  top:5.50,  width:26.50, z:3,
+   title:'Růženec',                     desc:'Dřevěný růženec s vyřezávaným křížkem.'},
+  {id:'belt',    file:'belt.png',    left:76.50, top:52.80, width:18.50, z:4,
+   title:'Cvočkovaný pásek',            desc:'Kožený pásek s kovovými cvočky a přezkou.'},
+  {id:'tabacco', file:'tabacco.png', left:3.50,  top:41.80, width:15.10, z:4,
+   title:'Tabatěrka',                   desc:'Mosazná tabatěrka se secesním ornamentem.'},
+  {id:'jewelry', file:'jewelry.png', left:5.00,  top:55.00, width:14.00, z:5,
+   title:'Prsteny',                     desc:'Dva prsteny s kamenem.'}
+];
+
+var stage  = document.getElementById('stage');
+var listEl = document.getElementById('pieces');
+var out    = document.getElementById('out');
+var warn   = document.getElementById('warn');
+var F = {
+  left:  document.getElementById('f-left'),
+  top:   document.getElementById('f-top'),
+  width: document.getElementById('f-width'),
+  z:     document.getElementById('f-z')
+};
+
+var pieces = JSON.parse(JSON.stringify(START));
+var sel = pieces[0].id;
+var nodes = {}, buttons = {}, missing = [];
+
+function tile(name){
+  var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'>"
+          + "<rect width='400' height='300' fill='#2b2c32'/>"
+          + "<text x='200' y='158' fill='#8a8990' text-anchor='middle'"
+          + " font-family='monospace' font-size='22'>" + name + "</text></svg>";
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function build(){
+  pieces.forEach(function(p){
+    var el = document.createElement('div');
+    el.className = 'layer';
+    el.dataset.id = p.id;
+    var img = document.createElement('img');
+    img.alt = '';
+    img.onerror = function(){
+      el.classList.add('missing');
+      img.onerror = null;
+      img.src = tile(p.file);
+      if (missing.indexOf(p.file) < 0) missing.push(p.file);
+      if (buttons[p.id]) buttons[p.id].classList.add('gone');
+      warn.textContent = 'not found in resources/: ' + missing.join(', ');
+    };
+    img.src = 'resources/' + p.file;
+    el.appendChild(img);
+    stage.appendChild(el);
+    nodes[p.id] = el;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = p.id;
+    b.onclick = function(){ select(p.id); };
+    listEl.appendChild(b);
+    buttons[p.id] = b;
+  });
+}
+
+function get(id){
+  for (var i=0;i<pieces.length;i++) if (pieces[i].id === id) return pieces[i];
+}
+
+function paint(){
+  pieces.forEach(function(p){
+    var el = nodes[p.id];
+    el.style.left  = p.left.toFixed(2) + '%';
+    el.style.top   = p.top.toFixed(2) + '%';
+    el.style.width = p.width.toFixed(2) + '%';
+    el.style.setProperty('--z', p.z);
+    el.classList.toggle('sel', p.id === sel);
+    buttons[p.id].setAttribute('aria-pressed', String(p.id === sel));
+  });
+  var p = get(sel);
+  F.left.value = p.left.toFixed(2);
+  F.top.value = p.top.toFixed(2);
+  F.width.value = p.width.toFixed(2);
+  F.z.value = p.z;
+  writeCode();
+}
+
+function select(id){ sel = id; paint(); }
+
+function writeCode(){
+  var lines = ['        <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">'];
+  pieces.slice().sort(function(a,b){ return a.z - b.z; }).forEach(function(p){
+    lines.push('');
+    lines.push('        <button type="button" class="layer" data-piece="' + p.id +
+      '" style="left:' + p.left.toFixed(2) + '%;top:' + p.top.toFixed(2) +
+      '%;width:' + p.width.toFixed(2) + '%;--z:' + p.z + '"');
+    lines.push('          data-title="' + p.title + '" data-desc="' + p.desc + '">');
+    lines.push('          <img src="resources/' + p.file + '" onerror="ph(this)" alt="">');
+    lines.push('        </button>');
+  });
+  out.value = lines.join('\n');
+}
+
+// ---- dragging: always moves the selected piece, wherever you grab ----
+stage.addEventListener('pointerdown', function(e){
+  e.preventDefault();
+  var p = get(sel);
+  var r = stage.getBoundingClientRect();
+  var x0 = e.clientX, y0 = e.clientY, l0 = p.left, t0 = p.top;
+  stage.setPointerCapture(e.pointerId);
+  stage.classList.add('dragging');
+
+  function move(ev){
+    p.left = l0 + (ev.clientX - x0) / r.width  * 100;
+    p.top  = t0 + (ev.clientY - y0) / r.height * 100;
+    paint();
+  }
+  function up(){
+    stage.classList.remove('dragging');
+    stage.removeEventListener('pointermove', move);
+    stage.removeEventListener('pointerup', up);
+    stage.removeEventListener('pointercancel', up);
+  }
+  stage.addEventListener('pointermove', move);
+  stage.addEventListener('pointerup', up);
+  stage.addEventListener('pointercancel', up);
+});
+
+// ---- resizing keeps the piece centred where it is ----
+function resize(k){
+  var p = get(sel);
+  var el = nodes[sel];
+  var r = stage.getBoundingClientRect(), b = el.getBoundingClientRect();
+  var wPct = b.width / r.width * 100, hPct = b.height / r.height * 100;
+  p.left -= (wPct * k - wPct) / 2;
+  p.top  -= (hPct * k - hPct) / 2;
+  p.width = p.width * k;
+  paint();
+}
+
+stage.addEventListener('wheel', function(e){
+  e.preventDefault();
+  resize(e.deltaY < 0 ? 1.02 : 1/1.02);
+}, {passive:false});
+
+document.addEventListener('keydown', function(e){
+  if (/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  var p = get(sel), step = e.shiftKey ? 1 : 0.2;
+  if (e.key === 'ArrowLeft')       p.left -= step;
+  else if (e.key === 'ArrowRight') p.left += step;
+  else if (e.key === 'ArrowUp')    p.top  -= step;
+  else if (e.key === 'ArrowDown')  p.top  += step;
+  else if (e.key === '+' || e.key === '=') return resize(1.02);
+  else if (e.key === '-' || e.key === '_') return resize(1/1.02);
+  else return;
+  e.preventDefault();
+  paint();
+});
+
+['left','top','width','z'].forEach(function(k){
+  F[k].addEventListener('input', function(){
+    var v = parseFloat(F[k].value);
+    if (isNaN(v)) return;
+    get(sel)[k] = k === 'z' ? Math.round(v) : v;
+    paint();
+  });
+});
+
+var ghost = document.getElementById('ghost');
+document.getElementById('op').addEventListener('input', function(){
+  ghost.style.opacity = this.value / 100;
+});
+document.getElementById('diff').addEventListener('change', function(){
+  ghost.classList.toggle('diff', this.checked);
+});
+document.getElementById('dimothers').addEventListener('change', function(){
+  document.body.classList.toggle('dim', this.checked);
+});
+
+document.getElementById('copy').addEventListener('click', function(){
+  out.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch (err) {}
+  if (!ok && navigator.clipboard) navigator.clipboard.writeText(out.value);
+  document.getElementById('msg').textContent = 'copied';
+  setTimeout(function(){ document.getElementById('msg').textContent = ''; }, 1500);
+});
+
+document.getElementById('reset').addEventListener('click', function(){
+  pieces = JSON.parse(JSON.stringify(START));
+  paint();
+});
+
+build();
+paint();
+</script>
+</body>
+</html>
