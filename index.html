@@ -58,6 +58,38 @@
 
   /* ---------- layout ---------- */
 
+  .lang-toggle{
+    position:fixed;
+    left:1.1rem;
+    top:1.1rem;
+    z-index:50;
+    display:flex;
+    gap:2px;
+    padding:3px;
+    border-radius:999px;
+    background:rgba(26,27,31,.82);
+    border:1px solid var(--line);
+    backdrop-filter:blur(6px);
+  }
+  .lang-btn{
+    border:0;
+    padding:.4rem .8rem;
+    border-radius:999px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.76rem;
+    font-weight:600;
+    letter-spacing:.03em;
+    background:none;
+    color:var(--paper-dim);
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease;
+  }
+  .lang-btn.active{
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .lang-btn:not(.active):hover{color:var(--paper)}
+
   .layout{
     display:grid;
     grid-template-columns:minmax(340px,var(--col)) 1fr;
@@ -80,6 +112,22 @@
     gap:2.5rem;
   }
   .profile::-webkit-scrollbar{display:none}
+
+  .profile header{
+    position:relative;
+  }
+  .profile header::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-30%;
+    width:70%;
+    height:220%;
+    background:radial-gradient(circle, rgba(185,141,78,.16), transparent 70%);
+    filter:blur(20px);
+    pointer-events:none;
+    z-index:-1;
+  }
 
   .role{
     margin:0 0 .9rem;
@@ -177,8 +225,10 @@
   .reel-intro{
     margin:0;
     max-width:52ch;
-    color:var(--paper-dim);
-    font-size:1.02rem;
+    color:var(--paper);
+    font-weight:700;
+    font-size:1.35rem;
+    letter-spacing:-.01em;
   }
 
   .shot{margin:0;max-width:1100px}
@@ -187,9 +237,10 @@
     display:block;
     width:100%;
     height:auto;
-    border-radius:2px;
+    border-radius:10px;
     background:var(--ink-lift);
     cursor:zoom-in;
+    box-shadow:0 0 0 1px rgba(236,233,226,.06), 0 0 42px rgba(236,233,226,.05), 0 18px 40px rgba(0,0,0,.45);
   }
 
   /* ---------- layered interactive flatlay (figure 01) ---------- */
@@ -202,8 +253,9 @@
     max-width:min(100%, 82vh);
     margin:0 auto;
     aspect-ratio:1500/2000;
-    border-radius:2px;
+    border-radius:10px;
     background:var(--ink-lift);
+    box-shadow:0 0 0 1px rgba(236,233,226,.06), 0 0 42px rgba(236,233,226,.05), 0 18px 40px rgba(0,0,0,.45);
   }
   .stage > img.bg{
     position:absolute;
@@ -211,7 +263,7 @@
     width:100%;
     height:100%;
     object-fit:cover;
-    border-radius:2px;
+    border-radius:10px;
   }
   .stage .layer{
     position:absolute;
@@ -252,10 +304,11 @@
     width:100%;
     aspect-ratio:4/3;
     object-fit:cover;
-    border-radius:2px;
+    border-radius:8px;
     background:var(--ink-lift);
     cursor:zoom-in;
     opacity:.86;
+    box-shadow:0 0 0 1px rgba(236,233,226,.05), 0 0 24px rgba(236,233,226,.04), 0 8px 20px rgba(0,0,0,.4);
     transition:opacity .18s ease;
   }
   .strip img:hover,
@@ -421,35 +474,39 @@
 </head>
 
 <body>
+<div class="lang-toggle" role="group" aria-label="Jazyk / Language">
+  <button type="button" class="lang-btn active" data-lang="cs">CS</button>
+  <button type="button" class="lang-btn" data-lang="en">EN</button>
+</div>
 <main class="layout">
 
   <!-- ============ EDIT: everything about your friend lives in here ============ -->
   <aside class="profile">
     <header>
-      <p class="role">Grafik &amp; video editor</p>
+      <p class="role" data-i18n="role">Grafik &amp; video editor</p>
       <h1 class="name">Daniel Honzík</h1>
     </header>
 
     <div class="bio">
-      <p>Ke grafice a videoprodukci jsem přišel už v dobách studia a dnes se jim věnuji jak profesionálně, tak ve své osobní tvorbě — vždy s důrazem na estetiku a detail, ať jde o styling produktu, nebo tvorbu poutavého videa.</p>
-      <p>Aktuálně se rozvíjím ve webdesignu a HTML, digitální tvorbě v Kritě a v programech Adobe. Střih videa teď využívám hlavně pro růst na sociálních sítích.</p>
+      <p data-i18n="bioP1">Ke grafice a videoprodukci jsem přišel už v dobách studia a dnes se jim věnuji jak profesionálně, tak ve své osobní tvorbě — vždy s důrazem na estetiku a detail, ať jde o styling produktu, nebo tvorbu poutavého videa.</p>
+      <p data-i18n="bioP2">Aktuálně se rozvíjím ve webdesignu a HTML, digitální tvorbě v Kritě a v programech Adobe. Střih videa teď využívám hlavně pro růst na sociálních sítích.</p>
     </div>
 
     <p class="tools">
-      <b>Working in</b>
+      <b data-i18n="toolsLabel">Pracuji v</b>
       DaVinci Resolve, Paint.NET, Krita, REAPER
     </p>
 
     <div>
-      <a class="cv" href="resources/CV.pdf" download="Daniel_Honzik_CV.pdf">Download CV</a>
-      <p class="cv-note">PDF, aktualizováno v srpnu 2026</p>
+      <a class="cv" id="cv-link" href="resources/CV.pdf" download="Daniel_Honzik_CV.pdf" data-i18n="cvButton">Stáhnout CV</a>
+      <p class="cv-note" data-i18n="cvNote">PDF, aktualizováno v srpnu 2026</p>
     </div>
 
     <nav class="contact">
       <a href="mailto:daniel.honz36@gmail.com">daniel.honz36@gmail.com</a>
     </nav>
 
-    <p class="counter">Frame <span id="frame-now">01</span> of <span id="frame-total">08</span></p>
+    <p class="counter"><span data-i18n="counterFrame">Snímek</span> <span id="frame-now">01</span> <span data-i18n="counterOf">z</span> <span id="frame-total">08</span></p>
   </aside>
 
   <!-- ============ EDIT: the scrolling work below ============ -->
@@ -457,7 +514,7 @@
        Drop your files in resources/ using these names, or change the names here. -->
   <section class="reel">
 
-    <p class="reel-intro">Vybrané práce, 2023 - 2026. Scroll for the full set, click any frame to see it larger.</p>
+    <p class="reel-intro" data-i18n="reelIntro">Vybrané práce, 2023–2026</p>
 
     <figure class="shot">
       <!-- Interactive flatlay. Each piece is positioned as a % of the stage,
@@ -468,17 +525,17 @@
         <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
 
         <button type="button" class="layer" data-piece="denim" data-full="resources/pants_bg.png" style="left:26.36%;top:37.82%;width:82.13%;--z:1"
-          data-title="Zvonové džíny" data-desc="Vyšisované flare džíny, opotřebené lemy.">
+          data-title="Mud Flare džíny" data-desc="Zvonové džíny s vysokým pasem.">
           <img src="resources/denim.png" onerror="ph(this)" alt="">
         </button>
 
         <button type="button" class="layer" data-piece="shoes" data-full="resources/shoes_bg.png" style="left:-2.17%;top:60.89%;width:41.00%;--z:2"
-          data-title="Šněrovací boty" data-desc="Semišové boty, opotřebená špička.">
+          data-title="Bugatti cedrově hnědé boty" data-desc="Semišové šněrovací boty.">
           <img src="resources/shoes.png" onerror="ph(this)" alt="">
         </button>
 
         <button type="button" class="layer" data-piece="jacket" data-full="resources/jacket_bg.png" style="left:34.55%;top:0.01%;width:67.00%;--z:3"
-          data-title="Bunda s kožešinovým límcem" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
+          data-title="Tornado Mart archivní kožešinová bunda" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
           <img src="resources/jacket.png" onerror="ph(this)" alt="">
         </button>
 
@@ -488,26 +545,26 @@
         </button>
 
         <button type="button" class="layer" data-piece="belt" data-full="resources/belt_bg.png" style="left:20.11%;top:46.75%;width:32.00%;--z:4"
-          data-title="Cvočkovaný pásek" data-desc="Kožený pásek s kovovými cvočky a přezkou.">
+          data-title="'Mello' Spike pásek" data-desc="Kožený pásek s ocelovými hroty a přezkou.">
           <img src="resources/belt.png" onerror="ph(this)" alt="">
         </button>
 
         <!-- the cigarette case now sits where the bracelet was.
              Its spot in the reference was left:7.70%;top:28.50% if you want it back up there. -->
         <button type="button" class="layer" data-piece="tabacco" data-full="resources/cigarette_bg.png" style="left:-2.29%;top:41.01%;width:30.70%;--z:4"
-          data-title="Tabatěrka" data-desc="Mosazná tabatěrka se secesním ornamentem.">
+          data-title="Vintage mosazná tabatěrka" data-desc="10x8 tabatěrka se secesním ornamentem.">
           <img src="resources/tabacco.png" onerror="ph(this)" alt="">
         </button>
 
         <button type="button" class="layer" data-piece="jewelry" data-full="resources/rings_bg.png" style="left:-0.70%;top:26.11%;width:28.00%;--z:5"
-          data-title="Prsteny" data-desc="Dva prsteny s kamenem.">
+          data-title="Antikní prsteny" data-desc="Bronzový prsten s kamenem z lastury. Gotický prsten s křišťálem.">
           <img src="resources/jewelry.png" onerror="ph(this)" alt="">
         </button>
       </div>
       <figcaption>
         <span class="num">01</span>
-        <h2>Jeden outfit, sedm inzerátů</h2>
-        <p>Sedm samostatně vyfocených kousků, sladěných a poskládaných do jednoho setu — vytvořeno pro prodej na Vinted.</p>
+        <h2 data-i18n="fig1Title">Jeden outfit, sedm inzerátů</h2>
+        <p data-i18n="fig1Desc">Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.</p>
       </figcaption>
     </figure>
 
@@ -609,7 +666,7 @@
       </figcaption>
     </figure>
 
-    <p class="end">Looking for something that isn't here? <a href="mailto:hello@example.com">Ask for the full reel.</a></p>
+    <p class="end"><span data-i18n="endText">Hledáš něco, co tu není?</span> <a href="mailto:hello@example.com" data-i18n="endLink">Napiš mi o kompletní nabídce.</a></p>
 
   </section>
 </main>
@@ -707,6 +764,108 @@
       img.removeAttribute('src');
       if (opener) { opener.focus(); opener = null; }
     });
+  })();
+
+  // ---------- language toggle ----------
+  (function () {
+    var STRINGS = {
+      cs: {
+        pageTitle: "Daniel Honzík — Grafik & video editor",
+        role: "Grafik & video editor",
+        bioP1: "Ke grafice a videoprodukci jsem přišel už v dobách studia a dnes se jim věnuji jak profesionálně, tak ve své osobní tvorbě — vždy s důrazem na estetiku a detail, ať jde o styling produktu, nebo tvorbu poutavého videa.",
+        bioP2: "Aktuálně se rozvíjím ve webdesignu a HTML, digitální tvorbě v Kritě a v programech Adobe. Střih videa teď využívám hlavně pro růst na sociálních sítích.",
+        toolsLabel: "Pracuji v",
+        cvButton: "Stáhnout CV",
+        cvNote: "PDF, aktualizováno v srpnu 2026",
+        counterFrame: "Snímek",
+        counterOf: "z",
+        reelIntro: "Vybrané práce, 2023–2026",
+        fig1Title: "Jeden outfit, sedm inzerátů",
+        fig1Desc: "Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.",
+        endText: "Hledáš něco, co tu není?",
+        endLink: "Napiš mi o kompletní nabídce.",
+        cvHref: "resources/CV.pdf",
+        cvDownload: "Daniel_Honzik_CV.pdf"
+      },
+      en: {
+        pageTitle: "Daniel Honzík — Graphic & video editor",
+        role: "Graphic & video editor",
+        bioP1: "I got into graphic and video work back in school, and today I do it both professionally and in my own personal projects — always with an eye for aesthetics and detail, whether it's styling a product or cutting a video that pulls people in.",
+        bioP2: "Right now I'm growing into web design and HTML, digital art in Krita, and the Adobe apps. I mainly use video editing for growing on social media these days.",
+        toolsLabel: "Working in",
+        cvButton: "Download CV",
+        cvNote: "PDF, updated August 2026",
+        counterFrame: "Frame",
+        counterOf: "of",
+        reelIntro: "Selected work, 2023–2026",
+        fig1Title: "One Outfit, Seven Listings",
+        fig1Desc: "Shot on a Samsung Galaxy S24, made to sell on Grailed, Vinted and Depop. Full post-production and background art done in Paint.NET.",
+        endText: "Looking for something that isn't here?",
+        endLink: "Ask for the full reel.",
+        cvHref: "resources/CV_ENG.pdf",
+        cvDownload: "Daniel_Honzik_CV_EN.pdf"
+      }
+    };
+
+    // English titles/descriptions for each flatlay piece.
+    // Czech versions are already sitting in the HTML's data-title / data-desc,
+    // so those are read straight off the buttons rather than repeated here.
+    var PIECES_EN = {
+      denim:   { title: "Mud Flare Jeans",                desc: "High-waisted flare jeans." },
+      shoes:   { title: "Bugatti Cedar Brown Boots",       desc: "Suede lace-up boots." },
+      jacket:  { title: "Tornado Mart Archive Fur-Collar Jacket", desc: "Distressed suede jacket with a faux-fur collar." },
+      rosary:  { title: "Rosary",                          desc: "Wooden rosary with a carved cross." },
+      belt:    { title: "'Mello' Spike Belt",              desc: "Leather belt with steel spikes and buckle." },
+      tabacco: { title: "Vintage Brass Cigarette Case",     desc: "10x8 case with an Art Nouveau engraving." },
+      jewelry: { title: "Antique Rings",                    desc: "Bronze ring with a shell-inlay stone. Gothic ring with a crystal stone." }
+    };
+    var PIECES_CS = {};
+    document.querySelectorAll('.stage .layer[data-piece]').forEach(function (btn) {
+      PIECES_CS[btn.dataset.piece] = { title: btn.dataset.title, desc: btn.dataset.desc };
+    });
+
+    var cvLink = document.getElementById('cv-link');
+
+    function setLang(lang) {
+      var t = STRINGS[lang] || STRINGS.cs;
+
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.dataset.i18n;
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+
+      document.querySelectorAll('.stage .layer[data-piece]').forEach(function (btn) {
+        var piece = btn.dataset.piece;
+        var source = lang === 'en' ? (PIECES_EN[piece] || PIECES_CS[piece]) : PIECES_CS[piece];
+        if (source) {
+          btn.dataset.title = source.title;
+          btn.dataset.desc = source.desc;
+        }
+      });
+
+      if (cvLink) {
+        cvLink.href = t.cvHref;
+        cvLink.setAttribute('download', t.cvDownload);
+      }
+
+      document.documentElement.lang = lang;
+      document.title = t.pageTitle;
+
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { setLang(btn.dataset.lang); });
+    });
+
+    // Defaults to Czech on a first visit; remembers the choice after that.
+    var saved = 'cs';
+    try { saved = localStorage.getItem('lang') || 'cs'; } catch (e) {}
+    if (saved === 'en') setLang('en');
   })();
 </script>
 
