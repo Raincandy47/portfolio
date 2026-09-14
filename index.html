@@ -467,39 +467,39 @@
       <div class="stage" id="stage">
         <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
 
-        <button type="button" class="layer" data-piece="denim" style="left:26.36%;top:37.82%;width:82.13%;--z:1"
+        <button type="button" class="layer" data-piece="denim" data-full="resources/pants_bg.png" style="left:26.36%;top:37.82%;width:82.13%;--z:1"
           data-title="Zvonové džíny" data-desc="Vyšisované flare džíny, opotřebené lemy.">
           <img src="resources/denim.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="shoes" style="left:-2.17%;top:60.89%;width:41.00%;--z:2"
+        <button type="button" class="layer" data-piece="shoes" data-full="resources/shoes_bg.png" style="left:-2.17%;top:60.89%;width:41.00%;--z:2"
           data-title="Šněrovací boty" data-desc="Semišové boty, opotřebená špička.">
           <img src="resources/shoes.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="jacket" style="left:34.55%;top:0.01%;width:67.00%;--z:3"
+        <button type="button" class="layer" data-piece="jacket" data-full="resources/jacket_bg.png" style="left:34.55%;top:0.01%;width:67.00%;--z:3"
           data-title="Bunda s kožešinovým límcem" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
           <img src="resources/jacket.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="rosary" style="left:2.87%;top:-2.41%;width:43.50%;--z:3"
+        <button type="button" class="layer" data-piece="rosary" data-full="resources/rosary_bg.png" style="left:2.87%;top:-2.41%;width:43.50%;--z:3"
           data-title="Růženec" data-desc="Dřevěný růženec s vyřezávaným křížkem.">
           <img src="resources/rosary.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="belt" style="left:20.11%;top:46.75%;width:32.00%;--z:4"
+        <button type="button" class="layer" data-piece="belt" data-full="resources/belt_bg.png" style="left:20.11%;top:46.75%;width:32.00%;--z:4"
           data-title="Cvočkovaný pásek" data-desc="Kožený pásek s kovovými cvočky a přezkou.">
           <img src="resources/belt.png" onerror="ph(this)" alt="">
         </button>
 
         <!-- the cigarette case now sits where the bracelet was.
              Its spot in the reference was left:7.70%;top:28.50% if you want it back up there. -->
-        <button type="button" class="layer" data-piece="tabacco" style="left:-2.29%;top:41.01%;width:30.70%;--z:4"
+        <button type="button" class="layer" data-piece="tabacco" data-full="resources/cigarette_bg.png" style="left:-2.29%;top:41.01%;width:30.70%;--z:4"
           data-title="Tabatěrka" data-desc="Mosazná tabatěrka se secesním ornamentem.">
           <img src="resources/tabacco.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="jewelry" style="left:-0.70%;top:26.11%;width:28.00%;--z:5"
+        <button type="button" class="layer" data-piece="jewelry" data-full="resources/rings_bg.png" style="left:-0.70%;top:26.11%;width:28.00%;--z:5"
           data-title="Prsteny" data-desc="Dva prsteny s kamenem.">
           <img src="resources/jewelry.png" onerror="ph(this)" alt="">
         </button>
@@ -670,7 +670,7 @@
       var heading = figure ? figure.querySelector('figcaption h2') : null;
       var caption = figure ? figure.querySelector('figcaption p') : null;
 
-      img.src = pic.currentSrc || pic.src;
+      img.src = source.dataset.full || pic.currentSrc || pic.src;
       img.alt = pic.alt || '';
       title.textContent = source.dataset.title || (heading ? heading.textContent : '');
       text.textContent = source.dataset.desc || (caption ? caption.textContent : '');
