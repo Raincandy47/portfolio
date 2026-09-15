@@ -168,6 +168,7 @@
   }
 
   .cv{
+    position:relative;
     display:inline-block;
     font-family:"IBM Plex Mono",monospace;
     font-size:.95rem;
@@ -178,6 +179,18 @@
     padding:.72rem 1.5rem;
     border-radius:2px;
     transition:background .18s ease;
+  }
+  .cv::before{
+    content:"";
+    position:absolute;
+    top:-60%;
+    left:-20%;
+    width:140%;
+    height:220%;
+    background:radial-gradient(circle, rgba(185,141,78,.22), transparent 70%);
+    filter:blur(16px);
+    pointer-events:none;
+    z-index:-1;
   }
   .cv:hover{background:var(--brass);color:#17181b}
   .cv-note{
@@ -240,7 +253,17 @@
     border-radius:10px;
     background:var(--ink-lift);
     cursor:zoom-in;
-    box-shadow:0 0 0 1px rgba(236,233,226,.06), 0 0 42px rgba(236,233,226,.05), 0 18px 40px rgba(0,0,0,.45);
+    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
+  }
+
+  .shot > video.loop-video{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:10px;
+    background:var(--ink-lift);
+    cursor:default;
+    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
   }
 
   /* ---------- layered interactive flatlay (figure 01) ---------- */
@@ -255,7 +278,7 @@
     aspect-ratio:1500/2000;
     border-radius:10px;
     background:var(--ink-lift);
-    box-shadow:0 0 0 1px rgba(236,233,226,.06), 0 0 42px rgba(236,233,226,.05), 0 18px 40px rgba(0,0,0,.45);
+    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
   }
   .stage > img.bg{
     position:absolute;
@@ -308,7 +331,7 @@
     background:var(--ink-lift);
     cursor:zoom-in;
     opacity:.86;
-    box-shadow:0 0 0 1px rgba(236,233,226,.05), 0 0 24px rgba(236,233,226,.04), 0 8px 20px rgba(0,0,0,.4);
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
     transition:opacity .18s ease;
   }
   .strip img:hover,
@@ -569,16 +592,16 @@
     </figure>
 
     <figure class="shot">
-      <img src="resources/shot-02.jpg" onerror="ph(this)" alt="Retouched interior photograph for an architecture practice.">
+      <video class="loop-video" src="resources/webloop.mp4" muted loop playsinline preload="metadata"></video>
       <div class="strip">
-        <img src="resources/shot-02-a.jpg" onerror="ph(this)" alt="Kallis House, second view.">
-        <img src="resources/shot-02-b.jpg" onerror="ph(this)" alt="Kallis House, third view.">
-        <img src="resources/shot-02-c.jpg" onerror="ph(this)" alt="Kallis House, fourth view.">
+        <img src="resources/pur2.png" onerror="ph(this)" alt="E-shop product photo.">
+        <img src="resources/frontside1.png" onerror="ph(this)" alt="Product leaflet, front side.">
+        <img src="resources/merged.png" onerror="ph(this)" alt="Product leaflet, merged spread.">
       </div>
       <figcaption>
         <span class="num">02</span>
-        <h2>Kallis House</h2>
-        <p>Interior stills retouched for print. Window pulls, verticals, and a warm neutral base.</p>
+        <h2>Web a propagační leták</h2>
+        <p>Návrh a grafická úprava webu, včetně letáku pro produktovou řadu.</p>
       </figcaption>
     </figure>
 
@@ -765,6 +788,15 @@
       if (opener) { opener.focus(); opener = null; }
     });
   })();
+
+  // ---------- hover-to-play loop videos ----------
+  document.querySelectorAll('video.loop-video').forEach(function (v) {
+    v.addEventListener('mouseenter', function () { v.play(); });
+    v.addEventListener('mouseleave', function () {
+      v.pause();
+      v.currentTime = 0;
+    });
+  });
 
   // ---------- language toggle ----------
   (function () {
