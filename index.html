@@ -256,14 +256,30 @@
     box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
   }
 
-  .shot > video.loop-video{
-    display:block;
+  .shot > .scroll-frame{
+    position:relative;
     width:100%;
-    height:auto;
+    aspect-ratio:16/9;
+    overflow:hidden;
     border-radius:10px;
     background:var(--ink-lift);
     cursor:default;
-    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
+    scrollbar-width:thin;
+    scrollbar-color:var(--brass) transparent;
+    box-shadow:
+      0 -30px 44px rgba(60,150,200,.42),
+      -30px 0 44px rgba(255,255,255,.14),
+      30px 0 44px rgba(255,255,255,.14),
+      0 30px 44px rgba(255,255,255,.12),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .shot > .scroll-frame:hover{
+    overflow-y:auto;
+  }
+  .shot > .scroll-frame img{
+    display:block;
+    width:100%;
+    height:auto;
   }
 
   /* ---------- layered interactive flatlay (figure 01) ---------- */
@@ -343,9 +359,8 @@
   .strip img:hover,
   .strip img:focus-visible{opacity:1}
 
-  /* Leaflet pages: full resolution, nothing cropped off, glow matched to each page's own colors. */
-  .strip img.glow-leaflet-1,
-  .strip img.glow-leaflet-2{
+  /* Leaflet / full pages: full resolution, nothing cropped off. */
+  .strip img.full-res{
     aspect-ratio:auto;
     height:auto;
     object-fit:contain;
@@ -367,7 +382,18 @@
       0 0 0 1px rgba(255,255,255,.06);
   }
 
-  .shot figcaption{
+  .strip-item{
+    margin:0;
+  }
+  .strip-item figcaption{
+    margin-top:.55rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    line-height:1.45;
+    color:var(--paper-dim);
+  }
+
+  .shot > figcaption{
     display:grid;
     grid-template-columns:3.2rem 1fr;
     gap:0 1rem;
@@ -392,7 +418,7 @@
     letter-spacing:-.005em;
   }
 
-  .shot figcaption p{
+  .shot > figcaption p{
     grid-column:2;
     margin:.35rem 0 0;
     color:var(--paper-dim);
@@ -622,16 +648,27 @@
     </figure>
 
     <figure class="shot">
-      <video class="loop-video" src="resources/webloop.mp4" muted loop playsinline preload="metadata"></video>
+      <div class="scroll-frame">
+        <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
+      </div>
       <div class="strip">
-        <img src="resources/pur2.png" onerror="ph(this)" alt="E-shop product photo.">
-        <img class="glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Product leaflet, front side.">
-        <img class="glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Product leaflet, merged spread.">
+        <figure class="strip-item">
+          <img class="full-res" src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu.">
+          <figcaption>Náhled produktové stránky e-shopu.</figcaption>
+        </figure>
+        <figure class="strip-item">
+          <img class="full-res glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku.">
+          <figcaption>Titulní strana letáku, plná postprodukce v Paint.NET.</figcaption>
+        </figure>
+        <figure class="strip-item">
+          <img class="full-res glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku.">
+          <figcaption>Vnitřní produktový přehled letáku.</figcaption>
+        </figure>
       </div>
       <figcaption>
         <span class="num">02</span>
-        <h2>Web a propagační leták</h2>
-        <p>Návrh a grafická úprava webu, včetně letáku pro produktovou řadu.</p>
+        <h2>Web spimzdrave.eu a propagační leták</h2>
+        <p>Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
       </figcaption>
     </figure>
 
@@ -819,13 +856,9 @@
     });
   })();
 
-  // ---------- hover-to-play loop videos ----------
-  document.querySelectorAll('video.loop-video').forEach(function (v) {
-    v.addEventListener('mouseenter', function () { v.play(); });
-    v.addEventListener('mouseleave', function () {
-      v.pause();
-      v.currentTime = 0;
-    });
+  // ---------- reset the scroll-frame position when the mouse leaves ----------
+  document.querySelectorAll('.scroll-frame').forEach(function (f) {
+    f.addEventListener('mouseleave', function () { f.scrollTop = 0; });
   });
 
   // ---------- language toggle ----------
