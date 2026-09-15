@@ -278,7 +278,12 @@
     aspect-ratio:1500/2000;
     border-radius:10px;
     background:var(--ink-lift);
-    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 0 55px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.45);
+    box-shadow:
+      0 -34px 50px rgba(255,255,255,.16),
+      -34px 0 50px rgba(255,255,255,.16),
+      0 34px 50px rgba(255,255,255,.14),
+      40px 0 60px rgba(196,58,58,.45),
+      0 0 0 1px rgba(255,255,255,.08);
   }
   .stage > img.bg{
     position:absolute;
@@ -319,6 +324,7 @@
   .strip{
     display:grid;
     grid-template-columns:repeat(3,1fr);
+    align-items:start;
     gap:.5rem;
     margin-top:.5rem;
   }
@@ -336,6 +342,30 @@
   }
   .strip img:hover,
   .strip img:focus-visible{opacity:1}
+
+  /* Leaflet pages: full resolution, nothing cropped off, glow matched to each page's own colors. */
+  .strip img.glow-leaflet-1,
+  .strip img.glow-leaflet-2{
+    aspect-ratio:auto;
+    height:auto;
+    object-fit:contain;
+  }
+  .strip img.glow-leaflet-1{
+    box-shadow:
+      0 -28px 40px rgba(70,150,210,.40),
+      -28px 0 40px rgba(110,180,150,.28),
+      28px 0 40px rgba(180,170,110,.24),
+      0 28px 40px rgba(120,90,60,.22),
+      0 0 0 1px rgba(255,255,255,.06);
+  }
+  .strip img.glow-leaflet-2{
+    box-shadow:
+      0 -24px 36px rgba(255,241,214,.18),
+      -24px 0 36px rgba(255,241,214,.16),
+      24px 0 36px rgba(255,241,214,.16),
+      0 24px 36px rgba(255,241,214,.16),
+      0 0 0 1px rgba(255,255,255,.06);
+  }
 
   .shot figcaption{
     display:grid;
@@ -595,8 +625,8 @@
       <video class="loop-video" src="resources/webloop.mp4" muted loop playsinline preload="metadata"></video>
       <div class="strip">
         <img src="resources/pur2.png" onerror="ph(this)" alt="E-shop product photo.">
-        <img src="resources/frontside1.png" onerror="ph(this)" alt="Product leaflet, front side.">
-        <img src="resources/merged.png" onerror="ph(this)" alt="Product leaflet, merged spread.">
+        <img class="glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Product leaflet, front side.">
+        <img class="glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Product leaflet, merged spread.">
       </div>
       <figcaption>
         <span class="num">02</span>
