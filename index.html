@@ -141,7 +141,6 @@
   .name{
     margin:0;
     font-family:"IBM Plex Mono",monospace;
-    font-weight:700;
     font-size:clamp(2.7rem,4.6vw,4.1rem);
     line-height:.94;
     letter-spacing:-.015em;
@@ -415,6 +414,130 @@
       0 0 0 1px rgba(255,255,255,.08);
   }
 
+  /* ---------- Figure 03: Interactive Pan Layout ---------- */
+  .fig3-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:.85rem;
+    align-items:stretch;
+  }
+  .fig3-main{
+    position:relative;
+    width:100%;
+    aspect-ratio:1080/1440;
+    overflow:hidden;
+    border-radius:10px;
+    background:var(--ink-lift);
+    box-shadow:
+      0 -24px 44px rgba(255,255,255,.10),
+      -24px 0 44px rgba(255,255,255,.08),
+      34px 0 54px rgba(196,58,58,.36),
+      0 30px 44px rgba(0,0,0,.45),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .pan-track{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform .45s cubic-bezier(.25,1,.5,1);
+  }
+  .pan-track img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:300%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+  }
+  .pan-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:2.75rem;
+    height:2.75rem;
+    border-radius:50%;
+    background:rgba(26,27,31,.78);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--line);
+    color:var(--paper);
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    z-index:10;
+    transition:background .18s ease, transform .18s ease, border-color .18s ease;
+    box-shadow:0 4px 18px rgba(0,0,0,.5);
+  }
+  .pan-btn:hover{
+    background:rgba(40,42,48,.95);
+    border-color:var(--brass);
+    transform:translateY(-50%) scale(1.08);
+  }
+  .pan-btn.pan-left{left:.85rem}
+  .pan-btn.pan-right{right:.85rem}
+
+  .pan-nav{
+    position:absolute;
+    bottom:.85rem;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    padding:4px 8px;
+    border-radius:999px;
+    background:rgba(26,27,31,.75);
+    border:1px solid var(--line);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:10;
+  }
+  .pan-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    border:0;
+    padding:0;
+    background:var(--paper-dim);
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .pan-dot.active{
+    background:var(--paper);
+    transform:scale(1.3);
+  }
+
+  .fig3-side{
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    gap:.85rem;
+    height:100%;
+  }
+  .fig3-thumb{
+    position:relative;
+    width:100%;
+    height:100%;
+    aspect-ratio:1080/1440;
+    border-radius:8px;
+    overflow:hidden;
+    background:var(--ink-lift);
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
+  }
+  .fig3-thumb img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+    opacity:.88;
+    transition:opacity .18s ease, transform .22s ease;
+  }
+  .fig3-thumb img:hover,
+  .fig3-thumb img:focus-visible{
+    opacity:1;
+    transform:scale(1.02);
+  }
+
   .shot > figcaption{
     display:grid;
     grid-template-columns:3.2rem 1fr;
@@ -515,8 +638,17 @@
     font-size:1.06rem;
     font-weight:600;
   }
+  /* Default subtle caption (used for Figure 01, Figure 03, etc.) */
   .lightbox figcaption p{
     margin:.3rem 0 0;
+    color:var(--paper-dim);
+    font-size:1rem;
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:400;
+    line-height:1.6;
+  }
+  /* Bold mono caption applied strictly for Figure 02 web photos */
+  .lightbox.strong-desc figcaption p{
     color:var(--paper);
     font-family:"IBM Plex Mono",monospace;
     font-size:1.06rem;
@@ -552,7 +684,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img,.pan-track{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -573,6 +705,8 @@
     .counter{display:none}
     .reel{gap:3.5rem}
     .strip-fig2{grid-template-columns:1fr}
+    .fig3-layout{grid-template-columns:1fr}
+    .fig3-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   }
 </style>
 </head>
@@ -688,21 +822,43 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURY 03–08 (placeholder) -->
-    <figure class="shot">
-      <img src="resources/shot-03.jpg" onerror="ph(this)" alt="Frame from a sixty second brand film.">
-      <div class="strip">
-        <img src="resources/shot-03-a.jpg" onerror="ph(this)" alt="Meridian, second frame.">
-        <img src="resources/shot-03-b.jpg" onerror="ph(this)" alt="Meridian, third frame.">
-        <img src="resources/shot-03-c.jpg" onerror="ph(this)" alt="Meridian, fourth frame.">
+    <!-- FIGURA 03 -->
+    <figure class="shot shot-wide">
+      <div class="fig3-layout">
+        <div class="fig3-main" id="fig3-box">
+          <div class="pan-track" id="fig3-track" style="transform:translateX(-100%);">
+            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-full="resources/before-after.png" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
+          </div>
+          <button type="button" class="pan-btn pan-left" id="fig3-prev" aria-label="Zobrazit vlevo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-right" id="fig3-next" aria-label="Zobrazit vpravo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav" id="fig3-nav">
+            <button type="button" class="pan-dot" data-pane="0" aria-label="Detaily a komponenty"></button>
+            <button type="button" class="pan-dot active" data-pane="1" aria-label="Finální grafika"></button>
+            <button type="button" class="pan-dot" data-pane="2" aria-label="Původní outfit"></button>
+          </div>
+        </div>
+
+        <div class="fig3-side">
+          <div class="fig3-thumb">
+            <img src="resources/shot-03-a.jpg" onerror="ph(this)" alt="Doplňující snímek 1" data-desc="Doplňující záběr.">
+          </div>
+          <div class="fig3-thumb">
+            <img src="resources/shot-03-b.jpg" onerror="ph(this)" alt="Doplňující snímek 2" data-desc="Doplňující záběr.">
+          </div>
+        </div>
       </div>
       <figcaption>
         <span class="num">03</span>
-        <h2>Meridian, 60 seconds</h2>
-        <p>Brand film cut from six hours of rushes. Three versions delivered in a day.</p>
+        <h2 data-i18n="fig3Title">Before &amp; After — Postprodukce outfitu</h2>
+        <p data-i18n="fig3Desc">Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.</p>
       </figcaption>
     </figure>
 
+    <!-- FIGURY 04–08 (placeholder) -->
     <figure class="shot">
       <img src="resources/shot-04.jpg" onerror="ph(this)" alt="Studio portrait after retouching.">
       <div class="strip">
@@ -837,11 +993,12 @@
       img.src = source.dataset.full || pic.currentSrc || pic.src;
       img.alt = pic.alt || '';
 
+      // Set titles
       if (source.dataset.title) {
         title.textContent = source.dataset.title;
       } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
         title.textContent = heading ? heading.textContent : '';
-      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2')) {
+      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.fig3-thumb')) {
         title.textContent = '';
       } else {
         title.textContent = heading ? heading.textContent : '';
@@ -849,12 +1006,16 @@
 
       text.textContent = source.dataset.desc || (caption ? caption.textContent : '');
 
+      // Apply bold mono description exclusively to Figure 02 web photos
+      var isWebPhoto = Boolean(source.closest('.strip-fig2') || (source.parentElement && source.parentElement.classList.contains('scroll-frame')));
+      box.classList.toggle('strong-desc', isWebPhoto);
+
       opener = source;
       document.body.classList.add('viewing');
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .fig3-thumb img').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -882,6 +1043,46 @@
     });
   })();
 
+  // ---------- Figure 03 interactive panning ----------
+  (function () {
+    var track = document.getElementById('fig3-track');
+    var prevBtn = document.getElementById('fig3-prev');
+    var nextBtn = document.getElementById('fig3-next');
+    var dots = document.querySelectorAll('#fig3-nav .pan-dot');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    var current = 1; // 0 = Left (raw components), 1 = Center (white composite), 2 = Right (raw outfit)
+
+    function updatePane(index) {
+      current = index;
+      var offset = current * -100;
+      track.style.transform = 'translateX(' + offset + '%)';
+      dots.forEach(function (dot) {
+        dot.classList.toggle('active', parseInt(dot.dataset.pane, 10) === current);
+      });
+    }
+
+    prevBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var next = (current - 1 + 3) % 3;
+      updatePane(next);
+    });
+
+    nextBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var next = (current + 1) % 3;
+      updatePane(next);
+    });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var index = parseInt(dot.dataset.pane, 10);
+        updatePane(index);
+      });
+    });
+  })();
+
   // ---------- language toggle ----------
   (function () {
     var STRINGS = {
@@ -903,6 +1104,8 @@
         fig2DescStrip1: "Náhled produktové stránky e-shopu.",
         fig2DescStrip2: "Titulní strana letáku, plná postprodukce v Paint.NET.",
         fig2DescStrip3: "Vnitřní produktový přehled letáku.",
+        fig3Title: "Before & After — Postprodukce outfitu",
+        fig3Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
         endText: "Hledáš něco, co tu není?",
         endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
@@ -926,6 +1129,8 @@
         fig2DescStrip1: "E-shop product page preview.",
         fig2DescStrip2: "Front cover of the promotional leaflet, full post-production in Paint.NET.",
         fig2DescStrip3: "Inside product catalog spread of the leaflet.",
+        fig3Title: "Before & After — Outfit Post-Production",
+        fig3Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
         endText: "Looking for something that isn't here?",
         endLink: "Ask for the full reel.",
         cvHref: "resources/CV_ENG.pdf",
