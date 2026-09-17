@@ -361,13 +361,33 @@
   .strip img:hover,
   .strip img:focus-visible{opacity:1}
 
-  /* Leaflet / full pages: full resolution, nothing cropped off. */
-  .strip img.full-res{
-    aspect-ratio:auto;
-    height:auto;
-    object-fit:contain;
+  /* Equal-size frame variant (figure 02): each column is a fixed, identical
+     box so the three sit symmetrically regardless of the source image's own
+     aspect ratio; the photo letterboxes inside via object-fit:contain so
+     nothing gets cropped. Used instead of a bare <img> in .strip. */
+  .strip .frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--ink-lift);
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
   }
-  .strip img.glow-leaflet-1{
+  .strip .frame img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    cursor:zoom-in;
+    opacity:.86;
+    transition:opacity .18s ease;
+  }
+  .strip .frame img:hover,
+  .strip .frame img:focus-visible{opacity:1}
+
+  .strip .frame.glow-leaflet-1{
     box-shadow:
       0 -28px 40px rgba(70,150,210,.40),
       -28px 0 40px rgba(110,180,150,.28),
@@ -375,7 +395,7 @@
       0 28px 40px rgba(120,90,60,.22),
       0 0 0 1px rgba(255,255,255,.06);
   }
-  .strip img.glow-leaflet-2{
+  .strip .frame.glow-leaflet-2{
     box-shadow:
       0 -24px 36px rgba(255,241,214,.18),
       -24px 0 36px rgba(255,241,214,.16),
@@ -383,17 +403,6 @@
       0 24px 36px rgba(255,241,214,.16),
       0 0 0 1px rgba(255,255,255,.06);
   }
-
-  /* .banner-full is also a direct <img> child of .shot, so it inherits
-     the standard .shot > img treatment (sizing, radius, glow, cursor);
-     this just adds the strip's supporting-image fade and spacing. */
-  .banner-full{
-    margin-top:.5rem;
-    opacity:.86;
-    transition:opacity .18s ease;
-  }
-  .banner-full:hover,
-  .banner-full:focus-visible{opacity:1}
 
   .shot > figcaption{
     display:grid;
@@ -530,7 +539,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img,.banner-full{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -654,11 +663,16 @@
         <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
       </div>
       <div class="strip">
-        <img class="full-res" src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu.">
-        <img class="full-res glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET.">
-        <img class="full-res glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku.">
+        <div class="frame">
+          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu.">
+        </div>
+        <div class="frame glow-leaflet-1">
+          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET.">
+        </div>
+        <div class="frame glow-leaflet-2">
+          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku.">
+        </div>
       </div>
-      <img class="banner-full" src="resources/banner_f.png" onerror="ph(this)" alt="Banner e-shopu spimzdrave.eu." data-desc="Banner e-shopu, sestavený z produktových fotek dodaných značkou Medical-PUR.">
       <figcaption>
         <span class="num">02</span>
         <h2>Web spimzdrave.eu a propagační leták</h2>
