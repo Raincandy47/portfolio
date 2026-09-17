@@ -418,7 +418,7 @@
   /* ---------- Figure 03: Interactive Pan Layout ---------- */
   .fig3-layout{
     display:grid;
-    grid-template-columns:2fr 1fr;
+    grid-template-columns:1fr 1fr;
     gap:.85rem;
     align-items:stretch;
   }
@@ -521,7 +521,6 @@
     position:relative;
     width:100%;
     height:100%;
-    aspect-ratio:1080/1440;
     border-radius:8px;
     overflow:hidden;
     background:var(--ink-lift);
@@ -533,7 +532,7 @@
     height:100%;
     object-fit:cover;
     cursor:zoom-in;
-    opacity:.88;
+    opacity:.92;
     transition:opacity .18s ease, transform .22s ease;
   }
   .fig3-thumb img:hover,
@@ -642,7 +641,6 @@
     font-size:1.06rem;
     font-weight:600;
   }
-  /* Default subtle caption */
   .lightbox figcaption p{
     margin:.3rem 0 0;
     color:var(--paper-dim);
@@ -651,7 +649,6 @@
     font-weight:400;
     line-height:1.6;
   }
-  /* Bold mono caption applied strictly for Figure 02 web photos */
   .lightbox.strong-desc figcaption p{
     color:var(--paper);
     font-family:"IBM Plex Mono",monospace;
@@ -710,7 +707,8 @@
     .reel{gap:3.5rem}
     .strip-fig2{grid-template-columns:1fr}
     .fig3-layout{grid-template-columns:1fr}
-    .fig3-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .fig3-side{grid-template-columns:1fr;grid-template-rows:auto;gap:.85rem}
+    .fig3-thumb{aspect-ratio:1080/720}
   }
 </style>
 </head>
@@ -831,7 +829,7 @@
       <div class="fig3-layout">
         <div class="fig3-main" id="fig3-box">
           <div class="pan-track" id="fig3-track" style="transform:translateX(calc(-100% * 560 / 1080));">
-            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-full="resources/before-after.png" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
+            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
           </div>
           <button type="button" class="pan-btn pan-left" id="fig3-prev" aria-label="Zobrazit vlevo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -848,10 +846,10 @@
 
         <div class="fig3-side">
           <div class="fig3-thumb">
-            <img src="resources/shot-03-a.jpg" onerror="ph(this)" alt="Doplňující snímek 1" data-desc="Doplňující záběr.">
+            <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil a postprodukce" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig3Thumb1Desc">
           </div>
           <div class="fig3-thumb">
-            <img src="resources/shot-03-b.jpg" onerror="ph(this)" alt="Doplňující snímek 2" data-desc="Doplňující záběr.">
+            <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig3Thumb2Desc">
           </div>
         </div>
       </div>
@@ -1009,7 +1007,6 @@
 
       text.textContent = source.dataset.desc || (caption ? caption.textContent : '');
 
-      // Apply bold mono description exclusively to Figure 02 web photos
       var isWebPhoto = Boolean(source.closest('.strip-fig2') || (source.parentElement && source.parentElement.classList.contains('scroll-frame')));
       box.classList.toggle('strong-desc', isWebPhoto);
 
@@ -1055,9 +1052,8 @@
     var box = document.getElementById('fig3-box');
     if (!track || !prevBtn || !nextBtn) return;
 
-    var current = 1; // 0 = Left (raw parts), 1 = Center (white 1080 composite), 2 = Right (raw outfit)
+    var current = 1;
 
-    // Accurate pixel-aligned shifts relative to 1080px viewport width
     var offsets = [
       'translateX(0%)',
       'translateX(calc(-100% * 560 / 1080))',
@@ -1092,7 +1088,6 @@
       });
     });
 
-    // Touch swipe support for mobile
     if (box) {
       var touchStartX = 0;
       box.addEventListener('touchstart', function (e) {
@@ -1136,6 +1131,8 @@
         fig2DescStrip3: "Vnitřní produktový přehled letáku.",
         fig3Title: "Before & After — Postprodukce outfitu",
         fig3Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
+        fig3Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
+        fig3Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
         endText: "Hledáš něco, co tu není?",
         endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
@@ -1161,6 +1158,8 @@
         fig2DescStrip3: "Inside product catalog spread of the leaflet.",
         fig3Title: "Before & After — Outfit Post-Production",
         fig3Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
+        fig3Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
+        fig3Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
         endText: "Looking for something that isn't here?",
         endLink: "Ask for the full reel.",
         cvHref: "resources/CV_ENG.pdf",
