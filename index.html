@@ -418,9 +418,9 @@
   /* ---------- Figure 03: Interactive Pan Layout ---------- */
   .fig3-layout{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:2fr 1fr;
     gap:.85rem;
-    align-items:stretch;
+    align-items:start;
   }
   .fig3-main{
     position:relative;
@@ -481,6 +481,13 @@
   .pan-btn.pan-left{left:.85rem}
   .pan-btn.pan-right{right:.85rem}
 
+  .pan-btn-sm{
+    width:2.2rem;
+    height:2.2rem;
+  }
+  .pan-btn-sm.pan-left{left:.65rem}
+  .pan-btn-sm.pan-right{right:.65rem}
+
   .pan-nav{
     position:absolute;
     bottom:.85rem;
@@ -495,6 +502,15 @@
     backdrop-filter:blur(6px);
     -webkit-backdrop-filter:blur(6px);
     z-index:10;
+  }
+  .pan-nav-sm{
+    bottom:.65rem;
+    padding:3px 6px;
+    gap:5px;
+  }
+  .pan-nav-sm .pan-dot{
+    width:6px;
+    height:6px;
   }
   .pan-dot{
     width:7px;
@@ -511,34 +527,39 @@
     transform:scale(1.3);
   }
 
+  /* Right column: shoes1 & shoes2 with 1080x1440 window ratio */
   .fig3-side{
-    display:grid;
-    grid-template-rows:1fr 1fr;
+    display:flex;
+    flex-direction:column;
     gap:.85rem;
-    height:100%;
   }
-  .fig3-thumb{
+  .fig3-shoe-frame{
     position:relative;
     width:100%;
-    height:100%;
-    border-radius:8px;
+    aspect-ratio:1080/1440;
     overflow:hidden;
+    border-radius:8px;
     background:var(--ink-lift);
     box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
   }
-  .fig3-thumb img{
-    display:block;
+  .shoe-track{
+    position:absolute;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    object-fit:cover;
-    cursor:zoom-in;
-    opacity:.92;
-    transition:opacity .18s ease, transform .22s ease;
+    transition:transform .45s cubic-bezier(.25,1,.5,1);
   }
-  .fig3-thumb img:hover,
-  .fig3-thumb img:focus-visible{
-    opacity:1;
-    transform:scale(1.02);
+  .shoe-track img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:200%;
+    height:100%;
+    max-width:none;
+    object-fit:cover;
+    display:block;
+    cursor:zoom-in;
   }
 
   .shot > figcaption{
@@ -641,6 +662,7 @@
     font-size:1.06rem;
     font-weight:600;
   }
+  /* Default subtle caption */
   .lightbox figcaption p{
     margin:.3rem 0 0;
     color:var(--paper-dim);
@@ -649,6 +671,7 @@
     font-weight:400;
     line-height:1.6;
   }
+  /* Bold mono caption applied strictly for Figure 02 web photos */
   .lightbox.strong-desc figcaption p{
     color:var(--paper);
     font-family:"IBM Plex Mono",monospace;
@@ -685,7 +708,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img,.pan-track{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -707,8 +730,7 @@
     .reel{gap:3.5rem}
     .strip-fig2{grid-template-columns:1fr}
     .fig3-layout{grid-template-columns:1fr}
-    .fig3-side{grid-template-columns:1fr;grid-template-rows:auto;gap:.85rem}
-    .fig3-thumb{aspect-ratio:1080/720}
+    .fig3-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
   }
 </style>
 </head>
@@ -827,6 +849,7 @@
     <!-- FIGURA 03 -->
     <figure class="shot shot-wide">
       <div class="fig3-layout">
+        <!-- Main Pan Track (Outfit Before & After) -->
         <div class="fig3-main" id="fig3-box">
           <div class="pan-track" id="fig3-track" style="transform:translateX(calc(-100% * 560 / 1080));">
             <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
@@ -844,12 +867,40 @@
           </div>
         </div>
 
+        <!-- Right Side: shoes1 & shoes2 with 1080x1440 ratio windows and pan to before -->
         <div class="fig3-side">
-          <div class="fig3-thumb">
-            <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil a postprodukce" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig3Thumb1Desc">
+          <!-- Top: shoes1 -->
+          <div class="fig3-shoe-frame" id="shoe1-frame">
+            <div class="shoe-track" id="shoe1-track" style="transform:translateX(0%);">
+              <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig3Thumb1Desc">
+            </div>
+            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe1-prev" style="display:none;" aria-label="Zobrazit po úpravě">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe1-next" aria-label="Zobrazit před úpravou (Before)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <div class="pan-nav pan-nav-sm" id="shoe1-nav">
+              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
+              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
+            </div>
           </div>
-          <div class="fig3-thumb">
-            <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig3Thumb2Desc">
+
+          <!-- Bottom: shoes2 -->
+          <div class="fig3-shoe-frame" id="shoe2-frame">
+            <div class="shoe-track" id="shoe2-track" style="transform:translateX(0%);">
+              <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig3Thumb2Desc">
+            </div>
+            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe2-prev" style="display:none;" aria-label="Zobrazit po úpravě">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe2-next" aria-label="Zobrazit před úpravou (Before)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <div class="pan-nav pan-nav-sm" id="shoe2-nav">
+              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
+              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -999,7 +1050,7 @@
         title.textContent = source.dataset.title;
       } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
         title.textContent = heading ? heading.textContent : '';
-      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.fig3-thumb')) {
+      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track')) {
         title.textContent = '';
       } else {
         title.textContent = heading ? heading.textContent : '';
@@ -1015,7 +1066,7 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .fig3-thumb img').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -1043,69 +1094,114 @@
     });
   })();
 
-  // ---------- Figure 03 interactive panning ----------
+  // ---------- Figure 03: interactive panning ----------
   (function () {
+    // 1) Main outfit 3-way panning
     var track = document.getElementById('fig3-track');
     var prevBtn = document.getElementById('fig3-prev');
     var nextBtn = document.getElementById('fig3-next');
     var dots = document.querySelectorAll('#fig3-nav .pan-dot');
     var box = document.getElementById('fig3-box');
-    if (!track || !prevBtn || !nextBtn) return;
 
-    var current = 1;
+    if (track && prevBtn && nextBtn) {
+      var current = 1;
+      var offsets = [
+        'translateX(0%)',
+        'translateX(calc(-100% * 560 / 1080))',
+        'translateX(calc(-100% * 1120 / 1080))'
+      ];
 
-    var offsets = [
-      'translateX(0%)',
-      'translateX(calc(-100% * 560 / 1080))',
-      'translateX(calc(-100% * 1120 / 1080))'
-    ];
+      function updatePane(index) {
+        current = index;
+        track.style.transform = offsets[current];
+        dots.forEach(function (dot) {
+          dot.classList.toggle('active', parseInt(dot.dataset.pane, 10) === current);
+        });
+      }
 
-    function updatePane(index) {
-      current = index;
-      track.style.transform = offsets[current];
-      dots.forEach(function (dot) {
-        dot.classList.toggle('active', parseInt(dot.dataset.pane, 10) === current);
+      prevBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        updatePane((current - 1 + 3) % 3);
       });
+
+      nextBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        updatePane((current + 1) % 3);
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function (e) {
+          e.stopPropagation();
+          updatePane(parseInt(dot.dataset.pane, 10));
+        });
+      });
+
+      if (box) {
+        var touchStartX = 0;
+        box.addEventListener('touchstart', function (e) {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        box.addEventListener('touchend', function (e) {
+          var diff = touchStartX - e.changedTouches[0].screenX;
+          if (Math.abs(diff) > 40) {
+            if (diff > 0) updatePane((current + 1) % 3);
+            else updatePane((current - 1 + 3) % 3);
+          }
+        }, { passive: true });
+      }
     }
 
-    prevBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var next = (current - 1 + 3) % 3;
-      updatePane(next);
-    });
+    // 2) Reusable helper for shoes 2-way panning (0 = After / left, 1 = Before / right)
+    function setupShoePan(frameId, trackId, prevId, nextId, navId) {
+      var frame = document.getElementById(frameId);
+      var trk = document.getElementById(trackId);
+      var prev = document.getElementById(prevId);
+      var next = document.getElementById(nextId);
+      var dts = document.querySelectorAll('#' + navId + ' .pan-dot');
+      if (!frame || !trk || !prev || !next) return;
 
-    nextBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var next = (current + 1) % 3;
-      updatePane(next);
-    });
+      var state = 0;
 
-    dots.forEach(function (dot) {
-      dot.addEventListener('click', function (e) {
+      function setShoe(index) {
+        state = index;
+        trk.style.transform = state === 0 ? 'translateX(0%)' : 'translateX(-100%)';
+        prev.style.display = state === 0 ? 'none' : 'grid';
+        next.style.display = state === 1 ? 'none' : 'grid';
+        dts.forEach(function (dot) {
+          dot.classList.toggle('active', parseInt(dot.dataset.pane, 10) === state);
+        });
+      }
+
+      prev.addEventListener('click', function (e) {
         e.stopPropagation();
-        var index = parseInt(dot.dataset.pane, 10);
-        updatePane(index);
+        setShoe(0);
       });
-    });
+      next.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setShoe(1);
+      });
+      dts.forEach(function (dot) {
+        dot.addEventListener('click', function (e) {
+          e.stopPropagation();
+          setShoe(parseInt(dot.dataset.pane, 10));
+        });
+      });
 
-    if (box) {
-      var touchStartX = 0;
-      box.addEventListener('touchstart', function (e) {
-        touchStartX = e.changedTouches[0].screenX;
+      var touchX = 0;
+      frame.addEventListener('touchstart', function (e) {
+        touchX = e.changedTouches[0].screenX;
       }, { passive: true });
-
-      box.addEventListener('touchend', function (e) {
-        var touchEndX = e.changedTouches[0].screenX;
-        var diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 40) {
-          if (diff > 0) {
-            updatePane((current + 1) % 3);
-          } else {
-            updatePane((current - 1 + 3) % 3);
-          }
+      frame.addEventListener('touchend', function (e) {
+        var diff = touchX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 30) {
+          if (diff > 0) setShoe(1);
+          else setShoe(0);
         }
       }, { passive: true });
     }
+
+    setupShoePan('shoe1-frame', 'shoe1-track', 'shoe1-prev', 'shoe1-next', 'shoe1-nav');
+    setupShoePan('shoe2-frame', 'shoe2-track', 'shoe2-prev', 'shoe2-next', 'shoe2-nav');
   })();
 
   // ---------- language toggle ----------
