@@ -245,6 +245,7 @@
   }
 
   .shot{margin:0;max-width:1100px}
+  .shot.shot-wide{max-width:100%}
 
   .shot > img{
     display:block;
@@ -358,35 +359,35 @@
   .strip img:hover,
   .strip img:focus-visible{opacity:1}
 
-  /* Figure 02 natural aspect strip layout */
+  /* Figure 02 full-bleed strip layout */
   .strip-fig2{
     display:grid;
-    grid-template-columns:1.5fr 1fr 1fr;
-    align-items:stretch;
-    gap:.65rem;
-    margin-top:.65rem;
+    grid-template-columns:1.35fr 1fr 1fr;
+    align-items:center;
+    gap:.85rem;
+    margin-top:.85rem;
   }
   .strip-fig2 .frame{
     position:relative;
     width:100%;
     border-radius:8px;
     overflow:hidden;
-    background:none;
+    background:transparent;
   }
   .strip-fig2 .frame img{
     display:block;
     width:100%;
-    height:100%;
-    object-fit:cover;
+    height:auto;
+    object-fit:contain;
     border-radius:8px;
     cursor:zoom-in;
-    opacity:.92;
+    opacity:.94;
     transition:opacity .18s ease, transform .22s ease;
   }
   .strip-fig2 .frame img:hover,
   .strip-fig2 .frame img:focus-visible{
     opacity:1;
-    transform:scale(1.015);
+    transform:scale(1.02);
   }
 
   .strip-fig2 .frame.glow-preview{
@@ -516,8 +517,11 @@
   }
   .lightbox figcaption p{
     margin:.3rem 0 0;
-    color:var(--paper-dim);
-    font-size:1rem;
+    color:var(--paper);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:1.06rem;
+    font-weight:600;
+    letter-spacing:-.005em;
   }
 
   .lightbox-close{
@@ -662,7 +666,7 @@
     </figure>
 
     <!-- FIGURA 02 -->
-    <figure class="shot">
+    <figure class="shot shot-wide">
       <div class="scroll-frame">
         <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
       </div>
@@ -684,7 +688,7 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURY 03–08 (prozatím ponechány jako placeholder) -->
+    <!-- FIGURY 03–08 (placeholder) -->
     <figure class="shot">
       <img src="resources/shot-03.jpg" onerror="ph(this)" alt="Frame from a sixty second brand film.">
       <div class="strip">
@@ -833,7 +837,6 @@
       img.src = source.dataset.full || pic.currentSrc || pic.src;
       img.alt = pic.alt || '';
 
-      // Pokud element nemá data-title ani není hlavní fotkou figury, titulek zůstane prázdný a zobrazí se jen data-desc/popisek
       if (source.dataset.title) {
         title.textContent = source.dataset.title;
       } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
@@ -866,7 +869,6 @@
       });
     });
 
-    // Clicking anywhere around the picture closes it; clicking the picture itself doesn't.
     stage.addEventListener('click', function (e) {
       if (e.target === img) return;
       box.close();
