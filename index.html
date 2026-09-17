@@ -141,6 +141,7 @@
   .name{
     margin:0;
     font-family:"IBM Plex Mono",monospace;
+    font-weight:700;
     font-size:clamp(2.7rem,4.6vw,4.1rem);
     line-height:.94;
     letter-spacing:-.015em;
@@ -436,7 +437,9 @@
       0 0 0 1px rgba(255,255,255,.08);
   }
   .pan-track{
-    position:relative;
+    position:absolute;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
     transition:transform .45s cubic-bezier(.25,1,.5,1);
@@ -445,9 +448,10 @@
     position:absolute;
     top:0;
     left:0;
-    width:300%;
     height:100%;
-    object-fit:cover;
+    width:auto;
+    max-width:none;
+    display:block;
     cursor:zoom-in;
   }
   .pan-btn{
@@ -638,7 +642,7 @@
     font-size:1.06rem;
     font-weight:600;
   }
-  /* Default subtle caption (used for Figure 01, Figure 03, etc.) */
+  /* Default subtle caption */
   .lightbox figcaption p{
     margin:.3rem 0 0;
     color:var(--paper-dim);
@@ -826,7 +830,7 @@
     <figure class="shot shot-wide">
       <div class="fig3-layout">
         <div class="fig3-main" id="fig3-box">
-          <div class="pan-track" id="fig3-track" style="transform:translateX(-100%);">
+          <div class="pan-track" id="fig3-track" style="transform:translateX(calc(-100% * 560 / 1080));">
             <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-full="resources/before-after.png" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
           </div>
           <button type="button" class="pan-btn pan-left" id="fig3-prev" aria-label="Zobrazit vlevo">
@@ -993,7 +997,6 @@
       img.src = source.dataset.full || pic.currentSrc || pic.src;
       img.alt = pic.alt || '';
 
-      // Set titles
       if (source.dataset.title) {
         title.textContent = source.dataset.title;
       } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
@@ -1049,14 +1052,21 @@
     var prevBtn = document.getElementById('fig3-prev');
     var nextBtn = document.getElementById('fig3-next');
     var dots = document.querySelectorAll('#fig3-nav .pan-dot');
+    var box = document.getElementById('fig3-box');
     if (!track || !prevBtn || !nextBtn) return;
 
-    var current = 1; // 0 = Left (raw components), 1 = Center (white composite), 2 = Right (raw outfit)
+    var current = 1; // 0 = Left (raw parts), 1 = Center (white 1080 composite), 2 = Right (raw outfit)
+
+    // Accurate pixel-aligned shifts relative to 1080px viewport width
+    var offsets = [
+      'translateX(0%)',
+      'translateX(calc(-100% * 560 / 1080))',
+      'translateX(calc(-100% * 1120 / 1080))'
+    ];
 
     function updatePane(index) {
       current = index;
-      var offset = current * -100;
-      track.style.transform = 'translateX(' + offset + '%)';
+      track.style.transform = offsets[current];
       dots.forEach(function (dot) {
         dot.classList.toggle('active', parseInt(dot.dataset.pane, 10) === current);
       });
@@ -1081,6 +1091,26 @@
         updatePane(index);
       });
     });
+
+    // Touch swipe support for mobile
+    if (box) {
+      var touchStartX = 0;
+      box.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      box.addEventListener('touchend', function (e) {
+        var touchEndX = e.changedTouches[0].screenX;
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) {
+            updatePane((current + 1) % 3);
+          } else {
+            updatePane((current - 1 + 3) % 3);
+          }
+        }
+      }, { passive: true });
+    }
   })();
 
   // ---------- language toggle ----------
