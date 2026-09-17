@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="cs">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -289,8 +289,6 @@
   .stage{
     position:relative;
     width:100%;
-    /* Height-led sizing: keeps the whole flatlay roughly one screen tall.
-       Want it bigger? Raise 82vh. Want it to fill the column? Use width:100%. */
     max-width:min(100%, 82vh);
     margin:0 auto;
     aspect-ratio:1500/2000;
@@ -329,7 +327,6 @@
     height:auto;
     pointer-events:none;
   }
-  /* hover lifts the piece off the flatlay */
   .stage .layer:hover,
   .stage .layer:focus-visible{
     transform:scale(1.09);
@@ -343,8 +340,8 @@
     display:grid;
     grid-template-columns:repeat(3,1fr);
     align-items:start;
-    gap:.5rem;
-    margin-top:.5rem;
+    gap:.65rem;
+    margin-top:.65rem;
   }
   .strip img{
     display:block;
@@ -361,47 +358,60 @@
   .strip img:hover,
   .strip img:focus-visible{opacity:1}
 
-  /* Equal-size frame variant (figure 02): each column is a fixed, identical
-     box so the three sit symmetrically regardless of the source image's own
-     aspect ratio; the photo letterboxes inside via object-fit:contain so
-     nothing gets cropped. Used instead of a bare <img> in .strip. */
-  .strip .frame{
+  /* Figure 02 natural aspect strip layout */
+  .strip-fig2{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr;
+    align-items:stretch;
+    gap:.65rem;
+    margin-top:.65rem;
+  }
+  .strip-fig2 .frame{
     position:relative;
     width:100%;
-    aspect-ratio:1/1;
-    overflow:hidden;
     border-radius:8px;
-    background:var(--ink-lift);
-    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
+    overflow:hidden;
+    background:none;
   }
-  .strip .frame img{
-    position:absolute;
-    inset:0;
+  .strip-fig2 .frame img{
+    display:block;
     width:100%;
     height:100%;
-    object-fit:contain;
+    object-fit:cover;
+    border-radius:8px;
     cursor:zoom-in;
-    opacity:.86;
-    transition:opacity .18s ease;
+    opacity:.92;
+    transition:opacity .18s ease, transform .22s ease;
   }
-  .strip .frame img:hover,
-  .strip .frame img:focus-visible{opacity:1}
+  .strip-fig2 .frame img:hover,
+  .strip-fig2 .frame img:focus-visible{
+    opacity:1;
+    transform:scale(1.015);
+  }
 
-  .strip .frame.glow-leaflet-1{
+  .strip-fig2 .frame.glow-preview{
     box-shadow:
-      0 -28px 40px rgba(70,150,210,.40),
-      -28px 0 40px rgba(110,180,150,.28),
-      28px 0 40px rgba(180,170,110,.24),
-      0 28px 40px rgba(120,90,60,.22),
-      0 0 0 1px rgba(255,255,255,.06);
+      0 -24px 36px rgba(60,150,200,.28),
+      -24px 0 36px rgba(60,150,200,.2),
+      24px 0 36px rgba(60,150,200,.2),
+      0 24px 36px rgba(60,150,200,.2),
+      0 0 0 1px rgba(255,255,255,.08);
   }
-  .strip .frame.glow-leaflet-2{
+  .strip-fig2 .frame.glow-leaflet-1{
+    box-shadow:
+      0 -28px 40px rgba(70,150,210,.35),
+      -28px 0 40px rgba(110,180,150,.24),
+      28px 0 40px rgba(180,170,110,.2),
+      0 28px 40px rgba(120,90,60,.18),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .strip-fig2 .frame.glow-leaflet-2{
     box-shadow:
       0 -24px 36px rgba(255,241,214,.18),
       -24px 0 36px rgba(255,241,214,.16),
       24px 0 36px rgba(255,241,214,.16),
       0 24px 36px rgba(255,241,214,.16),
-      0 0 0 1px rgba(255,255,255,.06);
+      0 0 0 1px rgba(255,255,255,.08);
   }
 
   .shot > figcaption{
@@ -466,7 +476,6 @@
     -webkit-backdrop-filter:blur(16px) saturate(.85);
   }
 
-  /* Browsers without backdrop-filter get a heavier dim instead. */
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
     .lightbox::backdrop{background:rgba(14,15,18,.93)}
   }
@@ -559,6 +568,7 @@
     .contact{margin-top:0}
     .counter{display:none}
     .reel{gap:3.5rem}
+    .strip-fig2{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -570,7 +580,7 @@
 </div>
 <main class="layout">
 
-  <!-- ============ EDIT: everything about your friend lives in here ============ -->
+  <!-- ============ COLUMN 1: Profile ============ -->
   <aside class="profile">
     <header>
       <p class="role" data-i18n="role">Grafik &amp; video editor</p>
@@ -599,18 +609,13 @@
     <p class="counter"><span data-i18n="counterFrame">Snímek</span> <span id="frame-now">01</span> <span data-i18n="counterOf">z</span> <span id="frame-total">08</span></p>
   </aside>
 
-  <!-- ============ EDIT: the scrolling work below ============ -->
-  <!-- Each block = one big image, three supporting frames, then the caption.
-       Drop your files in resources/ using these names, or change the names here. -->
+  <!-- ============ COLUMN 2: Reel ============ -->
   <section class="reel">
 
     <p class="reel-intro" data-i18n="reelIntro">Vybrané práce, 2023–2026</p>
 
+    <!-- FIGURA 01 -->
     <figure class="shot">
-      <!-- Interactive flatlay. Each piece is positioned as a % of the stage,
-           so it scales with the page. Numbers below are measured off the reference
-           composite. To adjust them, open layout.html, move things there,
-           and paste the code it gives you over this whole block. -->
       <div class="stage" id="stage">
         <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
 
@@ -639,8 +644,6 @@
           <img src="resources/belt.png" onerror="ph(this)" alt="">
         </button>
 
-        <!-- the cigarette case now sits where the bracelet was.
-             Its spot in the reference was left:7.70%;top:28.50% if you want it back up there. -->
         <button type="button" class="layer" data-piece="tabacco" data-full="resources/cigarette_bg.png" style="left:-2.29%;top:41.01%;width:30.70%;--z:4"
           data-title="Vintage mosazná tabatěrka" data-desc="10x8 tabatěrka se secesním ornamentem.">
           <img src="resources/tabacco.png" onerror="ph(this)" alt="">
@@ -658,28 +661,30 @@
       </figcaption>
     </figure>
 
+    <!-- FIGURA 02 -->
     <figure class="shot">
       <div class="scroll-frame">
         <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
       </div>
-      <div class="strip">
-        <div class="frame">
-          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu.">
+      <div class="strip-fig2">
+        <div class="frame glow-preview">
+          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu." data-i18n-desc="fig2DescStrip1">
         </div>
         <div class="frame glow-leaflet-1">
-          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET.">
+          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET." data-i18n-desc="fig2DescStrip2">
         </div>
         <div class="frame glow-leaflet-2">
-          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku.">
+          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku." data-i18n-desc="fig2DescStrip3">
         </div>
       </div>
       <figcaption>
         <span class="num">02</span>
-        <h2>Web spimzdrave.eu a propagační leták</h2>
-        <p>Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
+        <h2 data-i18n="fig2Title">Web spimzdrave.eu a propagační leták</h2>
+        <p data-i18n="fig2Desc">Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
       </figcaption>
     </figure>
 
+    <!-- FIGURY 03–08 (prozatím ponechány jako placeholder) -->
     <figure class="shot">
       <img src="resources/shot-03.jpg" onerror="ph(this)" alt="Frame from a sixty second brand film.">
       <div class="strip">
@@ -764,12 +769,12 @@
       </figcaption>
     </figure>
 
-    <p class="end"><span data-i18n="endText">Hledáš něco, co tu není?</span> <a href="mailto:hello@example.com" data-i18n="endLink">Napiš mi o kompletní nabídce.</a></p>
+    <p class="end"><span data-i18n="endText">Hledáš něco, co tu není?</span> <a href="mailto:daniel.honz36@gmail.com" data-i18n="endLink">Napiš mi o kompletní nabídce.</a></p>
 
   </section>
 </main>
 
-<!-- Enlarged view. Nothing to edit here — it fills itself from whichever frame you click. -->
+<!-- Lightbox Modal -->
 <dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
   <figure class="lightbox-stage" id="lightbox-stage">
@@ -827,7 +832,18 @@
 
       img.src = source.dataset.full || pic.currentSrc || pic.src;
       img.alt = pic.alt || '';
-      title.textContent = source.dataset.title || (heading ? heading.textContent : '');
+
+      // Pokud element nemá data-title ani není hlavní fotkou figury, titulek zůstane prázdný a zobrazí se jen data-desc/popisek
+      if (source.dataset.title) {
+        title.textContent = source.dataset.title;
+      } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
+        title.textContent = heading ? heading.textContent : '';
+      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2')) {
+        title.textContent = '';
+      } else {
+        title.textContent = heading ? heading.textContent : '';
+      }
+
       text.textContent = source.dataset.desc || (caption ? caption.textContent : '');
 
       opener = source;
@@ -835,10 +851,10 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .stage .layer').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
-      var label = source.dataset.title || source.alt || 'image';
+      var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
       source.setAttribute('aria-label', 'View larger: ' + label);
 
       source.addEventListener('click', function () { open(source); });
@@ -880,6 +896,11 @@
         reelIntro: "Vybrané práce, 2023–2026",
         fig1Title: "Jeden outfit, sedm inzerátů",
         fig1Desc: "Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.",
+        fig2Title: "Web spimzdrave.eu a propagační leták",
+        fig2Desc: "Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.",
+        fig2DescStrip1: "Náhled produktové stránky e-shopu.",
+        fig2DescStrip2: "Titulní strana letáku, plná postprodukce v Paint.NET.",
+        fig2DescStrip3: "Vnitřní produktový přehled letáku.",
         endText: "Hledáš něco, co tu není?",
         endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
@@ -898,6 +919,11 @@
         reelIntro: "Selected work, 2023–2026",
         fig1Title: "One Outfit, Seven Listings",
         fig1Desc: "Shot on a Samsung Galaxy S24, made to sell on Grailed, Vinted and Depop. Full post-production and background art done in Paint.NET.",
+        fig2Title: "spimzdrave.eu Website & Promotional Leaflet",
+        fig2Desc: "Client work — e-shop built on Shoptet with custom graphic styling in HTML and CSS. Banner design and promotional leaflet crafted from product photos provided by Medical-PUR.",
+        fig2DescStrip1: "E-shop product page preview.",
+        fig2DescStrip2: "Front cover of the promotional leaflet, full post-production in Paint.NET.",
+        fig2DescStrip3: "Inside product catalog spread of the leaflet.",
         endText: "Looking for something that isn't here?",
         endLink: "Ask for the full reel.",
         cvHref: "resources/CV_ENG.pdf",
@@ -905,9 +931,6 @@
       }
     };
 
-    // English titles/descriptions for each flatlay piece.
-    // Czech versions are already sitting in the HTML's data-title / data-desc,
-    // so those are read straight off the buttons rather than repeated here.
     var PIECES_EN = {
       denim:   { title: "Mud Flare Jeans",                desc: "High-waisted flare jeans." },
       shoes:   { title: "Bugatti Cedar Brown Boots",       desc: "Suede lace-up boots." },
@@ -930,6 +953,13 @@
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         var key = el.dataset.i18n;
         if (t[key] !== undefined) el.textContent = t[key];
+      });
+
+      document.querySelectorAll('[data-i18n-desc]').forEach(function (el) {
+        var key = el.dataset.i18nDesc;
+        if (t[key] !== undefined) {
+          el.dataset.desc = t[key];
+        }
       });
 
       document.querySelectorAll('.stage .layer[data-piece]').forEach(function (btn) {
@@ -960,7 +990,6 @@
       btn.addEventListener('click', function () { setLang(btn.dataset.lang); });
     });
 
-    // Defaults to Czech on a first visit; remembers the choice after that.
     var saved = 'cs';
     try { saved = localStorage.getItem('lang') || 'cs'; } catch (e) {}
     if (saved === 'en') setLang('en');
