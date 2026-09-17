@@ -264,8 +264,7 @@
     border-radius:10px;
     background:var(--ink-lift);
     cursor:default;
-    scrollbar-width:thin;
-    scrollbar-color:var(--brass) transparent;
+    scrollbar-width:none;
     box-shadow:
       0 -30px 44px rgba(60,150,200,.42),
       -30px 0 44px rgba(255,255,255,.14),
@@ -275,6 +274,9 @@
   }
   .shot > .scroll-frame:hover{
     overflow-y:auto;
+  }
+  .shot > .scroll-frame::-webkit-scrollbar{
+    display:none;
   }
   .shot > .scroll-frame img{
     display:block;
@@ -382,16 +384,16 @@
       0 0 0 1px rgba(255,255,255,.06);
   }
 
-  .strip-item{
-    margin:0;
+  /* .banner-full is also a direct <img> child of .shot, so it inherits
+     the standard .shot > img treatment (sizing, radius, glow, cursor);
+     this just adds the strip's supporting-image fade and spacing. */
+  .banner-full{
+    margin-top:.5rem;
+    opacity:.86;
+    transition:opacity .18s ease;
   }
-  .strip-item figcaption{
-    margin-top:.55rem;
-    font-family:"IBM Plex Mono",monospace;
-    font-size:.72rem;
-    line-height:1.45;
-    color:var(--paper-dim);
-  }
+  .banner-full:hover,
+  .banner-full:focus-visible{opacity:1}
 
   .shot > figcaption{
     display:grid;
@@ -528,7 +530,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img,.banner-full{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -652,19 +654,11 @@
         <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
       </div>
       <div class="strip">
-        <figure class="strip-item">
-          <img class="full-res" src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu.">
-          <figcaption>Náhled produktové stránky e-shopu.</figcaption>
-        </figure>
-        <figure class="strip-item">
-          <img class="full-res glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku.">
-          <figcaption>Titulní strana letáku, plná postprodukce v Paint.NET.</figcaption>
-        </figure>
-        <figure class="strip-item">
-          <img class="full-res glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku.">
-          <figcaption>Vnitřní produktový přehled letáku.</figcaption>
-        </figure>
+        <img class="full-res" src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu.">
+        <img class="full-res glow-leaflet-1" src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET.">
+        <img class="full-res glow-leaflet-2" src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku.">
       </div>
+      <img class="banner-full" src="resources/banner_f.png" onerror="ph(this)" alt="Banner e-shopu spimzdrave.eu." data-desc="Banner e-shopu, sestavený z produktových fotek dodaných značkou Medical-PUR.">
       <figcaption>
         <span class="num">02</span>
         <h2>Web spimzdrave.eu a propagační leták</h2>
@@ -855,11 +849,6 @@
       if (opener) { opener.focus(); opener = null; }
     });
   })();
-
-  // ---------- reset the scroll-frame position when the mouse leaves ----------
-  document.querySelectorAll('.scroll-frame').forEach(function (f) {
-    f.addEventListener('mouseleave', function () { f.scrollTop = 0; });
-  });
 
   // ---------- language toggle ----------
   (function () {
