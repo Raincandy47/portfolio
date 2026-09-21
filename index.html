@@ -141,7 +141,6 @@
   .name{
     margin:0;
     font-family:"IBM Plex Mono",monospace;
-    font-weight:700;
     font-size:clamp(2.7rem,4.6vw,4.1rem);
     line-height:.94;
     letter-spacing:-.015em;
@@ -527,7 +526,7 @@
     transform:scale(1.3);
   }
 
-  /* Right column: shoes1 & shoes2 with 1080x1440 window ratio */
+  /* Right column in Fig 3 */
   .fig3-side{
     display:flex;
     flex-direction:column;
@@ -560,6 +559,62 @@
     object-fit:cover;
     display:block;
     cursor:zoom-in;
+  }
+
+  /* ---------- Figure 04: Product Packshot 2 + 3 Grid ---------- */
+  .fig4-top{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.85rem;
+    margin-bottom:.85rem;
+  }
+  .fig4-bottom{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:.85rem;
+  }
+  .fig4-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--ink-lift);
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
+  }
+  .fig4-card > img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+    opacity:.94;
+    transition:opacity .18s ease, transform .22s ease;
+  }
+  .fig4-card > img:hover,
+  .fig4-card > img:focus-visible{
+    opacity:1;
+    transform:scale(1.02);
+  }
+  .carousel-track{
+    position:absolute;
+    inset:0;
+    display:flex;
+    height:100%;
+    transition:transform .42s cubic-bezier(.25,1,.5,1);
+  }
+  .carousel-track img{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+    opacity:.94;
+    transition:opacity .18s ease;
+  }
+  .carousel-track img:hover,
+  .carousel-track img:focus-visible{
+    opacity:1;
   }
 
   .shot > figcaption{
@@ -708,7 +763,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track,.carousel-track{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -731,6 +786,12 @@
     .strip-fig2{grid-template-columns:1fr}
     .fig3-layout{grid-template-columns:1fr}
     .fig3-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .fig4-top{grid-template-columns:1fr 1fr}
+    .fig4-bottom{grid-template-columns:1fr 1fr 1fr}
+  }
+  @media (max-width:600px){
+    .fig4-top{grid-template-columns:1fr}
+    .fig4-bottom{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -911,21 +972,98 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURY 04–08 (placeholder) -->
-    <figure class="shot">
-      <img src="resources/shot-04.jpg" onerror="ph(this)" alt="Studio portrait after retouching.">
-      <div class="strip">
-        <img src="resources/shot-04-a.jpg" onerror="ph(this)" alt="Studio portraits, second sitter.">
-        <img src="resources/shot-04-b.jpg" onerror="ph(this)" alt="Studio portraits, third sitter.">
-        <img src="resources/shot-04-c.jpg" onerror="ph(this)" alt="Studio portraits, fourth sitter.">
+    <!-- FIGURA 04: Product Photography 2 + 3 Grid -->
+    <figure class="shot shot-wide">
+      <div class="fig4-top">
+        <!-- Vintage Punk Jeans (3 fotky) -->
+        <div class="fig4-card" data-carousel>
+          <div class="carousel-track">
+            <img src="resources/vintage punk jeans 1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — přední pohled" data-desc="Vintage punk džíny — přední pohled, ořez třepení a textury denimu." data-i18n-desc="fig4Jeans1Desc">
+            <img src="resources/vintage punk jeans 2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — zadní pohled" data-desc="Vintage punk džíny — zadní pohled, detaily kapes a prošívání." data-i18n-desc="fig4Jeans2Desc">
+            <img src="resources/vintage punk jeans 3.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — detail pasu" data-desc="Vintage punk džíny — makro detail pasu a typografického lemu." data-i18n-desc="fig4Jeans3Desc">
+          </div>
+          <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-btn-sm pan-right" aria-label="Další snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav pan-nav-sm">
+            <button type="button" class="pan-dot active" data-index="0" aria-label="Snímek 1"></button>
+            <button type="button" class="pan-dot" data-index="1" aria-label="Snímek 2"></button>
+            <button type="button" class="pan-dot" data-index="2" aria-label="Snímek 3"></button>
+          </div>
+        </div>
+
+        <!-- Ripped Shorts (2 fotky) -->
+        <div class="fig4-card" data-carousel>
+          <div class="carousel-track">
+            <img src="resources/ripped_shorts1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — přední pohled" data-desc="Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování." data-i18n-desc="fig4Shorts1Desc">
+            <img src="resources/ripped_shorts2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — zadní pohled" data-desc="Roztrhané denimové kraťasy — zadní pohled na kapsy a střih." data-i18n-desc="fig4Shorts2Desc">
+          </div>
+          <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-btn-sm pan-right" aria-label="Další snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav pan-nav-sm">
+            <button type="button" class="pan-dot active" data-index="0" aria-label="Snímek 1"></button>
+            <button type="button" class="pan-dot" data-index="1" aria-label="Snímek 2"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fig4-bottom">
+        <!-- Kurt Cobain Sweater (2 fotky) -->
+        <div class="fig4-card" data-carousel>
+          <div class="carousel-track">
+            <img src="resources/kurt1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný pletený svetr" data-desc="Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken." data-i18n-desc="fig4Kurt1Desc">
+            <img src="resources/kurt2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný svetr — detail rukávu" data-desc="Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení." data-i18n-desc="fig4Kurt2Desc">
+          </div>
+          <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-btn-sm pan-right" aria-label="Další snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav pan-nav-sm">
+            <button type="button" class="pan-dot active" data-index="0" aria-label="Snímek 1"></button>
+            <button type="button" class="pan-dot" data-index="1" aria-label="Snímek 2"></button>
+          </div>
+        </div>
+
+        <!-- Conv1 Beanie (pouze 1 foto bez šipek) -->
+        <div class="fig4-card">
+          <img src="resources/conv1.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Vínová pletená čepice" data-desc="Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním." data-i18n-desc="fig4BeanieDesc">
+        </div>
+
+        <!-- Slipknot Socks (2 fotky) -->
+        <div class="fig4-card" data-carousel>
+          <div class="carousel-track">
+            <img src="resources/slipknot1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — detail" data-desc="Slipknot ponožky — maskování členitého potisku na pletené látce." data-i18n-desc="fig4Socks1Desc">
+            <img src="resources/slipknot2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — zadní strana" data-desc="Slipknot ponožky — alternativní úhel a čistý ořez okrajů." data-i18n-desc="fig4Socks2Desc">
+          </div>
+          <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-btn-sm pan-right" aria-label="Další snímek">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav pan-nav-sm">
+            <button type="button" class="pan-dot active" data-index="0" aria-label="Snímek 1"></button>
+            <button type="button" class="pan-dot" data-index="1" aria-label="Snímek 2"></button>
+          </div>
+        </div>
       </div>
       <figcaption>
         <span class="num">04</span>
-        <h2>Studio portraits</h2>
-        <p>Skin and tonal work for a company profile series. Twenty-eight sitters.</p>
+        <h2 data-i18n="fig4Title">Komerční produktová fotografie &amp; packshoty</h2>
+        <p data-i18n="fig4Desc">Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.</p>
       </figcaption>
     </figure>
 
+    <!-- FIGURY 05–08 (placeholder) -->
     <figure class="shot">
       <img src="resources/shot-05.jpg" onerror="ph(this)" alt="Night exterior frame with a heavy colour grade.">
       <div class="strip">
@@ -944,8 +1082,8 @@
       <img src="resources/shot-06.jpg" onerror="ph(this)" alt="Composite image built from four separate plates.">
       <div class="strip">
         <img src="resources/shot-06-a.jpg" onerror="ph(this)" alt="Composite, first plate.">
-        <img src="resources/shot-06-b.jpg" onerror="ph(this)" alt="Composite, second plate.">
-        <img src="resources/shot-06-c.jpg" onerror="ph(this)" alt="Composite, third plate.">
+        <img src="resources/shot-06-b.jpg" onerror="ph(this)" alt="Composite, third plate.">
+        <img src="resources/shot-06-c.jpg" onerror="ph(this)" alt="Composite, fourth plate.">
       </div>
       <figcaption>
         <span class="num">06</span>
@@ -1050,7 +1188,7 @@
         title.textContent = source.dataset.title;
       } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
         title.textContent = heading ? heading.textContent : '';
-      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track')) {
+      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig4-card')) {
         title.textContent = '';
       } else {
         title.textContent = heading ? heading.textContent : '';
@@ -1066,7 +1204,7 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -1096,7 +1234,6 @@
 
   // ---------- Figure 03: interactive panning ----------
   (function () {
-    // 1) Main outfit 3-way panning
     var track = document.getElementById('fig3-track');
     var prevBtn = document.getElementById('fig3-prev');
     var nextBtn = document.getElementById('fig3-next');
@@ -1151,7 +1288,6 @@
       }
     }
 
-    // 2) Reusable helper for shoes 2-way panning (0 = After / left, 1 = Before / right)
     function setupShoePan(frameId, trackId, prevId, nextId, navId) {
       var frame = document.getElementById(frameId);
       var trk = document.getElementById(trackId);
@@ -1204,6 +1340,62 @@
     setupShoePan('shoe2-frame', 'shoe2-track', 'shoe2-prev', 'shoe2-next', 'shoe2-nav');
   })();
 
+  // ---------- Figure 04: multi-item carousels ----------
+  (function () {
+    document.querySelectorAll('.fig4-card[data-carousel]').forEach(function (card) {
+      var track = card.querySelector('.carousel-track');
+      var prev = card.querySelector('.pan-left');
+      var next = card.querySelector('.pan-right');
+      var dots = card.querySelectorAll('.pan-nav .pan-dot');
+      var count = track ? track.querySelectorAll('img').length : 0;
+      if (!track || count < 2) return;
+
+      var idx = 0;
+
+      function goTo(n) {
+        idx = Math.max(0, Math.min(count - 1, n));
+        track.style.transform = 'translateX(' + (-100 * idx) + '%)';
+        if (prev) prev.style.display = idx === 0 ? 'none' : 'grid';
+        if (next) next.style.display = idx === count - 1 ? 'none' : 'grid';
+        dots.forEach(function (d, i) {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+
+      if (prev) {
+        prev.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goTo(idx - 1);
+        });
+      }
+      if (next) {
+        next.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goTo(idx + 1);
+        });
+      }
+
+      dots.forEach(function (d, i) {
+        d.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goTo(i);
+        });
+      });
+
+      var touchX = 0;
+      card.addEventListener('touchstart', function (e) {
+        touchX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      card.addEventListener('touchend', function (e) {
+        var diff = touchX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 30) {
+          if (diff > 0) goTo(idx + 1);
+          else goTo(idx - 1);
+        }
+      }, { passive: true });
+    });
+  })();
+
   // ---------- language toggle ----------
   (function () {
     var STRINGS = {
@@ -1229,6 +1421,18 @@
         fig3Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
         fig3Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
         fig3Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
+        fig4Title: "Komerční produktová fotografie & packshoty",
+        fig4Desc: "Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.",
+        fig4Jeans1Desc: "Vintage punk džíny — přední pohled, ořez třepení a textury denimu.",
+        fig4Jeans2Desc: "Vintage punk džíny — zadní pohled, detaily kapes a prošívání.",
+        fig4Jeans3Desc: "Vintage punk džíny — makro detail pasu a typografického lemu.",
+        fig4Shorts1Desc: "Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování.",
+        fig4Shorts2Desc: "Roztrhané denimové kraťasy — zadní pohled na kapsy a střih.",
+        fig4Kurt1Desc: "Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken.",
+        fig4Kurt2Desc: "Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení.",
+        fig4BeanieDesc: "Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.",
+        fig4Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
+        fig4Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
         endText: "Hledáš něco, co tu není?",
         endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
@@ -1256,6 +1460,18 @@
         fig3Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
         fig3Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
         fig3Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
+        fig4Title: "Commercial Product Photography & Packshots",
+        fig4Desc: "E-commerce product photo post-production and catalog staging. Precision cutouts of intricate denim distressing, knits, and graphic prints, with studio gradient backdrops in Paint.NET.",
+        fig4Jeans1Desc: "Vintage punk jeans — front view, precision cutout of denim texture and distressing.",
+        fig4Jeans2Desc: "Vintage punk jeans — rear view, stitchwork and pocket details.",
+        fig4Jeans3Desc: "Vintage punk jeans — macro close-up of waistband and typographic embroidery.",
+        fig4Shorts1Desc: "Ripped denim shorts — front view, handmade distressing isolation.",
+        fig4Shorts2Desc: "Ripped denim shorts — rear view and fit framing.",
+        fig4Kurt1Desc: "Striped distressed knit sweater — full silhouette and fiber texture detail.",
+        fig4Kurt2Desc: "Striped distressed knit sweater — sleeve and knit fraying detail.",
+        fig4BeanieDesc: "Burgundy knit beanie — studio product packshot with radial backdrop grading.",
+        fig4Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
+        fig4Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
         endText: "Looking for something that isn't here?",
         endLink: "Ask for the full reel.",
         cvHref: "resources/CV_ENG.pdf",
