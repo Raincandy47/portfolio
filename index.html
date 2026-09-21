@@ -617,6 +617,55 @@
     opacity:1;
   }
 
+  /* ---------- Figure 05: Poster & Interactive Terminal Layer ---------- */
+  .poster-stage{
+    position:relative;
+    width:100%;
+    max-width:min(100%, 82vh);
+    margin:0 auto;
+    border-radius:10px;
+    background:var(--ink-lift);
+    box-shadow:
+      0 -28px 48px rgba(80,180,60,.22),
+      -28px 0 48px rgba(140,50,180,.26),
+      28px 0 48px rgba(180,40,90,.22),
+      0 28px 48px rgba(0,0,0,.5),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .poster-stage > .poster-bg{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:10px;
+    cursor:zoom-in;
+  }
+  .poster-stage .poster-layer{
+    position:absolute;
+    display:block;
+    padding:0;
+    border:0;
+    background:none;
+    cursor:zoom-in;
+    z-index:10;
+    transform-origin:65% 55%;
+    opacity:0;
+    transition:opacity .25s ease, transform .25s cubic-bezier(.2,.7,.3,1), filter .25s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .poster-stage .poster-layer:hover,
+  .poster-stage .poster-layer:focus-visible{
+    opacity:1;
+    transform:scale(1.035);
+    filter:drop-shadow(0 20px 35px rgba(0,0,0,.85)) brightness(1.04);
+    outline:none;
+  }
+  .poster-stage .poster-layer img{
+    display:block;
+    width:100%;
+    height:auto;
+    pointer-events:none;
+  }
+
   .shot > figcaption{
     display:grid;
     grid-template-columns:3.2rem 1fr;
@@ -763,7 +812,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track,.carousel-track{transition:none}
+    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track,.carousel-track,.poster-layer{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -829,7 +878,7 @@
       <a href="mailto:daniel.honz36@gmail.com">daniel.honz36@gmail.com</a>
     </nav>
 
-    <p class="counter"><span data-i18n="counterFrame">Snímek</span> <span id="frame-now">01</span> <span data-i18n="counterOf">z</span> <span id="frame-total">08</span></p>
+    <p class="counter"><span data-i18n="counterFrame">Snímek</span> <span id="frame-now">01</span> <span data-i18n="counterOf">z</span> <span id="frame-total">05</span></p>
   </aside>
 
   <!-- ============ COLUMN 2: Reel ============ -->
@@ -1063,60 +1112,23 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURY 05–08 (placeholder) -->
+    <!-- FIGURA 05: Poster & Interactive Terminal Layer -->
     <figure class="shot">
-      <img src="resources/shot-05.jpg" onerror="ph(this)" alt="Night exterior frame with a heavy colour grade.">
-      <div class="strip">
-        <img src="resources/shot-05-a.jpg" onerror="ph(this)" alt="Harbour at night, second frame.">
-        <img src="resources/shot-05-b.jpg" onerror="ph(this)" alt="Harbour at night, third frame.">
-        <img src="resources/shot-05-c.jpg" onerror="ph(this)" alt="Harbour at night, fourth frame.">
+      <div class="poster-stage">
+        <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Vizuální koncept a plakát pro hudební akci. Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.">
+        
+        <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
+          style="left:38.8%;top:32.8%;width:61.2%;"
+          data-desc="Grafický návrh terminálu s informacemi v Krita"
+          data-i18n-desc="fig5TerminalDesc"
+          aria-label="Terminál — grafický návrh v Krita">
+          <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
+        </button>
       </div>
       <figcaption>
         <span class="num">05</span>
-        <h2>Harbour, night</h2>
-        <p>Underexposed rushes recovered and graded for a music video.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-06.jpg" onerror="ph(this)" alt="Composite image built from four separate plates.">
-      <div class="strip">
-        <img src="resources/shot-06-a.jpg" onerror="ph(this)" alt="Composite, first plate.">
-        <img src="resources/shot-06-b.jpg" onerror="ph(this)" alt="Composite, third plate.">
-        <img src="resources/shot-06-c.jpg" onerror="ph(this)" alt="Composite, fourth plate.">
-      </div>
-      <figcaption>
-        <span class="num">06</span>
-        <h2>Four plates, one room</h2>
-        <p>Composite for a furniture catalogue, assembled from separately lit exposures.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-07.jpg" onerror="ph(this)" alt="Archive photograph after restoration.">
-      <div class="strip">
-        <img src="resources/shot-07-a.jpg" onerror="ph(this)" alt="Archive restoration, damaged original.">
-        <img src="resources/shot-07-b.jpg" onerror="ph(this)" alt="Archive restoration, cleaned scan.">
-        <img src="resources/shot-07-c.jpg" onerror="ph(this)" alt="Archive restoration, finished print.">
-      </div>
-      <figcaption>
-        <span class="num">07</span>
-        <h2>Archive restoration</h2>
-        <p>Family negatives from 1961, cleaned and rebuilt where the emulsion had lifted.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="shot">
-      <img src="resources/shot-08.jpg" onerror="ph(this)" alt="Title card from the short film Salt.">
-      <div class="strip">
-        <img src="resources/shot-08-a.jpg" onerror="ph(this)" alt="Salt, second frame.">
-        <img src="resources/shot-08-b.jpg" onerror="ph(this)" alt="Salt, third frame.">
-        <img src="resources/shot-08-c.jpg" onerror="ph(this)" alt="Salt, fourth frame.">
-      </div>
-      <figcaption>
-        <span class="num">08</span>
-        <h2>Salt</h2>
-        <p>Short film, 12 minutes. Edit, titles, and sound handover.</p>
+        <h2 data-i18n="fig5Title">Plakát hudební akce &amp; digitální ilustrace</h2>
+        <p data-i18n="fig5Desc">Vizuální koncept a plakát pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.</p>
       </figcaption>
     </figure>
 
@@ -1186,7 +1198,7 @@
 
       if (source.dataset.title) {
         title.textContent = source.dataset.title;
-      } else if (source.parentElement && source.parentElement.classList.contains('scroll-frame')) {
+      } else if (source.classList.contains('poster-bg') || (source.parentElement && source.parentElement.classList.contains('scroll-frame'))) {
         title.textContent = heading ? heading.textContent : '';
       } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig4-card')) {
         title.textContent = '';
@@ -1204,7 +1216,7 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img, .poster-stage > img, .poster-layer').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -1433,6 +1445,9 @@
         fig4BeanieDesc: "Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.",
         fig4Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
         fig4Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
+        fig5Title: "Plakát hudební akce & digitální ilustrace",
+        fig5Desc: "Vizuální koncept a plakát pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.",
+        fig5TerminalDesc: "Grafický návrh terminálu s informacemi v Krita",
         endText: "Hledáš něco, co tu není?",
         endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
@@ -1472,6 +1487,9 @@
         fig4BeanieDesc: "Burgundy knit beanie — studio product packshot with radial backdrop grading.",
         fig4Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
         fig4Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
+        fig5Title: "Music Event Poster & Digital Illustration",
+        fig5Desc: "Visual concept and poster for an underground music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D bio-mechanical elements, and a custom terminal illustrated in Krita.",
+        fig5TerminalDesc: "Terminal UI and graphic design created in Krita",
         endText: "Looking for something that isn't here?",
         endLink: "Ask for the full reel.",
         cvHref: "resources/CV_ENG.pdf",
