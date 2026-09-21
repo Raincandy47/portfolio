@@ -285,144 +285,14 @@
     height:auto;
   }
 
-  /* ---------- layered interactive flatlay (figure 01) ---------- */
-
-  .stage{
-    position:relative;
-    width:100%;
-    max-width:min(100%, 82vh);
-    margin:0 auto;
-    aspect-ratio:1500/2000;
-    border-radius:10px;
-    background:var(--ink-lift);
-    box-shadow:
-      0 -34px 50px rgba(255,255,255,.16),
-      -34px 0 50px rgba(255,255,255,.16),
-      0 34px 50px rgba(255,255,255,.14),
-      40px 0 60px rgba(196,58,58,.45),
-      0 0 0 1px rgba(255,255,255,.08);
-  }
-  .stage > img.bg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:10px;
-  }
-  .stage .layer{
-    position:absolute;
-    display:block;
-    padding:0;
-    border:0;
-    background:none;
-    cursor:zoom-in;
-    z-index:var(--z,1);
-    transform-origin:center;
-    transition:transform .22s cubic-bezier(.2,.7,.3,1), filter .22s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .stage .layer img{
-    display:block;
-    width:100%;
-    height:auto;
-    pointer-events:none;
-  }
-  .stage .layer:hover,
-  .stage .layer:focus-visible{
-    transform:scale(1.09);
-    z-index:30;
-    filter:drop-shadow(0 22px 34px rgba(0,0,0,.55)) brightness(1.05);
-  }
-  .stage .layer:focus-visible{outline:none}
-
-  /* the supporting frames under each main image */
-  .strip{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    align-items:start;
-    gap:.65rem;
-    margin-top:.65rem;
-  }
-  .strip img{
-    display:block;
-    width:100%;
-    aspect-ratio:4/3;
-    object-fit:cover;
-    border-radius:8px;
-    background:var(--ink-lift);
-    cursor:zoom-in;
-    opacity:.86;
-    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
-    transition:opacity .18s ease;
-  }
-  .strip img:hover,
-  .strip img:focus-visible{opacity:1}
-
-  /* Figure 02 full-bleed strip layout */
-  .strip-fig2{
-    display:grid;
-    grid-template-columns:1.35fr 1fr 1fr;
-    align-items:center;
-    gap:.85rem;
-    margin-top:.85rem;
-  }
-  .strip-fig2 .frame{
-    position:relative;
-    width:100%;
-    border-radius:8px;
-    overflow:hidden;
-    background:transparent;
-  }
-  .strip-fig2 .frame img{
-    display:block;
-    width:100%;
-    height:auto;
-    object-fit:contain;
-    border-radius:8px;
-    cursor:zoom-in;
-    opacity:.94;
-    transition:opacity .18s ease, transform .22s ease;
-  }
-  .strip-fig2 .frame img:hover,
-  .strip-fig2 .frame img:focus-visible{
-    opacity:1;
-    transform:scale(1.02);
-  }
-
-  .strip-fig2 .frame.glow-preview{
-    box-shadow:
-      0 -24px 36px rgba(60,150,200,.28),
-      -24px 0 36px rgba(60,150,200,.2),
-      24px 0 36px rgba(60,150,200,.2),
-      0 24px 36px rgba(60,150,200,.2),
-      0 0 0 1px rgba(255,255,255,.08);
-  }
-  .strip-fig2 .frame.glow-leaflet-1{
-    box-shadow:
-      0 -28px 40px rgba(70,150,210,.35),
-      -28px 0 40px rgba(110,180,150,.24),
-      28px 0 40px rgba(180,170,110,.2),
-      0 28px 40px rgba(120,90,60,.18),
-      0 0 0 1px rgba(255,255,255,.08);
-  }
-  .strip-fig2 .frame.glow-leaflet-2{
-    box-shadow:
-      0 -24px 36px rgba(255,241,214,.18),
-      -24px 0 36px rgba(255,241,214,.16),
-      24px 0 36px rgba(255,241,214,.16),
-      0 24px 36px rgba(255,241,214,.16),
-      0 0 0 1px rgba(255,255,255,.08);
-  }
-
-  /* ---------- Figure 03: Interactive Pan Layout ---------- */
-  .fig3-layout{
+  /* ---------- Figure 01: Interactive Pan Layout (Before & After) ---------- */
+  .fig1-layout{
     display:grid;
     grid-template-columns:2fr 1fr;
     gap:.85rem;
     align-items:start;
   }
-  .fig3-main{
+  .fig1-main{
     position:relative;
     width:100%;
     aspect-ratio:1080/1440;
@@ -527,13 +397,12 @@
     transform:scale(1.3);
   }
 
-  /* Right column in Fig 3 */
-  .fig3-side{
+  .fig1-side{
     display:flex;
     flex-direction:column;
     gap:.85rem;
   }
-  .fig3-shoe-frame{
+  .fig1-shoe-frame{
     position:relative;
     width:100%;
     aspect-ratio:1080/1440;
@@ -561,6 +430,112 @@
     display:block;
     cursor:zoom-in;
   }
+
+  /* Figure 02 full-bleed strip layout */
+  .strip-fig2{
+    display:grid;
+    grid-template-columns:1.35fr 1fr 1fr;
+    align-items:center;
+    gap:.85rem;
+    margin-top:.85rem;
+  }
+  .strip-fig2 .frame{
+    position:relative;
+    width:100%;
+    border-radius:8px;
+    overflow:hidden;
+    background:transparent;
+  }
+  .strip-fig2 .frame img{
+    display:block;
+    width:100%;
+    height:auto;
+    object-fit:contain;
+    border-radius:8px;
+    cursor:zoom-in;
+    opacity:.94;
+    transition:opacity .18s ease, transform .22s ease;
+  }
+  .strip-fig2 .frame img:hover,
+  .strip-fig2 .frame img:focus-visible{
+    opacity:1;
+    transform:scale(1.02);
+  }
+
+  .strip-fig2 .frame.glow-preview{
+    box-shadow:
+      0 -24px 36px rgba(60,150,200,.28),
+      -24px 0 36px rgba(60,150,200,.2),
+      24px 0 36px rgba(60,150,200,.2),
+      0 24px 36px rgba(60,150,200,.2),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .strip-fig2 .frame.glow-leaflet-1{
+    box-shadow:
+      0 -28px 40px rgba(70,150,210,.35),
+      -28px 0 40px rgba(110,180,150,.24),
+      28px 0 40px rgba(180,170,110,.2),
+      0 28px 40px rgba(120,90,60,.18),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .strip-fig2 .frame.glow-leaflet-2{
+    box-shadow:
+      0 -24px 36px rgba(255,241,214,.18),
+      -24px 0 36px rgba(255,241,214,.16),
+      24px 0 36px rgba(255,241,214,.16),
+      0 24px 36px rgba(255,241,214,.16),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+
+  /* ---------- layered interactive flatlay (figure 03) ---------- */
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:min(100%, 82vh);
+    margin:0 auto;
+    aspect-ratio:1500/2000;
+    border-radius:10px;
+    background:var(--ink-lift);
+    box-shadow:
+      0 -34px 50px rgba(255,255,255,.16),
+      -34px 0 50px rgba(255,255,255,.16),
+      0 34px 50px rgba(255,255,255,.14),
+      40px 0 60px rgba(196,58,58,.45),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .stage > img.bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:10px;
+  }
+  .stage .layer{
+    position:absolute;
+    display:block;
+    padding:0;
+    border:0;
+    background:none;
+    cursor:zoom-in;
+    z-index:var(--z,1);
+    transform-origin:center;
+    transition:transform .22s cubic-bezier(.2,.7,.3,1), filter .22s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .stage .layer img{
+    display:block;
+    width:100%;
+    height:auto;
+    pointer-events:none;
+  }
+  .stage .layer:hover,
+  .stage .layer:focus-visible{
+    transform:scale(1.09);
+    z-index:30;
+    filter:drop-shadow(0 22px 34px rgba(0,0,0,.55)) brightness(1.05);
+  }
+  .stage .layer:focus-visible{outline:none}
 
   /* ---------- Figure 04: Product Packshot 2 + 3 Grid ---------- */
   .fig4-top{
@@ -625,6 +600,7 @@
     max-width:min(100%, 65vh);
     margin:0 auto;
     border-radius:10px;
+    overflow:hidden;
     background:var(--ink-lift);
     box-shadow:
       0 -28px 48px rgba(80,180,60,.22),
@@ -648,7 +624,10 @@
     background:none;
     cursor:zoom-in;
     z-index:10;
-    transform-origin:center center;
+    left:24.5%;
+    top:27.5%;
+    width:75%;
+    transform-origin:38% 36%;
     transform:rotate(5deg);
     opacity:0;
     transition:opacity .25s ease, transform .25s cubic-bezier(.2,.7,.3,1), filter .25s ease;
@@ -657,8 +636,8 @@
   .poster-stage .poster-layer:hover,
   .poster-stage .poster-layer:focus-visible{
     opacity:1;
-    transform:rotate(5deg) scale(1.04);
-    filter:drop-shadow(0 20px 38px rgba(0,0,0,.9)) brightness(1.05);
+    transform:rotate(5deg) scale(1.035);
+    filter:drop-shadow(0 18px 32px rgba(0,0,0,.9)) brightness(1.04);
     outline:none;
   }
   .poster-stage .poster-layer img{
@@ -759,7 +738,6 @@
     font-size:1.06rem;
     font-weight:600;
   }
-  /* Default subtle caption */
   .lightbox figcaption p{
     margin:.3rem 0 0;
     color:var(--paper-dim);
@@ -768,7 +746,6 @@
     font-weight:400;
     line-height:1.6;
   }
-  /* Bold mono caption applied strictly for Figure 02 web photos */
   .lightbox.strong-desc figcaption p{
     color:var(--paper);
     font-family:"IBM Plex Mono",monospace;
@@ -805,7 +782,7 @@
   @media (prefers-reduced-motion:reduce){
     .lightbox[open],
     .lightbox[open]::backdrop{animation:none}
-    .cv,.contact a,.lightbox-close,.strip img,.pan-track,.shoe-track,.carousel-track,.poster-layer{transition:none}
+    .cv,.contact a,.lightbox-close,.pan-track,.shoe-track,.carousel-track,.poster-layer{transition:none}
   }
 
   body.viewing{overflow:hidden}
@@ -826,8 +803,8 @@
     .counter{display:none}
     .reel{gap:3.5rem}
     .strip-fig2{grid-template-columns:1fr}
-    .fig3-layout{grid-template-columns:1fr}
-    .fig3-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .fig1-layout{grid-template-columns:1fr}
+    .fig1-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
     .fig4-top{grid-template-columns:1fr 1fr}
     .fig4-bottom{grid-template-columns:1fr 1fr 1fr}
   }
@@ -879,7 +856,95 @@
 
     <p class="reel-intro" data-i18n="reelIntro">Vybrané práce, 2023–2026</p>
 
-    <!-- FIGURA 01 -->
+    <!-- FIGURA 01: Before & After — Postprodukce outfitu -->
+    <figure class="shot shot-wide">
+      <div class="fig1-layout">
+        <!-- Main Pan Track (Outfit Before & After) -->
+        <div class="fig1-main" id="fig1-box">
+          <div class="pan-track" id="fig1-track" style="transform:translateX(calc(-100% * 560 / 1080));">
+            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET." data-i18n-desc="fig1MainDesc">
+          </div>
+          <button type="button" class="pan-btn pan-left" id="fig1-prev" aria-label="Zobrazit vlevo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="pan-btn pan-right" id="fig1-next" aria-label="Zobrazit vpravo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <div class="pan-nav" id="fig1-nav">
+            <button type="button" class="pan-dot" data-pane="0" aria-label="Detaily a komponenty"></button>
+            <button type="button" class="pan-dot active" data-pane="1" aria-label="Finální grafika"></button>
+            <button type="button" class="pan-dot" data-pane="2" aria-label="Původní outfit"></button>
+          </div>
+        </div>
+
+        <!-- Right Side: shoes1 & shoes2 with 1080x1440 ratio windows and pan to before -->
+        <div class="fig1-side">
+          <!-- Top: shoes1 -->
+          <div class="fig1-shoe-frame" id="shoe1-frame">
+            <div class="shoe-track" id="shoe1-track" style="transform:translateX(0%);">
+              <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig1Thumb1Desc">
+            </div>
+            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe1-prev" style="display:none;" aria-label="Zobrazit po úpravě">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe1-next" aria-label="Zobrazit před úpravou (Before)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <div class="pan-nav pan-nav-sm" id="shoe1-nav">
+              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
+              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
+            </div>
+          </div>
+
+          <!-- Bottom: shoes2 -->
+          <div class="fig1-shoe-frame" id="shoe2-frame">
+            <div class="shoe-track" id="shoe2-track" style="transform:translateX(0%);">
+              <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig1Thumb2Desc">
+            </div>
+            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe2-prev" style="display:none;" aria-label="Zobrazit po úpravě">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe2-next" aria-label="Zobrazit před úpravou (Before)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <div class="pan-nav pan-nav-sm" id="shoe2-nav">
+              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
+              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span class="num">01</span>
+        <h2 data-i18n="fig1Title">Before &amp; After — Postprodukce outfitu</h2>
+        <p data-i18n="fig1Desc">Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.</p>
+      </figcaption>
+    </figure>
+
+    <!-- FIGURA 02: spimzdrave.eu -->
+    <figure class="shot shot-wide">
+      <div class="scroll-frame">
+        <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
+      </div>
+      <div class="strip-fig2">
+        <div class="frame glow-preview">
+          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu." data-i18n-desc="fig2DescStrip1">
+        </div>
+        <div class="frame glow-leaflet-1">
+          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET." data-i18n-desc="fig2DescStrip2">
+        </div>
+        <div class="frame glow-leaflet-2">
+          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku." data-i18n-desc="fig2DescStrip3">
+        </div>
+      </div>
+      <figcaption>
+        <span class="num">02</span>
+        <h2 data-i18n="fig2Title">Web spimzdrave.eu a propagační leták</h2>
+        <p data-i18n="fig2Desc">Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
+      </figcaption>
+    </figure>
+
+    <!-- FIGURA 03: Jeden outfit, sedm inzerátů (Interaktivní flatlay) -->
     <figure class="shot">
       <div class="stage" id="stage">
         <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
@@ -920,101 +985,13 @@
         </button>
       </div>
       <figcaption>
-        <span class="num">01</span>
-        <h2 data-i18n="fig1Title">Jeden outfit, sedm inzerátů</h2>
-        <p data-i18n="fig1Desc">Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.</p>
-      </figcaption>
-    </figure>
-
-    <!-- FIGURA 02 -->
-    <figure class="shot shot-wide">
-      <div class="scroll-frame">
-        <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
-      </div>
-      <div class="strip-fig2">
-        <div class="frame glow-preview">
-          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu." data-i18n-desc="fig2DescStrip1">
-        </div>
-        <div class="frame glow-leaflet-1">
-          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET." data-i18n-desc="fig2DescStrip2">
-        </div>
-        <div class="frame glow-leaflet-2">
-          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku." data-i18n-desc="fig2DescStrip3">
-        </div>
-      </div>
-      <figcaption>
-        <span class="num">02</span>
-        <h2 data-i18n="fig2Title">Web spimzdrave.eu a propagační leták</h2>
-        <p data-i18n="fig2Desc">Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
-      </figcaption>
-    </figure>
-
-    <!-- FIGURA 03 -->
-    <figure class="shot shot-wide">
-      <div class="fig3-layout">
-        <!-- Main Pan Track (Outfit Before & After) -->
-        <div class="fig3-main" id="fig3-box">
-          <div class="pan-track" id="fig3-track" style="transform:translateX(calc(-100% * 560 / 1080));">
-            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET." data-i18n-desc="fig3MainDesc">
-          </div>
-          <button type="button" class="pan-btn pan-left" id="fig3-prev" aria-label="Zobrazit vlevo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
-          <button type="button" class="pan-btn pan-right" id="fig3-next" aria-label="Zobrazit vpravo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-          <div class="pan-nav" id="fig3-nav">
-            <button type="button" class="pan-dot" data-pane="0" aria-label="Detaily a komponenty"></button>
-            <button type="button" class="pan-dot active" data-pane="1" aria-label="Finální grafika"></button>
-            <button type="button" class="pan-dot" data-pane="2" aria-label="Původní outfit"></button>
-          </div>
-        </div>
-
-        <!-- Right Side: shoes1 & shoes2 with 1080x1440 ratio windows and pan to before -->
-        <div class="fig3-side">
-          <!-- Top: shoes1 -->
-          <div class="fig3-shoe-frame" id="shoe1-frame">
-            <div class="shoe-track" id="shoe1-track" style="transform:translateX(0%);">
-              <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig3Thumb1Desc">
-            </div>
-            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe1-prev" style="display:none;" aria-label="Zobrazit po úpravě">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe1-next" aria-label="Zobrazit před úpravou (Before)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-            <div class="pan-nav pan-nav-sm" id="shoe1-nav">
-              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
-              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
-            </div>
-          </div>
-
-          <!-- Bottom: shoes2 -->
-          <div class="fig3-shoe-frame" id="shoe2-frame">
-            <div class="shoe-track" id="shoe2-track" style="transform:translateX(0%);">
-              <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig3Thumb2Desc">
-            </div>
-            <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe2-prev" style="display:none;" aria-label="Zobrazit po úpravě">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button type="button" class="pan-btn pan-btn-sm pan-right" id="shoe2-next" aria-label="Zobrazit před úpravou (Before)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-            <div class="pan-nav pan-nav-sm" id="shoe2-nav">
-              <button type="button" class="pan-dot active" data-pane="0" aria-label="Po úpravě"></button>
-              <button type="button" class="pan-dot" data-pane="1" aria-label="Před úpravou"></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <figcaption>
         <span class="num">03</span>
-        <h2 data-i18n="fig3Title">Before &amp; After — Postprodukce outfitu</h2>
-        <p data-i18n="fig3Desc">Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.</p>
+        <h2 data-i18n="fig3Title">Jeden outfit, sedm inzerátů</h2>
+        <p data-i18n="fig3Desc">Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.</p>
       </figcaption>
     </figure>
 
-    <!-- FIGURA 04: Product Photography 2 + 3 Grid -->
+    <!-- FIGURA 04: Komerční produktová fotografie & packshoty -->
     <figure class="shot shot-wide">
       <div class="fig4-top">
         <!-- Vintage Punk Jeans (3 fotky) -->
@@ -1108,10 +1085,9 @@
     <!-- FIGURA 05: Poster & Interactive Terminal Layer -->
     <figure class="shot">
       <div class="poster-stage">
-        <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Vizuální koncept a plakát pro hudební akci. Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.">
+        <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.">
         
         <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
-          style="left:31%;top:30.5%;width:68%;"
           data-desc="Grafický návrh terminálu s informacemi v Krita"
           data-i18n-desc="fig5TerminalDesc"
           aria-label="Terminál — grafický návrh v Krita">
@@ -1191,7 +1167,7 @@
         title.textContent = source.dataset.title;
       } else if (source.classList.contains('poster-bg') || (source.parentElement && source.parentElement.classList.contains('scroll-frame'))) {
         title.textContent = heading ? heading.textContent : '';
-      } else if (source.classList.contains('layer') || source.closest('.strip') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig4-card')) {
+      } else if (source.classList.contains('layer') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig4-card')) {
         title.textContent = '';
       } else {
         title.textContent = heading ? heading.textContent : '';
@@ -1207,7 +1183,7 @@
       box.showModal();
     }
 
-    document.querySelectorAll('.shot > img, .strip img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img, .poster-stage > img, .poster-layer').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img, .poster-stage > img, .poster-layer').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -1235,13 +1211,13 @@
     });
   })();
 
-  // ---------- Figure 03: interactive panning ----------
+  // ---------- Figure 01: interactive panning (Before & After) ----------
   (function () {
-    var track = document.getElementById('fig3-track');
-    var prevBtn = document.getElementById('fig3-prev');
-    var nextBtn = document.getElementById('fig3-next');
-    var dots = document.querySelectorAll('#fig3-nav .pan-dot');
-    var box = document.getElementById('fig3-box');
+    var track = document.getElementById('fig1-track');
+    var prevBtn = document.getElementById('fig1-prev');
+    var nextBtn = document.getElementById('fig1-next');
+    var dots = document.querySelectorAll('#fig1-nav .pan-dot');
+    var box = document.getElementById('fig1-box');
 
     if (track && prevBtn && nextBtn) {
       var current = 1;
@@ -1413,18 +1389,18 @@
         counterFrame: "Snímek",
         counterOf: "z",
         reelIntro: "Vybrané práce, 2023–2026",
-        fig1Title: "Jeden outfit, sedm inzerátů",
-        fig1Desc: "Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.",
+        fig1Title: "Before & After — Postprodukce outfitu",
+        fig1Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
+        fig1MainDesc: "Porovnání surových fotografií a finální kompozice v Paint.NET.",
+        fig1Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
+        fig1Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
         fig2Title: "Web spimzdrave.eu a propagační leták",
         fig2Desc: "Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.",
         fig2DescStrip1: "Náhled produktové stránky e-shopu.",
         fig2DescStrip2: "Titulní strana letáku, plná postprodukce v Paint.NET.",
         fig2DescStrip3: "Vnitřní produktový přehled letáku.",
-        fig3Title: "Before & After — Postprodukce outfitu",
-        fig3Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
-        fig3MainDesc: "Porovnání surových fotografií a finální kompozice v Paint.NET.",
-        fig3Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
-        fig3Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
+        fig3Title: "Jeden outfit, sedm inzerátů",
+        fig3Desc: "Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.",
         fig4Title: "Komerční produktová fotografie & packshoty",
         fig4Desc: "Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.",
         fig4Jeans1Desc: "Vintage punk džíny — přední pohled, ořez třepení a textury denimu.",
@@ -1454,18 +1430,18 @@
         counterFrame: "Frame",
         counterOf: "of",
         reelIntro: "Selected work, 2023–2026",
-        fig1Title: "One Outfit, Seven Listings",
-        fig1Desc: "Shot on a Samsung Galaxy S24, made to sell on Grailed, Vinted and Depop. Full post-production and background art done in Paint.NET.",
+        fig1Title: "Before & After — Outfit Post-Production",
+        fig1Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
+        fig1MainDesc: "Comparison between raw mobile photos and the finished composition in Paint.NET.",
+        fig1Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
+        fig1Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
         fig2Title: "spimzdrave.eu Website & Promotional Leaflet",
         fig2Desc: "Client work — e-shop built on Shoptet with custom graphic styling in HTML and CSS. Banner design and promotional leaflet crafted from product photos provided by Medical-PUR.",
         fig2DescStrip1: "E-shop product page preview.",
         fig2DescStrip2: "Front cover of the promotional leaflet, full post-production in Paint.NET.",
         fig2DescStrip3: "Inside product catalog spread of the leaflet.",
-        fig3Title: "Before & After — Outfit Post-Production",
-        fig3Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
-        fig3MainDesc: "Comparison between raw mobile photos and the finished composition in Paint.NET.",
-        fig3Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
-        fig3Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
+        fig3Title: "One Outfit, Seven Listings",
+        fig3Desc: "Shot on a Samsung Galaxy S24, made to sell on Grailed, Vinted and Depop. Full post-production and background art done in Paint.NET.",
         fig4Title: "Commercial Product Photography & Packshots",
         fig4Desc: "E-commerce product photo post-production and catalog staging. Precision cutouts of intricate denim distressing, knits, and graphic prints, with studio gradient backdrops in Paint.NET.",
         fig4Jeans1Desc: "Vintage punk jeans — front view, precision cutout of denim texture and distressing.",
