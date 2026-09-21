@@ -141,6 +141,7 @@
   .name{
     margin:0;
     font-family:"IBM Plex Mono",monospace;
+    font-weight:700;
     font-size:clamp(2.7rem,4.6vw,4.1rem);
     line-height:.94;
     letter-spacing:-.015em;
@@ -621,7 +622,7 @@
   .poster-stage{
     position:relative;
     width:100%;
-    max-width:min(100%, 82vh);
+    max-width:min(100%, 65vh);
     margin:0 auto;
     border-radius:10px;
     background:var(--ink-lift);
@@ -647,7 +648,8 @@
     background:none;
     cursor:zoom-in;
     z-index:10;
-    transform-origin:65% 55%;
+    transform-origin:center center;
+    transform:rotate(5deg);
     opacity:0;
     transition:opacity .25s ease, transform .25s cubic-bezier(.2,.7,.3,1), filter .25s ease;
     -webkit-tap-highlight-color:transparent;
@@ -655,8 +657,8 @@
   .poster-stage .poster-layer:hover,
   .poster-stage .poster-layer:focus-visible{
     opacity:1;
-    transform:scale(1.035);
-    filter:drop-shadow(0 20px 35px rgba(0,0,0,.85)) brightness(1.04);
+    transform:rotate(5deg) scale(1.04);
+    filter:drop-shadow(0 20px 38px rgba(0,0,0,.9)) brightness(1.05);
     outline:none;
   }
   .poster-stage .poster-layer img{
@@ -698,15 +700,6 @@
     font-size:1rem;
     line-height:1.65;
   }
-
-  .end{
-    padding-top:1rem;
-    border-top:1px solid var(--line);
-    font-family:"IBM Plex Mono",monospace;
-    font-size:.86rem;
-    color:var(--paper-dim);
-  }
-  .end a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--brass)}
 
   /* ---------- click to enlarge ---------- */
 
@@ -962,7 +955,7 @@
         <!-- Main Pan Track (Outfit Before & After) -->
         <div class="fig3-main" id="fig3-box">
           <div class="pan-track" id="fig3-track" style="transform:translateX(calc(-100% * 560 / 1080));">
-            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET.">
+            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET." data-i18n-desc="fig3MainDesc">
           </div>
           <button type="button" class="pan-btn pan-left" id="fig3-prev" aria-label="Zobrazit vlevo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1118,7 +1111,7 @@
         <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Vizuální koncept a plakát pro hudební akci. Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.">
         
         <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
-          style="left:38.8%;top:32.8%;width:61.2%;"
+          style="left:31%;top:30.5%;width:68%;"
           data-desc="Grafický návrh terminálu s informacemi v Krita"
           data-i18n-desc="fig5TerminalDesc"
           aria-label="Terminál — grafický návrh v Krita">
@@ -1128,11 +1121,9 @@
       <figcaption>
         <span class="num">05</span>
         <h2 data-i18n="fig5Title">Plakát hudební akce &amp; digitální ilustrace</h2>
-        <p data-i18n="fig5Desc">Vizuální koncept a plakát pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.</p>
+        <p data-i18n="fig5Desc">Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.</p>
       </figcaption>
     </figure>
-
-    <p class="end"><span data-i18n="endText">Hledáš něco, co tu není?</span> <a href="mailto:daniel.honz36@gmail.com" data-i18n="endLink">Napiš mi o kompletní nabídce.</a></p>
 
   </section>
 </main>
@@ -1431,6 +1422,7 @@
         fig2DescStrip3: "Vnitřní produktový přehled letáku.",
         fig3Title: "Before & After — Postprodukce outfitu",
         fig3Desc: "Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.",
+        fig3MainDesc: "Porovnání surových fotografií a finální kompozice v Paint.NET.",
         fig3Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
         fig3Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
         fig4Title: "Komerční produktová fotografie & packshoty",
@@ -1446,10 +1438,8 @@
         fig4Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
         fig4Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
         fig5Title: "Plakát hudební akce & digitální ilustrace",
-        fig5Desc: "Vizuální koncept a plakát pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující kyberpunkovou typografii, 3D bio-mechanické prvky a ilustrovaný terminál vytvořený v programu Krita.",
+        fig5Desc: "Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.",
         fig5TerminalDesc: "Grafický návrh terminálu s informacemi v Krita",
-        endText: "Hledáš něco, co tu není?",
-        endLink: "Napiš mi o kompletní nabídce.",
         cvHref: "resources/CV.pdf",
         cvDownload: "Daniel_Honzik_CV.pdf"
       },
@@ -1473,6 +1463,7 @@
         fig2DescStrip3: "Inside product catalog spread of the leaflet.",
         fig3Title: "Before & After — Outfit Post-Production",
         fig3Desc: "Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.",
+        fig3MainDesc: "Comparison between raw mobile photos and the finished composition in Paint.NET.",
         fig3Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
         fig3Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
         fig4Title: "Commercial Product Photography & Packshots",
@@ -1488,10 +1479,8 @@
         fig4Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
         fig4Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
         fig5Title: "Music Event Poster & Digital Illustration",
-        fig5Desc: "Visual concept and poster for an underground music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D bio-mechanical elements, and a custom terminal illustrated in Krita.",
-        fig5TerminalDesc: "Terminal UI and graphic design created in Krita",
-        endText: "Looking for something that isn't here?",
-        endLink: "Ask for the full reel.",
+        fig5Desc: "Promotional visual design for a music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.",
+        fig5TerminalDesc: "Information terminal graphic design created in Krita",
         cvHref: "resources/CV_ENG.pdf",
         cvDownload: "Daniel_Honzik_CV_EN.pdf"
       }
