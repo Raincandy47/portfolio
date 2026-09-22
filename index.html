@@ -1,14 +1,14 @@
-<!doctype html>
-<html lang="cs">
-<head>
-<meta charset="utf-8">
+<!DOCTYPE html>
+<!-- saved from url=(0040)https://raincandy47.github.io/portfolio/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daniel Honzík — Grafik & video editor</title>
+<title>Daniel Honzík — Graphic &amp; video editor</title>
 <meta name="description" content="Portfolio grafické a video tvorby — Daniel Honzík.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300..500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Daniel Honzík — Graphic &amp; video editor_files/css2" rel="stylesheet">
 
 <script>
   // Draws a neutral tile naming the file it expected, for any image not on disk yet.
@@ -50,6 +50,20 @@
   }
 
   a{color:inherit}
+
+  /* ---------- background texture ----------
+     One full-screen noise layer, generated at the actual screen size,
+     so nothing tiles or repeats. */
+  .bg-texture{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-2;
+    pointer-events:none;
+    display:block;
+  }
+
 
   :focus-visible{
     outline:2px solid var(--brass);
@@ -815,46 +829,65 @@
 </style>
 </head>
 
-<body>
+<body class="">
+<svg class="bg-texture" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="bg-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" seed="7"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0"/>
+    </filter>
+    <filter id="bg-mottle" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".0035 .005" numOctaves="4" seed="23"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .26 0"/>
+    </filter>
+    <radialGradient id="bg-light" cx="30%" cy="0%" r="80%">
+      <stop offset="0" stop-color="#fff" stop-opacity=".035"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="100%" height="100%" filter="url(#bg-mottle)"/>
+  <rect width="100%" height="100%" filter="url(#bg-grain)"/>
+  <rect width="100%" height="100%" fill="url(#bg-light)"/>
+</svg>
 <div class="lang-toggle" role="group" aria-label="Jazyk / Language">
-  <button type="button" class="lang-btn active" data-lang="cs">CS</button>
-  <button type="button" class="lang-btn" data-lang="en">EN</button>
+  <button type="button" class="lang-btn" data-lang="cs">CS</button>
+  <button type="button" class="lang-btn active" data-lang="en">EN</button>
 </div>
 <main class="layout">
 
   <!-- ============ COLUMN 1: Profile ============ -->
   <aside class="profile">
     <header>
-      <p class="role" data-i18n="role">Grafik &amp; video editor</p>
+      <p class="role" data-i18n="role">Graphic &amp; video editor</p>
       <h1 class="name">Daniel Honzík</h1>
     </header>
 
     <div class="bio">
-      <p data-i18n="bioP1">Ke grafice a videoprodukci jsem přišel už v dobách studia a dnes se jim věnuji jak profesionálně, tak ve své osobní tvorbě — vždy s důrazem na estetiku a detail, ať jde o styling produktu, nebo tvorbu poutavého videa.</p>
-      <p data-i18n="bioP2">Aktuálně se rozvíjím ve webdesignu a HTML, digitální tvorbě v Kritě a v programech Adobe. Střih videa teď využívám hlavně pro růst na sociálních sítích.</p>
+      <p data-i18n="bioP1">I got into graphic and video work back in school, and today I do it both professionally and in my own personal projects — always with an eye for aesthetics and detail, whether it's styling a product or cutting a video that pulls people in.</p>
+      <p data-i18n="bioP2">Right now I'm growing into web design and HTML, digital art in Krita, and the Adobe apps. I mainly use video editing for growing on social media these days.</p>
     </div>
 
     <p class="tools">
-      <b data-i18n="toolsLabel">Pracuji v</b>
+      <b data-i18n="toolsLabel">Working in</b>
       DaVinci Resolve, Paint.NET, Krita, REAPER
     </p>
 
     <div>
-      <a class="cv" id="cv-link" href="resources/CV.pdf" download="Daniel_Honzik_CV.pdf" data-i18n="cvButton">Stáhnout CV</a>
-      <p class="cv-note" data-i18n="cvNote">PDF, aktualizováno v srpnu 2026</p>
+      <a class="cv" id="cv-link" href="https://raincandy47.github.io/portfolio/resources/CV_ENG.pdf" download="Daniel_Honzik_CV_EN.pdf" data-i18n="cvButton">Download CV</a>
+      <p class="cv-note" data-i18n="cvNote">PDF, updated August 2026</p>
     </div>
 
     <nav class="contact">
       <a href="mailto:daniel.honz36@gmail.com">daniel.honz36@gmail.com</a>
     </nav>
 
-    <p class="counter"><span data-i18n="counterFrame">Snímek</span> <span id="frame-now">01</span> <span data-i18n="counterOf">z</span> <span id="frame-total">05</span></p>
+    <p class="counter"><span data-i18n="counterFrame">Frame</span> <span id="frame-now">01</span> <span data-i18n="counterOf">of</span> <span id="frame-total">05</span></p>
   </aside>
 
   <!-- ============ COLUMN 2: Reel ============ -->
   <section class="reel">
 
-    <p class="reel-intro" data-i18n="reelIntro">Vybrané práce, 2023–2026</p>
+    <p class="reel-intro" data-i18n="reelIntro">Selected work, 2023–2026</p>
 
     <!-- FIGURA 01: Before & After — Postprodukce outfitu -->
     <figure class="shot shot-wide">
@@ -862,7 +895,7 @@
         <!-- Main Pan Track (Outfit Before & After) -->
         <div class="fig1-main" id="fig1-box">
           <div class="pan-track" id="fig1-track" style="transform:translateX(calc(-100% * 560 / 1080));">
-            <img src="resources/before-after.png" onerror="ph(this)" alt="Before & After kompozice outfitu" data-desc="Porovnání surových fotografií a finální kompozice v Paint.NET." data-i18n-desc="fig1MainDesc">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/before-after.png" onerror="ph(this)" alt="Before &amp; After kompozice outfitu" data-desc="Comparison between raw mobile photos and the finished composition in Paint.NET." data-i18n-desc="fig1MainDesc" tabindex="0" role="button" aria-label="View larger: Porovnání surových fotografií a finální kompozice v Paint.NET.">
           </div>
           <button type="button" class="pan-btn pan-left" id="fig1-prev" aria-label="Zobrazit vlevo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -882,7 +915,7 @@
           <!-- Top: shoes1 -->
           <div class="fig1-shoe-frame" id="shoe1-frame">
             <div class="shoe-track" id="shoe1-track" style="transform:translateX(0%);">
-              <img src="resources/shoes1.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — profil" data-desc="New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET." data-i18n-desc="fig1Thumb1Desc">
+              <img src="./Daniel Honzík — Graphic &amp; video editor_files/shoes1.png" onerror="this.src.endsWith(&#39;.png&#39;) ? this.src=this.src.replace(&#39;.png&#39;,&#39;.jpg&#39;) : ph(this)" alt="New Rock boty — profil" data-desc="New Rock boots — side profile, comparing raw product shot against Paint.NET post-production." data-i18n-desc="fig1Thumb1Desc" tabindex="0" role="button" aria-label="View larger: New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.">
             </div>
             <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe1-prev" style="display:none;" aria-label="Zobrazit po úpravě">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -899,7 +932,7 @@
           <!-- Bottom: shoes2 -->
           <div class="fig1-shoe-frame" id="shoe2-frame">
             <div class="shoe-track" id="shoe2-track" style="transform:translateX(0%);">
-              <img src="resources/shoes2.png" onerror="this.src.endsWith('.png') ? this.src=this.src.replace('.png','.jpg') : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET." data-i18n-desc="fig1Thumb2Desc">
+              <img src="./Daniel Honzík — Graphic &amp; video editor_files/shoes2.png" onerror="this.src.endsWith(&#39;.png&#39;) ? this.src=this.src.replace(&#39;.png&#39;,&#39;.jpg&#39;) : ph(this)" alt="New Rock boty — pata a textura" data-desc="New Rock boots — heel detail, typographic background art and shading in Paint.NET." data-i18n-desc="fig1Thumb2Desc" tabindex="0" role="button" aria-label="View larger: New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.">
             </div>
             <button type="button" class="pan-btn pan-btn-sm pan-left" id="shoe2-prev" style="display:none;" aria-label="Zobrazit po úpravě">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -916,78 +949,71 @@
       </div>
       <figcaption>
         <span class="num">01</span>
-        <h2 data-i18n="fig1Title">Before &amp; After — Postprodukce outfitu</h2>
-        <p data-i18n="fig1Desc">Porovnání surových fotografií z mobilu a finální kompozice s grafikou pozadí. Pomocí šipek lze přepínat mezi původními fotkami a výslednou postprodukcí v Paint.NET.</p>
+        <h2 data-i18n="fig1Title">Before &amp; After — Outfit Post-Production</h2>
+        <p data-i18n="fig1Desc">Comparison between raw mobile photos and the final composition with background graphics. Use the arrows to toggle between original shots and the finished Paint.NET post-production.</p>
       </figcaption>
     </figure>
 
     <!-- FIGURA 02: spimzdrave.eu -->
     <figure class="shot shot-wide">
       <div class="scroll-frame">
-        <img src="resources/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
+        <img src="./Daniel Honzík — Graphic &amp; video editor_files/frontpage.png" onerror="ph(this)" alt="spimzdrave.eu, celá úvodní stránka.">
       </div>
       <div class="strip-fig2">
         <div class="frame glow-preview">
-          <img src="resources/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="Náhled produktové stránky e-shopu." data-i18n-desc="fig2DescStrip1">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/pur3.png" onerror="ph(this)" alt="Náhled produktové stránky e-shopu." data-desc="E-shop product page preview." data-i18n-desc="fig2DescStrip1" tabindex="0" role="button" aria-label="View larger: Náhled produktové stránky e-shopu.">
         </div>
         <div class="frame glow-leaflet-1">
-          <img src="resources/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Titulní strana letáku, plná postprodukce v Paint.NET." data-i18n-desc="fig2DescStrip2">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/frontside1.png" onerror="ph(this)" alt="Titulní strana letáku." data-desc="Front cover of the promotional leaflet, full post-production in Paint.NET." data-i18n-desc="fig2DescStrip2" tabindex="0" role="button" aria-label="View larger: Titulní strana letáku, plná postprodukce v Paint.NET.">
         </div>
         <div class="frame glow-leaflet-2">
-          <img src="resources/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Vnitřní produktový přehled letáku." data-i18n-desc="fig2DescStrip3">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/merged.png" onerror="ph(this)" alt="Vnitřní produktový přehled letáku." data-desc="Inside product catalog spread of the leaflet." data-i18n-desc="fig2DescStrip3" tabindex="0" role="button" aria-label="View larger: Vnitřní produktový přehled letáku.">
         </div>
       </div>
       <figcaption>
         <span class="num">02</span>
-        <h2 data-i18n="fig2Title">Web spimzdrave.eu a propagační leták</h2>
-        <p data-i18n="fig2Desc">Klientská práce — web postavený na Shoptetu, grafická úprava v HTML a CSS. Návrh banneru e-shopu a letáku z produktových fotek dodaných značkou Medical-PUR.</p>
+        <h2 data-i18n="fig2Title">spimzdrave.eu Website &amp; Promotional Leaflet</h2>
+        <p data-i18n="fig2Desc">Client work — e-shop built on Shoptet with custom graphic styling in HTML and CSS. Banner design and promotional leaflet crafted from product photos provided by Medical-PUR.</p>
       </figcaption>
     </figure>
 
     <!-- FIGURA 03: Jeden outfit, sedm inzerátů (Interaktivní flatlay) -->
     <figure class="shot">
       <div class="stage" id="stage">
-        <img class="bg" src="resources/roscharch.png" onerror="ph(this)" alt="">
+        <img class="bg" src="./Daniel Honzík — Graphic &amp; video editor_files/roscharch.png" onerror="ph(this)" alt="">
 
-        <button type="button" class="layer" data-piece="denim" data-full="resources/pants_bg.png" style="left:26.36%;top:37.82%;width:82.13%;--z:1"
-          data-title="Mud Flare džíny" data-desc="Zvonové džíny s vysokým pasem.">
-          <img src="resources/denim.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="denim" data-full="resources/pants_bg.png" style="left:26.36%;top:37.82%;width:82.13%;--z:1" data-title="Mud Flare Jeans" data-desc="High-waisted flare jeans." tabindex="0" aria-label="View larger: Mud Flare džíny">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/denim.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="shoes" data-full="resources/shoes_bg.png" style="left:-2.17%;top:60.89%;width:41.00%;--z:2"
-          data-title="Bugatti cedrově hnědé boty" data-desc="Semišové šněrovací boty.">
-          <img src="resources/shoes.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="shoes" data-full="resources/shoes_bg.png" style="left:-2.17%;top:60.89%;width:41.00%;--z:2" data-title="Bugatti Cedar Brown Boots" data-desc="Suede lace-up boots." tabindex="0" aria-label="View larger: Bugatti cedrově hnědé boty">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/shoes.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="jacket" data-full="resources/jacket_bg.png" style="left:34.55%;top:0.01%;width:67.00%;--z:3"
-          data-title="Tornado Mart archivní kožešinová bunda" data-desc="Sešisovaná semišová bunda, umělá kožešina na límci.">
-          <img src="resources/jacket.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="jacket" data-full="resources/jacket_bg.png" style="left:34.55%;top:0.01%;width:67.00%;--z:3" data-title="Tornado Mart Archive Fur-Collar Jacket" data-desc="Distressed suede jacket with a faux-fur collar." tabindex="0" aria-label="View larger: Tornado Mart archivní kožešinová bunda">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/jacket.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="rosary" data-full="resources/rosary_bg.png" style="left:2.87%;top:-2.41%;width:43.50%;--z:3"
-          data-title="Růženec" data-desc="Dřevěný růženec s vyřezávaným křížkem.">
-          <img src="resources/rosary.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="rosary" data-full="resources/rosary_bg.png" style="left:2.87%;top:-2.41%;width:43.50%;--z:3" data-title="Rosary" data-desc="Wooden rosary with a carved cross." tabindex="0" aria-label="View larger: Růženec">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/rosary.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="belt" data-full="resources/belt_bg.png" style="left:20.11%;top:46.75%;width:32.00%;--z:4"
-          data-title="'Mello' Spike pásek" data-desc="Kožený pásek s ocelovými hroty a přezkou.">
-          <img src="resources/belt.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="belt" data-full="resources/belt_bg.png" style="left:20.11%;top:46.75%;width:32.00%;--z:4" data-title="&#39;Mello&#39; Spike Belt" data-desc="Leather belt with steel spikes and buckle." tabindex="0" aria-label="View larger: &#39;Mello&#39; Spike pásek">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/belt.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="tabacco" data-full="resources/cigarette_bg.png" style="left:-2.29%;top:41.01%;width:30.70%;--z:4"
-          data-title="Vintage mosazná tabatěrka" data-desc="10x8 tabatěrka se secesním ornamentem.">
-          <img src="resources/tabacco.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="tabacco" data-full="resources/cigarette_bg.png" style="left:-2.29%;top:41.01%;width:30.70%;--z:4" data-title="Vintage Brass Cigarette Case" data-desc="10x8 case with an Art Nouveau engraving." tabindex="0" aria-label="View larger: Vintage mosazná tabatěrka">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/tabacco.png" onerror="ph(this)" alt="">
         </button>
 
-        <button type="button" class="layer" data-piece="jewelry" data-full="resources/rings_bg.png" style="left:-0.70%;top:26.11%;width:28.00%;--z:5"
-          data-title="Antikní prsteny" data-desc="Bronzový prsten s kamenem z lastury. Gotický prsten s křišťálem.">
-          <img src="resources/jewelry.png" onerror="ph(this)" alt="">
+        <button type="button" class="layer" data-piece="jewelry" data-full="resources/rings_bg.png" style="left:-0.70%;top:26.11%;width:28.00%;--z:5" data-title="Antique Rings" data-desc="Bronze ring with a shell-inlay stone. Gothic ring with a crystal stone." tabindex="0" aria-label="View larger: Antikní prsteny">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/jewelry.png" onerror="ph(this)" alt="">
         </button>
       </div>
       <figcaption>
         <span class="num">03</span>
-        <h2 data-i18n="fig3Title">Jeden outfit, sedm inzerátů</h2>
-        <p data-i18n="fig3Desc">Vyfoceno na Samsung Galaxy S24, vytvořeno pro prodej na Grailed, Vinted a Depop. Kompletní postprodukce a tvorba pozadí v Paint.NET.</p>
+        <h2 data-i18n="fig3Title">One Outfit, Seven Listings</h2>
+        <p data-i18n="fig3Desc">Shot on a Samsung Galaxy S24, made to sell on Grailed, Vinted and Depop. Full post-production and background art done in Paint.NET.</p>
       </figcaption>
     </figure>
 
@@ -995,11 +1021,11 @@
     <figure class="shot shot-wide">
       <div class="fig4-top">
         <!-- Vintage Punk Jeans (3 fotky) -->
-        <div class="fig4-card" data-carousel>
+        <div class="fig4-card" data-carousel="">
           <div class="carousel-track">
-            <img src="resources/vintage punk jeans 1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — přední pohled" data-desc="Vintage punk džíny — přední pohled, ořez třepení a textury denimu." data-i18n-desc="fig4Jeans1Desc">
-            <img src="resources/vintage punk jeans 2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — zadní pohled" data-desc="Vintage punk džíny — zadní pohled, detaily kapes a prošívání." data-i18n-desc="fig4Jeans2Desc">
-            <img src="resources/vintage punk jeans 3.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — detail pasu" data-desc="Vintage punk džíny — makro detail pasu a typografického lemu." data-i18n-desc="fig4Jeans3Desc">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/vintage punk jeans 1.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Vintage punk džíny — přední pohled" data-desc="Vintage punk jeans — front view, precision cutout of denim texture and distressing." data-i18n-desc="fig4Jeans1Desc" tabindex="0" role="button" aria-label="View larger: Vintage punk džíny — přední pohled, ořez třepení a textury denimu.">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/vintage punk jeans 2.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Vintage punk džíny — zadní pohled" data-desc="Vintage punk jeans — rear view, stitchwork and pocket details." data-i18n-desc="fig4Jeans2Desc" tabindex="0" role="button" aria-label="View larger: Vintage punk džíny — zadní pohled, detaily kapes a prošívání.">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/vintage punk jeans 3.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Vintage punk džíny — detail pasu" data-desc="Vintage punk jeans — macro close-up of waistband and typographic embroidery." data-i18n-desc="fig4Jeans3Desc" tabindex="0" role="button" aria-label="View larger: Vintage punk džíny — makro detail pasu a typografického lemu.">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1015,10 +1041,10 @@
         </div>
 
         <!-- Ripped Shorts (2 fotky) -->
-        <div class="fig4-card" data-carousel>
+        <div class="fig4-card" data-carousel="">
           <div class="carousel-track">
-            <img src="resources/ripped_shorts1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — přední pohled" data-desc="Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování." data-i18n-desc="fig4Shorts1Desc">
-            <img src="resources/ripped_shorts2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — zadní pohled" data-desc="Roztrhané denimové kraťasy — zadní pohled na kapsy a střih." data-i18n-desc="fig4Shorts2Desc">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/ripped_shorts1.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Roztrhané kraťasy — přední pohled" data-desc="Ripped denim shorts — front view, handmade distressing isolation." data-i18n-desc="fig4Shorts1Desc" tabindex="0" role="button" aria-label="View larger: Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování.">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/ripped_shorts2.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Roztrhané kraťasy — zadní pohled" data-desc="Ripped denim shorts — rear view and fit framing." data-i18n-desc="fig4Shorts2Desc" tabindex="0" role="button" aria-label="View larger: Roztrhané denimové kraťasy — zadní pohled na kapsy a střih.">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1035,10 +1061,10 @@
 
       <div class="fig4-bottom">
         <!-- Kurt Cobain Sweater (2 fotky) -->
-        <div class="fig4-card" data-carousel>
+        <div class="fig4-card" data-carousel="">
           <div class="carousel-track">
-            <img src="resources/kurt1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný pletený svetr" data-desc="Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken." data-i18n-desc="fig4Kurt1Desc">
-            <img src="resources/kurt2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný svetr — detail rukávu" data-desc="Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení." data-i18n-desc="fig4Kurt2Desc">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/kurt1.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Pruhovaný pletený svetr" data-desc="Striped distressed knit sweater — full silhouette and fiber texture detail." data-i18n-desc="fig4Kurt1Desc" tabindex="0" role="button" aria-label="View larger: Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken.">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/kurt2.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Pruhovaný svetr — detail rukávu" data-desc="Striped distressed knit sweater — sleeve and knit fraying detail." data-i18n-desc="fig4Kurt2Desc" tabindex="0" role="button" aria-label="View larger: Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení.">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1054,14 +1080,14 @@
 
         <!-- Conv1 Beanie (pouze 1 foto bez šipek) -->
         <div class="fig4-card">
-          <img src="resources/conv1.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Vínová pletená čepice" data-desc="Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním." data-i18n-desc="fig4BeanieDesc">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/conv1.png" onerror="this.src.endsWith(&#39;.png&#39;)?this.src=this.src.replace(&#39;.png&#39;,&#39;.jpg&#39;):ph(this)" alt="Vínová pletená čepice" data-desc="Burgundy knit beanie — studio product packshot with radial backdrop grading." data-i18n-desc="fig4BeanieDesc" tabindex="0" role="button" aria-label="View larger: Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.">
         </div>
 
         <!-- Slipknot Socks (2 fotky) -->
-        <div class="fig4-card" data-carousel>
+        <div class="fig4-card" data-carousel="">
           <div class="carousel-track">
-            <img src="resources/slipknot1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — detail" data-desc="Slipknot ponožky — maskování členitého potisku na pletené látce." data-i18n-desc="fig4Socks1Desc">
-            <img src="resources/slipknot2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — zadní strana" data-desc="Slipknot ponožky — alternativní úhel a čistý ořez okrajů." data-i18n-desc="fig4Socks2Desc">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/slipknot1.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Slipknot ponožky — detail" data-desc="Slipknot socks — graphic pattern cutout on knitted textile." data-i18n-desc="fig4Socks1Desc" tabindex="0" role="button" aria-label="View larger: Slipknot ponožky — maskování členitého potisku na pletené látce.">
+            <img src="./Daniel Honzík — Graphic &amp; video editor_files/slipknot2.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Slipknot ponožky — zadní strana" data-desc="Slipknot socks — alternate presentation angle and clean edge work." data-i18n-desc="fig4Socks2Desc" tabindex="0" role="button" aria-label="View larger: Slipknot ponožky — alternativní úhel a čistý ořez okrajů.">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1077,27 +1103,24 @@
       </div>
       <figcaption>
         <span class="num">04</span>
-        <h2 data-i18n="fig4Title">Komerční produktová fotografie &amp; packshoty</h2>
-        <p data-i18n="fig4Desc">Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.</p>
+        <h2 data-i18n="fig4Title">Commercial Product Photography &amp; Packshots</h2>
+        <p data-i18n="fig4Desc">E-commerce product photo post-production and catalog staging. Precision cutouts of intricate denim distressing, knits, and graphic prints, with studio gradient backdrops in Paint.NET.</p>
       </figcaption>
     </figure>
 
     <!-- FIGURA 05: Poster & Interactive Terminal Layer -->
     <figure class="shot">
       <div class="poster-stage">
-        <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.">
+        <img class="poster-bg" src="./Daniel Honzík — Graphic &amp; video editor_files/complete.png" onerror="this.src.endsWith(&#39;.jpg&#39;)?this.src=this.src.replace(&#39;.jpg&#39;,&#39;.png&#39;):ph(this)" alt="Plakát hudební akce Shelter" data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace." tabindex="0" role="button" aria-label="View larger: Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.">
         
-        <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
-          data-desc="Grafický návrh terminálu s informacemi v Krita"
-          data-i18n-desc="fig5TerminalDesc"
-          aria-label="Terminál — grafický návrh v Krita">
-          <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
+        <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png" data-desc="Information terminal graphic design created in Krita" data-i18n-desc="fig5TerminalDesc" aria-label="View larger: Grafický návrh terminálu s informacemi v Krita" tabindex="0">
+          <img src="./Daniel Honzík — Graphic &amp; video editor_files/ddd.png" onerror="this.src.endsWith(&#39;.png&#39;)?this.src=this.src.replace(&#39;.png&#39;,&#39;.jpg&#39;):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
         </button>
       </div>
       <figcaption>
         <span class="num">05</span>
-        <h2 data-i18n="fig5Title">Plakát hudební akce &amp; digitální ilustrace</h2>
-        <p data-i18n="fig5Desc">Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.</p>
+        <h2 data-i18n="fig5Title">Music Event Poster &amp; Digital Illustration</h2>
+        <p data-i18n="fig5Desc">Promotional visual design for a music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.</p>
       </figcaption>
     </figure>
 
@@ -1106,12 +1129,12 @@
 
 <!-- Lightbox Modal -->
 <dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
-  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
   <figure class="lightbox-stage" id="lightbox-stage">
-    <img id="lightbox-img" src="" alt="">
+    <img id="lightbox-img" alt="Plakát hudební akce Shelter">
     <figcaption>
-      <h2 id="lightbox-title"></h2>
-      <p id="lightbox-text"></p>
+      <h2 id="lightbox-title">Music Event Poster &amp; Digital Illustration</h2>
+      <p id="lightbox-text">Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.</p>
     </figcaption>
   </figure>
 </dialog>
@@ -1527,5 +1550,5 @@
   })();
 </script>
 
-</body>
-</html>
+
+</body></html>
