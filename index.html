@@ -611,19 +611,32 @@
     opacity:1;
   }
 
-  /* ---------- Figure 05: Poster & Interactive Terminal Layer ---------- */
+  /* ---------- Figure 05: Two Posters Grid & Interactive Terminal ---------- */
+  .fig5-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(1rem, 2.4vw, 2.2rem);
+    align-items:start;
+    width:100%;
+  }
   .poster-stage{
     position:relative;
     width:100%;
-    max-width:min(100%, 65vh);
-    margin:0 auto;
     border-radius:10px;
     overflow:hidden;
     background:var(--ink-lift);
     box-shadow:
-      0 -28px 48px rgba(80,180,60,.22),
-      -28px 0 48px rgba(140,50,180,.26),
-      28px 0 48px rgba(180,40,90,.22),
+      0 -28px 48px rgba(80,180,60,.18),
+      -28px 0 48px rgba(140,50,180,.24),
+      28px 0 48px rgba(180,40,90,.18),
+      0 28px 48px rgba(0,0,0,.5),
+      0 0 0 1px rgba(255,255,255,.08);
+  }
+  .poster-stage.poster-stage-lineup{
+    box-shadow:
+      0 -28px 48px rgba(220,40,40,.24),
+      -28px 0 48px rgba(40,180,140,.18),
+      28px 0 48px rgba(220,40,40,.2),
       0 28px 48px rgba(0,0,0,.5),
       0 0 0 1px rgba(255,255,255,.08);
   }
@@ -633,7 +646,14 @@
     height:auto;
     border-radius:10px;
     cursor:zoom-in;
+    transition:transform .25s ease, opacity .18s ease;
   }
+  .poster-stage-lineup > .poster-bg:hover,
+  .poster-stage-lineup > .poster-bg:focus-visible{
+    opacity:1;
+    transform:scale(1.015);
+  }
+
   .poster-stage .poster-layer{
     position:absolute;
     display:block;
@@ -854,6 +874,7 @@
     .fig3-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
     .fig4-top{grid-template-columns:1fr 1fr}
     .fig4-bottom{grid-template-columns:1fr 1fr 1fr}
+    .fig5-grid{grid-template-columns:1fr; max-width:min(100%, 560px); margin:0 auto;}
   }
   @media (max-width:600px){
     .fig4-top{grid-template-columns:1fr}
@@ -1120,28 +1141,40 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURA 05: Poster & Interactive Terminal Layer -->
-    <figure class="shot">
-      <div class="poster-stage">
-        <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Plakát hudební akce Shelter"
-          data-title="Plakát hudební akce &amp; digitální ilustrace"
-          data-i18n-title="fig5Title"
-          data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace."
-          data-i18n-desc="fig5Desc">
-        
-        <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
-          data-title="Terminál — digitální ilustrace"
-          data-i18n-title="fig5TerminalTitle"
-          data-desc="Grafický návrh terminálu s informacemi v Krita"
-          data-i18n-desc="fig5TerminalDesc"
-          aria-label="Terminál — grafický návrh v Krita">
-          <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
-        </button>
+    <!-- FIGURA 05: Two Posters Grid & Interactive Terminal Layer -->
+    <figure class="shot shot-wide">
+      <div class="fig5-grid">
+        <!-- 1. Plakát Shelter s terminálem -->
+        <div class="poster-stage">
+          <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Shelter — Plakát hudební akce"
+            data-title="Shelter — Plakát hudební akce"
+            data-i18n-title="fig5Poster1Title"
+            data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace."
+            data-i18n-desc="fig5Poster1Desc">
+          
+          <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
+            data-title="Terminál — digitální ilustrace"
+            data-i18n-title="fig5TerminalTitle"
+            data-desc="Grafický návrh terminálu s informacemi v Krita"
+            data-i18n-desc="fig5TerminalDesc"
+            aria-label="Terminál — grafický návrh v Krita">
+            <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
+          </button>
+        </div>
+
+        <!-- 2. Plakát Antidotum Halloween -->
+        <div class="poster-stage poster-stage-lineup">
+          <img class="poster-bg" src="resources/lineup.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Antidotum: Halloween - lineup plakát"
+            data-title="Antidotum: Halloween - lineup plakát"
+            data-i18n-title="fig5Poster2Title"
+            data-desc="Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie."
+            data-i18n-desc="fig5Poster2Desc">
+        </div>
       </div>
       <figcaption>
         <span class="num">05</span>
-        <h2 data-i18n="fig5Title">Plakát hudební akce &amp; digitální ilustrace</h2>
-        <p data-i18n="fig5Desc">Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.</p>
+        <h2 data-i18n="fig5Title">Propagační plakáty hudebních akcí</h2>
+        <p data-i18n="fig5Desc">Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.</p>
       </figcaption>
     </figure>
 
@@ -1590,8 +1623,12 @@
         fig4BeanieDesc: "Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.",
         fig4Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
         fig4Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
-        fig5Title: "Plakát hudební akce & digitální ilustrace",
-        fig5Desc: "Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.",
+        fig5Title: "Propagační plakáty hudebních akcí",
+        fig5Desc: "Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.",
+        fig5Poster1Title: "Shelter — Plakát hudební akce",
+        fig5Poster1Desc: "Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.",
+        fig5Poster2Title: "Antidotum: Halloween - lineup plakát",
+        fig5Poster2Desc: "Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie.",
         fig5TerminalTitle: "Terminál — digitální ilustrace",
         fig5TerminalDesc: "Grafický návrh terminálu s informacemi v Krita",
         cvHref: "resources/CV.pdf",
@@ -1632,8 +1669,12 @@
         fig4BeanieDesc: "Burgundy knit beanie — studio product packshot with radial backdrop grading.",
         fig4Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
         fig4Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
-        fig5Title: "Music Event Poster & Digital Illustration",
-        fig5Desc: "Promotional visual design for a music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.",
+        fig5Title: "Music Event Promotional Posters",
+        fig5Desc: "Commissioned poster series for club nights and music events. Designs combining experimental typography, industrial textures, 3D elements, and illustrations crafted in Krita and Adobe Photoshop.",
+        fig5Poster1Title: "Shelter — Music Event Poster",
+        fig5Poster1Desc: "Promotional visual design for an underground music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.",
+        fig5Poster2Title: "Antidotum: Halloween — Lineup Poster",
+        fig5Poster2Desc: "Lineup schedule visual design for a Halloween club night. Industrial/cyberpunk aesthetics, 3D wireframe grid model, and high-contrast red-on-black typography.",
         fig5TerminalTitle: "Terminal UI — Digital Illustration",
         fig5TerminalDesc: "Information terminal graphic design created in Krita",
         cvHref: "resources/CV_ENG.pdf",
