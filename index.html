@@ -555,64 +555,8 @@
     cursor:zoom-in;
   }
 
-  /* ---------- Figure 04: Product Packshot 2 + 3 Grid ---------- */
-  .fig4-top{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:.85rem;
-    margin-bottom:.85rem;
-  }
-  .fig4-bottom{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:.85rem;
-  }
-  .fig4-card{
-    position:relative;
-    width:100%;
-    aspect-ratio:1/1;
-    overflow:hidden;
-    border-radius:8px;
-    background:var(--ink-lift);
-    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
-  }
-  .fig4-card > img{
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    cursor:zoom-in;
-    opacity:.94;
-    transition:opacity .18s ease, transform .22s ease;
-  }
-  .fig4-card > img:hover,
-  .fig4-card > img:focus-visible{
-    opacity:1;
-    transform:scale(1.02);
-  }
-  .carousel-track{
-    position:absolute;
-    inset:0;
-    display:flex;
-    height:100%;
-    transition:transform .42s cubic-bezier(.25,1,.5,1);
-  }
-  .carousel-track img{
-    flex:0 0 100%;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    cursor:zoom-in;
-    opacity:.94;
-    transition:opacity .18s ease;
-  }
-  .carousel-track img:hover,
-  .carousel-track img:focus-visible{
-    opacity:1;
-  }
-
-  /* ---------- Figure 05: Two Posters Grid & Interactive Terminal ---------- */
-  .fig5-grid{
+  /* ---------- Figure 04: Two Posters Grid & Interactive Terminal ---------- */
+  .fig4-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:clamp(1rem, 2.4vw, 2.2rem);
@@ -683,6 +627,62 @@
     width:100%;
     height:auto;
     pointer-events:none;
+  }
+
+  /* ---------- Figure 05: Product Packshot 2 + 3 Grid ---------- */
+  .fig5-top{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.85rem;
+    margin-bottom:.85rem;
+  }
+  .fig5-bottom{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:.85rem;
+  }
+  .fig5-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    border-radius:8px;
+    background:var(--ink-lift);
+    box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 0 32px rgba(255,255,255,.12), 0 8px 20px rgba(0,0,0,.4);
+  }
+  .fig5-card > img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+    opacity:.94;
+    transition:opacity .18s ease, transform .22s ease;
+  }
+  .fig5-card > img:hover,
+  .fig5-card > img:focus-visible{
+    opacity:1;
+    transform:scale(1.02);
+  }
+  .carousel-track{
+    position:absolute;
+    inset:0;
+    display:flex;
+    height:100%;
+    transition:transform .42s cubic-bezier(.25,1,.5,1);
+  }
+  .carousel-track img{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:zoom-in;
+    opacity:.94;
+    transition:opacity .18s ease;
+  }
+  .carousel-track img:hover,
+  .carousel-track img:focus-visible{
+    opacity:1;
   }
 
   .shot > figcaption{
@@ -872,13 +872,13 @@
     .strip-fig2{grid-template-columns:1fr}
     .fig3-layout{grid-template-columns:1fr}
     .fig3-side{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
-    .fig4-top{grid-template-columns:1fr 1fr}
-    .fig4-bottom{grid-template-columns:1fr 1fr 1fr}
-    .fig5-grid{grid-template-columns:1fr; max-width:min(100%, 560px); margin:0 auto;}
+    .fig4-grid{grid-template-columns:1fr; max-width:min(100%, 560px); margin:0 auto;}
+    .fig5-top{grid-template-columns:1fr 1fr}
+    .fig5-bottom{grid-template-columns:1fr 1fr 1fr}
   }
   @media (max-width:600px){
-    .fig4-top{grid-template-columns:1fr}
-    .fig4-bottom{grid-template-columns:1fr}
+    .fig5-top{grid-template-columns:1fr}
+    .fig5-bottom{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -904,7 +904,7 @@
 
     <p class="tools">
       <b data-i18n="toolsLabel">Pracuji v</b>
-      DaVinci Resolve, Paint.NET, Krita, REAPER
+      DaVinci Resolve, Paint.NET, Adobe Photoshop, Krita, REAPER
     </p>
 
     <div>
@@ -1055,14 +1055,51 @@
       </figcaption>
     </figure>
 
-    <!-- FIGURA 04: Komerční produktová fotografie & packshoty -->
+    <!-- FIGURA 04: Two Posters Grid & Interactive Terminal Layer -->
     <figure class="shot shot-wide">
-      <div class="fig4-top">
-        <div class="fig4-card" data-carousel>
+      <div class="fig4-grid">
+        <!-- 1. Plakát Shelter s terminálem -->
+        <div class="poster-stage">
+          <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Shelter — Plakát hudební akce"
+            data-title="Shelter — Plakát hudební akce"
+            data-i18n-title="fig4Poster1Title"
+            data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace."
+            data-i18n-desc="fig4Poster1Desc">
+          
+          <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
+            data-title="Terminál — digitální ilustrace"
+            data-i18n-title="fig4TerminalTitle"
+            data-desc="Grafický návrh terminálu s informacemi v Krita"
+            data-i18n-desc="fig4TerminalDesc"
+            aria-label="Terminál — grafický návrh v Krita">
+            <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
+          </button>
+        </div>
+
+        <!-- 2. Plakát Antidotum Halloween -->
+        <div class="poster-stage poster-stage-lineup">
+          <img class="poster-bg" src="resources/lineup.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Antidotum: Halloween - lineup plakát"
+            data-title="Antidotum: Halloween - lineup plakát"
+            data-i18n-title="fig4Poster2Title"
+            data-desc="Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie."
+            data-i18n-desc="fig4Poster2Desc">
+        </div>
+      </div>
+      <figcaption>
+        <span class="num">04</span>
+        <h2 data-i18n="fig4Title">Propagační plakáty hudebních akcí</h2>
+        <p data-i18n="fig4Desc">Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.</p>
+      </figcaption>
+    </figure>
+
+    <!-- FIGURA 05: Komerční produktová fotografie & packshoty -->
+    <figure class="shot shot-wide">
+      <div class="fig5-top">
+        <div class="fig5-card" data-carousel>
           <div class="carousel-track">
-            <img src="resources/vintage punk jeans 1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — přední pohled" data-desc="Vintage punk džíny — přední pohled, ořez třepení a textury denimu." data-i18n-desc="fig4Jeans1Desc">
-            <img src="resources/vintage punk jeans 2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — zadní pohled" data-desc="Vintage punk džíny — zadní pohled, detaily kapes a prošívání." data-i18n-desc="fig4Jeans2Desc">
-            <img src="resources/vintage punk jeans 3.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — detail pasu" data-desc="Vintage punk džíny — makro detail pasu a typografického lemu." data-i18n-desc="fig4Jeans3Desc">
+            <img src="resources/vintage punk jeans 1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — přední pohled" data-desc="Vintage punk džíny — přední pohled, ořez třepení a textury denimu." data-i18n-desc="fig5Jeans1Desc">
+            <img src="resources/vintage punk jeans 2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — zadní pohled" data-desc="Vintage punk džíny — zadní pohled, detaily kapes a prošívání." data-i18n-desc="fig5Jeans2Desc">
+            <img src="resources/vintage punk jeans 3.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Vintage punk džíny — detail pasu" data-desc="Vintage punk džíny — makro detail pasu a typografického lemu." data-i18n-desc="fig5Jeans3Desc">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1077,10 +1114,10 @@
           </div>
         </div>
 
-        <div class="fig4-card" data-carousel>
+        <div class="fig5-card" data-carousel>
           <div class="carousel-track">
-            <img src="resources/ripped_shorts1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — přední pohled" data-desc="Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování." data-i18n-desc="fig4Shorts1Desc">
-            <img src="resources/ripped_shorts2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — zadní pohled" data-desc="Roztrhané denimové kraťasy — zadní pohled na kapsy a střih." data-i18n-desc="fig4Shorts2Desc">
+            <img src="resources/ripped_shorts1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — přední pohled" data-desc="Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování." data-i18n-desc="fig5Shorts1Desc">
+            <img src="resources/ripped_shorts2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Roztrhané kraťasy — zadní pohled" data-desc="Roztrhané denimové kraťasy — zadní pohled na kapsy a střih." data-i18n-desc="fig5Shorts2Desc">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1095,11 +1132,11 @@
         </div>
       </div>
 
-      <div class="fig4-bottom">
-        <div class="fig4-card" data-carousel>
+      <div class="fig5-bottom">
+        <div class="fig5-card" data-carousel>
           <div class="carousel-track">
-            <img src="resources/kurt1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný pletený svetr" data-desc="Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken." data-i18n-desc="fig4Kurt1Desc">
-            <img src="resources/kurt2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný svetr — detail rukávu" data-desc="Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení." data-i18n-desc="fig4Kurt2Desc">
+            <img src="resources/kurt1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný pletený svetr" data-desc="Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken." data-i18n-desc="fig5Kurt1Desc">
+            <img src="resources/kurt2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Pruhovaný svetr — detail rukávu" data-desc="Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení." data-i18n-desc="fig5Kurt2Desc">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1113,14 +1150,14 @@
           </div>
         </div>
 
-        <div class="fig4-card">
-          <img src="resources/conv1.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Vínová pletená čepice" data-desc="Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním." data-i18n-desc="fig4BeanieDesc">
+        <div class="fig5-card">
+          <img src="resources/conv1.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Vínová pletená čepice" data-desc="Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním." data-i18n-desc="fig5BeanieDesc">
         </div>
 
-        <div class="fig4-card" data-carousel>
+        <div class="fig5-card" data-carousel>
           <div class="carousel-track">
-            <img src="resources/slipknot1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — detail" data-desc="Slipknot ponožky — maskování členitého potisku na pletené látce." data-i18n-desc="fig4Socks1Desc">
-            <img src="resources/slipknot2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — zadní strana" data-desc="Slipknot ponožky — alternativní úhel a čistý ořez okrajů." data-i18n-desc="fig4Socks2Desc">
+            <img src="resources/slipknot1.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — detail" data-desc="Slipknot ponožky — maskování členitého potisku na pletené látce." data-i18n-desc="fig5Socks1Desc">
+            <img src="resources/slipknot2.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Slipknot ponožky — zadní strana" data-desc="Slipknot ponožky — alternativní úhel a čistý ořez okrajů." data-i18n-desc="fig5Socks2Desc">
           </div>
           <button type="button" class="pan-btn pan-btn-sm pan-left" style="display:none;" aria-label="Předchozí snímek">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1132,49 +1169,12 @@
             <button type="button" class="pan-dot active" data-index="0" aria-label="Snímek 1"></button>
             <button type="button" class="pan-dot" data-index="1" aria-label="Snímek 2"></button>
           </div>
-        </div>
-      </div>
-      <figcaption>
-        <span class="num">04</span>
-        <h2 data-i18n="fig4Title">Komerční produktová fotografie &amp; packshoty</h2>
-        <p data-i18n="fig4Desc">Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.</p>
-      </figcaption>
-    </figure>
-
-    <!-- FIGURA 05: Two Posters Grid & Interactive Terminal Layer -->
-    <figure class="shot shot-wide">
-      <div class="fig5-grid">
-        <!-- 1. Plakát Shelter s terminálem -->
-        <div class="poster-stage">
-          <img class="poster-bg" src="resources/complete.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Shelter — Plakát hudební akce"
-            data-title="Shelter — Plakát hudební akce"
-            data-i18n-title="fig5Poster1Title"
-            data-desc="Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace."
-            data-i18n-desc="fig5Poster1Desc">
-          
-          <button type="button" class="layer poster-layer" data-piece="terminal" data-full="resources/ddd.png"
-            data-title="Terminál — digitální ilustrace"
-            data-i18n-title="fig5TerminalTitle"
-            data-desc="Grafický návrh terminálu s informacemi v Krita"
-            data-i18n-desc="fig5TerminalDesc"
-            aria-label="Terminál — grafický návrh v Krita">
-            <img src="resources/ddd.png" onerror="this.src.endsWith('.png')?this.src=this.src.replace('.png','.jpg'):ph(this)" alt="Grafický návrh terminálu s informacemi v Krita">
-          </button>
-        </div>
-
-        <!-- 2. Plakát Antidotum Halloween -->
-        <div class="poster-stage poster-stage-lineup">
-          <img class="poster-bg" src="resources/lineup.jpg" onerror="this.src.endsWith('.jpg')?this.src=this.src.replace('.jpg','.png'):ph(this)" alt="Antidotum: Halloween - lineup plakát"
-            data-title="Antidotum: Halloween - lineup plakát"
-            data-i18n-title="fig5Poster2Title"
-            data-desc="Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie."
-            data-i18n-desc="fig5Poster2Desc">
         </div>
       </div>
       <figcaption>
         <span class="num">05</span>
-        <h2 data-i18n="fig5Title">Propagační plakáty hudebních akcí</h2>
-        <p data-i18n="fig5Desc">Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.</p>
+        <h2 data-i18n="fig5Title">Komerční produktová fotografie &amp; packshoty</h2>
+        <p data-i18n="fig5Desc">Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.</p>
       </figcaption>
     </figure>
 
@@ -1334,7 +1334,7 @@
         title.textContent = source.dataset.title;
       } else if (source.classList.contains('poster-bg') || (source.parentElement && source.parentElement.classList.contains('scroll-frame'))) {
         title.textContent = heading ? heading.textContent : '';
-      } else if (source.classList.contains('layer') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig4-card')) {
+      } else if (source.classList.contains('layer') || source.closest('.strip-fig2') || source.closest('.pan-track') || source.closest('.shoe-track') || source.closest('.carousel-track') || source.closest('.fig5-card')) {
         title.textContent = '';
       } else {
         title.textContent = heading ? heading.textContent : '';
@@ -1379,7 +1379,7 @@
       });
     });
 
-    document.querySelectorAll('.shot > img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig4-card > img, .poster-stage > img, .poster-layer').forEach(function (source) {
+    document.querySelectorAll('.shot > img, .strip-fig2 img, .stage .layer, .pan-track img, .shoe-track img, .carousel-track img, .fig5-card > img, .poster-stage > img, .poster-layer').forEach(function (source) {
       source.tabIndex = 0;
       if (source.tagName !== 'BUTTON') source.setAttribute('role', 'button');
       var label = source.dataset.title || source.dataset.desc || source.alt || 'image';
@@ -1529,9 +1529,9 @@
     setupShoePan('shoe2-frame', 'shoe2-track', 'shoe2-prev', 'shoe2-next', 'shoe2-nav');
   })();
 
-  // ---------- Figure 04: multi-item carousels ----------
+  // ---------- Figure 05: multi-item carousels ----------
   (function () {
-    document.querySelectorAll('.fig4-card[data-carousel]').forEach(function (card) {
+    document.querySelectorAll('.fig5-card[data-carousel]').forEach(function (card) {
       var track = card.querySelector('.carousel-track');
       var prev = card.querySelector('.pan-left');
       var next = card.querySelector('.pan-right');
@@ -1611,26 +1611,26 @@
         fig3MainDesc: "Porovnání surových fotografií a finální kompozice v Paint.NET.",
         fig3Thumb1Desc: "New Rock boty — profil, porovnání surové produktové fotky a postprodukce v Paint.NET.",
         fig3Thumb2Desc: "New Rock boty — detail paty, typografické pozadí a stínování v Paint.NET.",
-        fig4Title: "Komerční produktová fotografie & packshoty",
-        fig4Desc: "Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.",
-        fig4Jeans1Desc: "Vintage punk džíny — přední pohled, ořez třepení a textury denimu.",
-        fig4Jeans2Desc: "Vintage punk džíny — zadní pohled, detaily kapes a prošívání.",
-        fig4Jeans3Desc: "Vintage punk džíny — makro detail pasu a typografického lemu.",
-        fig4Shorts1Desc: "Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování.",
-        fig4Shorts2Desc: "Roztrhané denimové kraťasy — zadní pohled na kapsy a střih.",
-        fig4Kurt1Desc: "Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken.",
-        fig4Kurt2Desc: "Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení.",
-        fig4BeanieDesc: "Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.",
-        fig4Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
-        fig4Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
-        fig5Title: "Propagační plakáty hudebních akcí",
-        fig5Desc: "Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.",
-        fig5Poster1Title: "Shelter — Plakát hudební akce",
-        fig5Poster1Desc: "Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.",
-        fig5Poster2Title: "Antidotum: Halloween - lineup plakát",
-        fig5Poster2Desc: "Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie.",
-        fig5TerminalTitle: "Terminál — digitální ilustrace",
-        fig5TerminalDesc: "Grafický návrh terminálu s informacemi v Krita",
+        fig4Title: "Propagační plakáty hudebních akcí",
+        fig4Desc: "Série vizuálů na zakázku pro klubové noci a jiné hudební eventy. Návrhy kombinující experimentální typografii, industriální textury, 3D elementy a ilustrace provedené v Krita a Adobe Photoshop.",
+        fig4Poster1Title: "Shelter — Plakát hudební akce",
+        fig4Poster1Desc: "Grafický návrh upoutávky pro hudební akci (nu-metal, jungle, DnB, rap). Kompozice kombinující cyberpunk typografii, 3D elementy a ilustrace.",
+        fig4Poster2Title: "Antidotum: Halloween - lineup plakát",
+        fig4Poster2Desc: "Vizuál časového harmonogramu pro halloweenskou klubovou noc. Industriální/cyberpunk estetika, 3D grid model a kontrastní červeno-černá typografie.",
+        fig4TerminalTitle: "Terminál — digitální ilustrace",
+        fig4TerminalDesc: "Grafický návrh terminálu s informacemi v Krita",
+        fig5Title: "Komerční produktová fotografie & packshoty",
+        fig5Desc: "Příprava produktových fotografií pro online prodej a e-shopový katalog. Precizní vymaskování členitých textur denimu, pletenin a potisků, retušování a sjednocení na neutrální studiové pozadí v Paint.NET.",
+        fig5Jeans1Desc: "Vintage punk džíny — přední pohled, ořez třepení a textury denimu.",
+        fig5Jeans2Desc: "Vintage punk džíny — zadní pohled, detaily kapes a prošívání.",
+        fig5Jeans3Desc: "Vintage punk džíny — makro detail pasu a typografického lemu.",
+        fig5Shorts1Desc: "Roztrhané denimové kraťasy — přední pohled, ruční třepení a maskování.",
+        fig5Shorts2Desc: "Roztrhané denimové kraťasy — zadní pohled na kapsy a střih.",
+        fig5Kurt1Desc: "Pruhovaný pletený svetr — celkový pohled na strukturu pleteniny a texturu vláken.",
+        fig5Kurt2Desc: "Pruhovaný pletený svetr — detailní záběr na pletený rukáv a roztřepení.",
+        fig5BeanieDesc: "Vínová pletená čepice — studiová produktová fotografie s jemným radiálním stínováním.",
+        fig5Socks1Desc: "Slipknot ponožky — maskování členitého potisku na pletené látce.",
+        fig5Socks2Desc: "Slipknot ponožky — alternativní úhel a čistý ořez okrajů.",
         cvHref: "resources/CV.pdf",
         cvDownload: "Daniel_Honzik_CV.pdf"
       },
@@ -1657,26 +1657,26 @@
         fig3MainDesc: "Comparison between raw mobile photos and the finished composition in Paint.NET.",
         fig3Thumb1Desc: "New Rock boots — side profile, comparing raw product shot against Paint.NET post-production.",
         fig3Thumb2Desc: "New Rock boots — heel detail, typographic background art and shading in Paint.NET.",
-        fig4Title: "Commercial Product Photography & Packshots",
-        fig4Desc: "E-commerce product photo post-production and catalog staging. Precision cutouts of intricate denim distressing, knits, and graphic prints, with studio gradient backdrops in Paint.NET.",
-        fig4Jeans1Desc: "Vintage punk jeans — front view, precision cutout of denim texture and distressing.",
-        fig4Jeans2Desc: "Vintage punk jeans — rear view, stitchwork and pocket details.",
-        fig4Jeans3Desc: "Vintage punk jeans — macro close-up of waistband and typographic embroidery.",
-        fig4Shorts1Desc: "Ripped denim shorts — front view, handmade distressing isolation.",
-        fig4Shorts2Desc: "Ripped denim shorts — rear view and fit framing.",
-        fig4Kurt1Desc: "Striped distressed knit sweater — full silhouette and fiber texture detail.",
-        fig4Kurt2Desc: "Striped distressed knit sweater — sleeve and knit fraying detail.",
-        fig4BeanieDesc: "Burgundy knit beanie — studio product packshot with radial backdrop grading.",
-        fig4Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
-        fig4Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
-        fig5Title: "Music Event Promotional Posters",
-        fig5Desc: "Commissioned poster series for club nights and music events. Designs combining experimental typography, industrial textures, 3D elements, and illustrations crafted in Krita and Adobe Photoshop.",
-        fig5Poster1Title: "Shelter — Music Event Poster",
-        fig5Poster1Desc: "Promotional visual design for an underground music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.",
-        fig5Poster2Title: "Antidotum: Halloween — Lineup Poster",
-        fig5Poster2Desc: "Lineup schedule visual design for a Halloween club night. Industrial/cyberpunk aesthetics, 3D wireframe grid model, and high-contrast red-on-black typography.",
-        fig5TerminalTitle: "Terminal UI — Digital Illustration",
-        fig5TerminalDesc: "Information terminal graphic design created in Krita",
+        fig4Title: "Music Event Promotional Posters",
+        fig4Desc: "Commissioned poster series for club nights and music events. Designs combining experimental typography, industrial textures, 3D elements, and illustrations crafted in Krita and Adobe Photoshop.",
+        fig4Poster1Title: "Shelter — Music Event Poster",
+        fig4Poster1Desc: "Promotional visual design for an underground music event (nu-metal, jungle, DnB, rap). Composition combining cyberpunk typography, 3D elements, and digital illustration.",
+        fig4Poster2Title: "Antidotum: Halloween — Lineup Poster",
+        fig4Poster2Desc: "Lineup schedule visual design for a Halloween club night. Industrial/cyberpunk aesthetics, 3D wireframe grid model, and high-contrast red-on-black typography.",
+        fig4TerminalTitle: "Terminal UI — Digital Illustration",
+        fig4TerminalDesc: "Information terminal graphic design created in Krita",
+        fig5Title: "Commercial Product Photography & Packshots",
+        fig5Desc: "E-commerce product photo post-production and catalog staging. Precision cutouts of intricate denim distressing, knits, and graphic prints, with studio gradient backdrops in Paint.NET.",
+        fig5Jeans1Desc: "Vintage punk jeans — front view, precision cutout of denim texture and distressing.",
+        fig5Jeans2Desc: "Vintage punk jeans — rear view, stitchwork and pocket details.",
+        fig5Jeans3Desc: "Vintage punk jeans — macro close-up of waistband and typographic embroidery.",
+        fig5Shorts1Desc: "Ripped denim shorts — front view, handmade distressing isolation.",
+        fig5Shorts2Desc: "Ripped denim shorts — rear view and fit framing.",
+        fig5Kurt1Desc: "Striped distressed knit sweater — full silhouette and fiber texture detail.",
+        fig5Kurt2Desc: "Striped distressed knit sweater — sleeve and knit fraying detail.",
+        fig5BeanieDesc: "Burgundy knit beanie — studio product packshot with radial backdrop grading.",
+        fig5Socks1Desc: "Slipknot socks — graphic pattern cutout on knitted textile.",
+        fig5Socks2Desc: "Slipknot socks — alternate presentation angle and clean edge work.",
         cvHref: "resources/CV_ENG.pdf",
         cvDownload: "Daniel_Honzik_CV_EN.pdf"
       }
